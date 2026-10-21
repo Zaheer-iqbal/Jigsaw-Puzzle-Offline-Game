@@ -1,0 +1,177 @@
+[
+  {
+    "id": "n001.bpm",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n001.bpm.jpg",
+    "title": "N001.bpm",
+    "premium": false
+  },
+  {
+    "id": "n002.bpm",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n002.bpm.jpg",
+    "title": "N002.bpm",
+    "premium": false
+  },
+  {
+    "id": "n003.bpm",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n003.bpm.jpg",
+    "title": "N003.bpm",
+    "premium": false
+  },
+  {
+    "id": "n004.bpm",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n004.bpm.jpg",
+    "title": "N004.bpm",
+    "premium": false
+  },
+  {
+    "id": "n005.bpm",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n005.bpm.jpg",
+    "title": "N005.bpm",
+    "premium": false
+  },
+  {
+    "id": "a001",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a001.bmp",
+    "title": "A001",
+    "premium": false
+  },
+  {
+    "id": "a002",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a002.bmp",
+    "title": "A002",
+    "premium": false
+  },
+  {
+    "id": "a003",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a003.bmp",
+    "title": "A003",
+    "premium": false
+  },
+  {
+    "id": "a004",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a004.bmp",
+    "title": "A004",
+    "premium": false
+  },
+  {
+    "id": "a005",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a005.bmp",
+    "title": "A005",
+    "premium": true
+  },
+  {
+    "id": "f001.bpm",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f001.bpm.jpg",
+    "title": "F001.bpm",
+    "premium": false
+  },
+  {
+    "id": "f002.bpm",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f002.bpm.jpg",
+    "title": "F002.bpm",
+    "premium": false
+  },
+  {
+    "id": "f003.bpm",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f003.bpm.jpg",
+    "title": "F003.bpm",
+    "premium": false
+  },
+  {
+    "id": "f004.bpm",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f004.bpm.jpg",
+    "title": "F004.bpm",
+    "premium": false
+  },
+  {
+    "id": "f005.bpm",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f005.bpm.jpg",
+    "title": "F005.bpm",
+    "premium": false
+  },
+  {
+    "id": "l001",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l001.bmp",
+    "title": "L001",
+    "premium": false
+  },
+  {
+    "id": "l002",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l002.bmp",
+    "title": "L002",
+    "premium": false
+  },
+  {
+    "id": "l003",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l003.bmp",
+    "title": "L003",
+    "premium": false
+  },
+  {
+    "id": "l004",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l004.bmp",
+    "title": "L004",
+    "premium": false
+  },
+  {
+    "id": "l005",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l005.bmp",
+    "title": "L005",
+    "premium": true
+  },
+  {
+    "id": "art001",
+    "category": "art",
+    "path": "assets/puzzles/art/art001.bmp",
+    "title": "Art001",
+    "premium": false
+  },
+  {
+    "id": "art002",
+    "category": "art",
+    "path": "assets/puzzles/art/art002.bmp",
+    "title": "Art002",
+    "premium": false
+  },
+  {
+    "id": "art003",
+    "category": "art",
+    "path": "assets/puzzles/art/art003.bmp",
+    "title": "Art003",
+    "premium": false
+  },
+  {
+    "id": "art004",
+    "category": "art",
+    "path": "assets/puzzles/art/art004.bmp",
+    "title": "Art004",
+    "premium": false
+  },
+  {
+    "id": "art005",
+    "category": "art",
+    "path": "assets/puzzles/art/art005.bmp",
+    "title": "Art005",
+    "premium": true
+  }
+]
