@@ -17,6 +17,7 @@ class ContentController extends GetxController {
   final RxList<PuzzlePicture> allPictures = <PuzzlePicture>[].obs;
   final RxList<String> categories = <String>[].obs;
   final Rx<PuzzlePicture?> dailyPicture = Rx<PuzzlePicture?>(null);
+  final RxList<PuzzleLevel> sagaLevels = <PuzzleLevel>[].obs;
 
   @override
   void onInit() {
@@ -31,10 +32,12 @@ class ContentController extends GetxController {
       final pictures = await _repository.getAll();
       final cats = await _repository.getCategories();
       final daily = await _repository.getDaily(DateTime.now());
+      final saga = await _repository.getSagaLevels();
 
       allPictures.assignAll(pictures);
       categories.assignAll(cats);
       dailyPicture.value = daily;
+      sagaLevels.assignAll(saga);
     } catch (e) {
       debugPrint('Error loading content: $e');
       errorMessage.value = 'Failed to load puzzles. Please verify asset manifest.';
@@ -73,6 +76,23 @@ class ContentController extends GetxController {
 
   Future<void> onLevelSolved(String category, int levelNumber) async {
     await _storage.unlockNextLevel(category, levelNumber);
+    update();
+  }
+
+  // --- 25-Level Saga Campaign ---
+  int get highestSagaLevel => _storage.getHighestSagaLevel();
+
+  bool isSagaLevelUnlocked(int levelNumber) {
+    return _storage.isSagaLevelUnlocked(levelNumber);
+  }
+
+  int getSagaStars(int levelNumber) {
+    return _storage.getSagaStars(levelNumber);
+  }
+
+  Future<void> onSagaLevelSolved(int levelNumber, int stars) async {
+    await _storage.unlockNextSagaLevel(levelNumber);
+    await _storage.setSagaStars(levelNumber, stars);
     update();
   }
 }

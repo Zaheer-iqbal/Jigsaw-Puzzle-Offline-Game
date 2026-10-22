@@ -9,20 +9,26 @@ class SettingsController extends GetxController {
   SettingsController(this._storage);
 
   late final RxBool soundEnabled;
+  late final RxBool musicEnabled;
   late final RxBool vibrationEnabled;
+  late final RxBool keepScreenAwake;
   late final RxString themeModeString;
   late final Rx<BoardBackgroundStyle> boardBackground;
+  late final RxInt freeHints;
 
   @override
   void onInit() {
     super.onInit();
     soundEnabled = _storage.soundEnabled.obs;
+    musicEnabled = _storage.musicEnabled.obs;
     vibrationEnabled = _storage.vibrationEnabled.obs;
+    keepScreenAwake = _storage.keepScreenAwake.obs;
     themeModeString = _storage.themeMode.obs;
+    freeHints = _storage.freeHints.obs;
 
     final savedBg = BoardBackgroundStyle.values.firstWhere(
       (b) => b.name == _storage.boardBackground,
-      orElse: () => BoardBackgroundStyle.feltGreen,
+      orElse: () => BoardBackgroundStyle.cleanLight,
     );
     boardBackground = savedBg.obs;
   }
@@ -32,9 +38,33 @@ class SettingsController extends GetxController {
     _storage.setSoundEnabled(soundEnabled.value);
   }
 
+  void toggleMusic() {
+    musicEnabled.value = !musicEnabled.value;
+    _storage.setMusicEnabled(musicEnabled.value);
+  }
+
+  void toggleKeepScreenAwake() {
+    keepScreenAwake.value = !keepScreenAwake.value;
+    _storage.setKeepScreenAwake(keepScreenAwake.value);
+  }
+
   void toggleVibration() {
     vibrationEnabled.value = !vibrationEnabled.value;
     _storage.setVibrationEnabled(vibrationEnabled.value);
+  }
+
+  void addFreeHint([int count = 1]) {
+    freeHints.value += count;
+    _storage.setFreeHints(freeHints.value);
+  }
+
+  bool useFreeHint() {
+    if (freeHints.value > 0) {
+      freeHints.value--;
+      _storage.setFreeHints(freeHints.value);
+      return true;
+    }
+    return false;
   }
 
   void setThemeMode(String mode) {

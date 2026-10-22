@@ -1,6 +1,6 @@
 {
-    "name": "jigsaw_pro",
-    "short_name": "jigsaw_pro",
+    "name": "Jigsaw Puzzle: Offline Game",
+    "short_name": "Jigsaw Puzzle",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jigsaw_pro/core/config/app_config.dart';
-import 'package:jigsaw_pro/core/theme/app_theme.dart';
-import 'package:jigsaw_pro/features/content/domain/entities/puzzle_level.dart';
+import 'package:jigsaw_pro/core/storage/hive_storage.dart';
+import 'package:jigsaw_pro/core/widgets/casual_game_background.dart';
 import 'package:jigsaw_pro/features/content/domain/entities/puzzle_picture.dart';
 import 'package:jigsaw_pro/features/content/presentation/controllers/content_controller.dart';
 import 'package:jigsaw_pro/features/economy/presentation/controllers/economy_controller.dart';
@@ -17,418 +18,411 @@ class GalleryPage extends StatefulWidget {
   State<GalleryPage> createState() => _GalleryPageState();
 }
 
-class _GalleryPageState extends State<GalleryPage> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+class _GalleryPageState extends State<GalleryPage> {
   final ContentController _content = Get.find<ContentController>();
   final EconomyController _economy = Get.find<EconomyController>();
+  final HiveStorage _storage = Get.find<HiveStorage>();
 
-  late List<String> _tabs;
+  late String _selectedCategory;
+  late List<String> _categories;
 
   @override
   void initState() {
     super.initState();
-    _tabs = ['All', ..._content.categories];
-    var initialIndex = 0;
-    if (widget.initialCategory != null) {
-      final idx = _tabs.indexWhere((t) => t.toLowerCase() == widget.initialCategory!.toLowerCase());
-      if (idx != -1) initialIndex = idx;
-    }
-    _tabController = TabController(length: _tabs.length, vsync: this, initialIndex: initialIndex);
-  }
+    _categories = ['All', ..._content.categories];
+    _selectedCategory = 'All';
 
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
+    if (widget.initialCategory != null) {
+      final match = _categories.firstWhereOrNull(
+        (c) => c.toLowerCase() == widget.initialCategory!.toLowerCase(),
+      );
+      if (match != null) {
+        _selectedCategory = match;
+      }
+    }
   }
 
   int _calculateColumnCount(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    if (width >= 1000) return 5;
-    if (width >= 700) return 4;
-    if (width >= 500) return 3;
+    if (width >= 1050) return 5;
+    if (width >= 750) return 4;
+    if (width >= 550) return 3;
     return 2;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Puzzle Gallery'),
-        actions: [
-          Obx(() => Container(
-            margin: const EdgeInsets.only(right: 16),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            decoration: BoxDecoration(
-              color: AppTheme.accentAmber.withValues(alpha: 0.18),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.monetization_on, color: AppTheme.accentAmber, size: 18),
-                const SizedBox(width: 4),
-                Text(
-                  '${_economy.coins.value}',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          )),
-        ],
-        bottom: TabBar(
-          controller: _tabController,
-          isScrollable: true,
-          indicatorColor: AppTheme.accentAmber,
-          labelColor: AppTheme.accentAmber,
-          unselectedLabelColor: Colors.grey,
-          tabs: _tabs.map((tab) => Tab(text: tab[0].toUpperCase() + tab.substring(1))).toList(),
-        ),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: _tabs.map((tab) => _buildCategoryView(tab)).toList(),
-      ),
-    );
-  }
-
-  Widget _buildCategoryView(String category) {
-    if (category == 'All') {
-      return Obx(() {
-        final pictures = _content.allPictures;
-        if (pictures.isEmpty) {
-          return const Center(child: Text('No pictures found.'));
-        }
-
-        final cols = _calculateColumnCount(context);
-
-        return GridView.builder(
-          padding: const EdgeInsets.all(16),
-          itemCount: pictures.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: cols,
-            crossAxisSpacing: 14,
-            mainAxisSpacing: 14,
-            childAspectRatio: 1.0,
+      backgroundColor: Colors.transparent,
+      body: CasualGameBackground(
+        child: SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(height: 8),
+              // Top Bar: Back Circle, 3D Gallery Title, Coins Pill
+              _buildTopBar(context),
+              const SizedBox(height: 14),
+              // Filter Category Pills
+              _buildCategoryPills(),
+              const SizedBox(height: 14),
+              // 2-Column Grid of Casual Puzzle Cards
+              Expanded(
+                child: _buildGalleryGrid(context),
+              ),
+            ],
           ),
-          itemBuilder: (context, index) {
-            final pic = pictures[index];
-            return _buildThumbnailCard(pic);
-          },
-        );
-      });
-    }
-
-    // 100-level progressive view for each specific category
-    return FutureBuilder<List<PuzzleLevel>>(
-      future: _content.getLevels(category),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return const Center(child: CircularProgressIndicator(color: AppTheme.accentAmber));
-        }
-
-        final levels = snapshot.data!;
-        final cols = _calculateColumnCount(context);
-
-        return GetBuilder<ContentController>(
-          builder: (ctrl) {
-            final highestUnlocked = ctrl.getHighestLevel(category);
-
-            return Column(
-              children: [
-                // Category Level Progress Bar
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                  color: Colors.black.withValues(alpha: 0.25),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.military_tech, color: AppTheme.accentAmber, size: 24),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Level $highestUnlocked / 100',
-                                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                                ),
-                                Text(
-                                  '$highestUnlocked% Unlocked',
-                                  style: const TextStyle(color: Colors.grey, fontSize: 12),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 6),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(6),
-                              child: LinearProgressIndicator(
-                                value: highestUnlocked / 100.0,
-                                minHeight: 6,
-                                backgroundColor: Colors.white12,
-                                valueColor: const AlwaysStoppedAnimation(AppTheme.accentAmber),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // Grid of 100 Progressive Levels
-                Expanded(
-                  child: GridView.builder(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: levels.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: cols,
-                      crossAxisSpacing: 14,
-                      mainAxisSpacing: 14,
-                      childAspectRatio: 0.95,
-                    ),
-                    itemBuilder: (context, index) {
-                      final level = levels[index];
-                      return _buildLevelCard(level, highestUnlocked);
-                    },
-                  ),
-                ),
-              ],
-            );
-          },
-        );
-      },
+        ),
+      ),
     );
   }
 
-  Widget _buildLevelCard(PuzzleLevel level, int highestUnlocked) {
-    final isUnlocked = level.levelNumber <= highestUnlocked;
-    final isCompleted = _content.isPictureCompleted(level.id);
-
-    return Card(
-      elevation: isUnlocked ? 3 : 1,
-      clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: BorderSide(
-          color: level.levelNumber == highestUnlocked ? AppTheme.accentAmber : Colors.transparent,
-          width: 2,
-        ),
-      ),
-      child: InkWell(
-        onTap: () {
-          if (isUnlocked) {
-            context.push('/difficulty/${level.id}?defaultCount=${level.defaultPieceCount}');
-          } else {
-            Get.snackbar(
-              'Level Locked',
-              'Complete Level ${level.levelNumber - 1} to unlock this level!',
-              snackPosition: SnackPosition.BOTTOM,
-            );
-          }
-        },
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            // Thumbnail
-            Image.asset(
-              level.imagePath,
-              cacheWidth: 400,
-              fit: BoxFit.cover,
-            ),
-            // Gradient
-            Container(
+  Widget _buildTopBar(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Circular Dark Back Button
+          GestureDetector(
+            onTap: () {
+              HapticFeedback.lightImpact();
+              if (context.canPop()) {
+                context.pop();
+              } else {
+                context.go('/home');
+              }
+            },
+            child: Container(
+              width: 44,
+              height: 44,
               decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.black54, Colors.transparent, Colors.black87],
-                  stops: [0.0, 0.4, 1.0],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-              ),
-            ),
-            // Top Level Badge
-            Positioned(
-              top: 8,
-              left: 8,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: isUnlocked ? AppTheme.primaryTeal : Colors.black54,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  'Lvl ${level.levelNumber}',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 11,
+                color: Color(0xFF16355C),
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0x33000000),
+                    blurRadius: 6,
+                    offset: Offset(0, 3),
                   ),
-                ),
+                ],
+              ),
+              child: const Center(
+                child: Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white, size: 20),
               ),
             ),
-            // Bottom Info: Piece count & Difficulty label
-            Positioned(
-              left: 8,
-              right: 8,
-              bottom: 8,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+          ),
+
+          // Playful 3D Bubble "Gallery" Title
+          const Text(
+            'Gallery',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 28,
+              fontWeight: FontWeight.w900,
+              letterSpacing: 0.6,
+              shadows: [
+                Shadow(
+                  color: Color(0xFF0D2544),
+                  offset: Offset(0, 3),
+                  blurRadius: 0,
+                ),
+              ],
+            ),
+          ),
+
+          // Coins Capsule Pill
+          GestureDetector(
+            onTap: () {
+              HapticFeedback.lightImpact();
+              context.push('/shop');
+            },
+            child: Obx(() => Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+              decoration: BoxDecoration(
+                color: const Color(0xFF16355C),
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x33000000),
+                    blurRadius: 6,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  const Text('🪙', style: TextStyle(fontSize: 16)),
+                  const SizedBox(width: 6),
                   Text(
-                    '${level.defaultPieceCount} Pieces',
+                    '${_economy.coins.value}',
                     style: const TextStyle(
-                      color: AppTheme.accentAmber,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                    ),
-                  ),
-                  Text(
-                    PuzzleLevel.getDifficultyLabel(level.defaultPieceCount),
-                    style: const TextStyle(
-                      color: Colors.white70,
-                      fontSize: 10,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 15,
                     ),
                   ),
                 ],
               ),
-            ),
-            // Locked Overlay if level not reached
-            if (!isUnlocked)
-              Container(
-                color: Colors.black.withValues(alpha: 0.65),
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.lock, color: Colors.white70, size: 24),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Lvl ${level.levelNumber}',
-                        style: const TextStyle(color: Colors.white60, fontSize: 11),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            // Completed Checkmark
-            if (isCompleted)
-              Positioned(
-                top: 8,
-                right: 8,
-                child: Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: const BoxDecoration(
-                    color: Colors.green,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(Icons.check, color: Colors.white, size: 14),
-                ),
-              ),
-          ],
-        ),
+            )),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildThumbnailCard(PuzzlePicture pic) {
+  Widget _buildCategoryPills() {
+    return SizedBox(
+      height: 42,
+      child: ListView.separated(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        scrollDirection: Axis.horizontal,
+        itemCount: _categories.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 10),
+        itemBuilder: (context, index) {
+          final cat = _categories[index];
+          final isSelected = cat.toLowerCase() == _selectedCategory.toLowerCase();
+          final displayName = cat[0].toUpperCase() + cat.substring(1);
+
+          return GestureDetector(
+            onTap: () {
+              HapticFeedback.selectionClick();
+              setState(() {
+                _selectedCategory = cat;
+              });
+            },
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              padding: EdgeInsets.symmetric(
+                horizontal: isSelected ? 20 : 18,
+                vertical: 8,
+              ),
+              decoration: BoxDecoration(
+                color: isSelected ? const Color(0xFFFFB300) : const Color(0xFF142E52),
+                borderRadius: BorderRadius.circular(22),
+                boxShadow: isSelected
+                    ? const [
+                        BoxShadow(
+                          color: Color(0x40000000),
+                          blurRadius: 6,
+                          offset: Offset(0, 3),
+                        ),
+                      ]
+                    : null,
+              ),
+              child: Center(
+                child: Text(
+                  displayName,
+                  style: TextStyle(
+                    color: isSelected ? const Color(0xFF0E2A47) : Colors.white,
+                    fontWeight: isSelected ? FontWeight.w900 : FontWeight.w700,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildGalleryGrid(BuildContext context) {
+    return Obx(() {
+      final allPics = _content.allPictures;
+      final filteredPics = _selectedCategory.toLowerCase() == 'all'
+          ? allPics
+          : allPics.where((p) => p.category.toLowerCase() == _selectedCategory.toLowerCase()).toList();
+
+      if (filteredPics.isEmpty) {
+        return Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Icon(Icons.photo_library_outlined, size: 54, color: Colors.white70),
+              SizedBox(height: 12),
+              Text(
+                'No puzzles found in this category',
+                style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        );
+      }
+
+      final activeSession = _storage.getActiveSession();
+      final cols = _calculateColumnCount(context);
+
+      return GridView.builder(
+        padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
+        itemCount: filteredPics.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: cols,
+          crossAxisSpacing: 14,
+          mainAxisSpacing: 14,
+          childAspectRatio: 0.82,
+        ),
+        itemBuilder: (context, index) {
+          final pic = filteredPics[index];
+          return _buildPuzzleCard(pic, activeSession);
+        },
+      );
+    });
+  }
+
+  Widget _buildPuzzleCard(PuzzlePicture pic, Map<String, dynamic>? activeSession) {
     final isUnlocked = _content.isPictureUnlocked(pic);
     final isCompleted = _content.isPictureCompleted(pic.id);
 
-    return Card(
-      elevation: 3,
-      clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: InkWell(
-        onTap: () => _handlePictureTap(pic, isUnlocked),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            // Thumbnail with cacheWidth for memory efficiency
-            Image.asset(
-              pic.path,
-              cacheWidth: 400,
-              fit: BoxFit.cover,
-            ),
-            // Dark gradient overlay
-            Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.transparent, Colors.black54],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-              ),
-            ),
-            // Title at bottom
-            Positioned(
-              left: 10,
-              right: 10,
-              bottom: 8,
-              child: Text(
-                pic.title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 13,
-                  shadows: [Shadow(color: Colors.black, blurRadius: 4)],
-                ),
-              ),
-            ),
-            // Lock icon on premium pictures
-            if (!isUnlocked)
-              Container(
-                color: Colors.black.withValues(alpha: 0.55),
-                child: Center(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: AppTheme.accentAmber,
-                      borderRadius: BorderRadius.circular(20),
+    // Compute status text & color (matching reference design)
+    String statusText;
+    Color statusColor;
+
+    if (isCompleted) {
+      statusText = 'Completed';
+      statusColor = const Color(0xFF00C853);
+    } else if (activeSession != null && activeSession['pictureId'] == pic.id) {
+      final total = (activeSession['totalPieces'] as int? ?? 1).clamp(1, 400);
+      final placed = ((activeSession['placedPieceIds'] as List?)?.length ?? 0).clamp(0, total);
+      final pct = ((placed / total) * 100).round();
+      statusText = 'In progress $pct%';
+      statusColor = const Color(0xFF0288D1);
+    } else if (!isUnlocked) {
+      statusText = 'Premium';
+      statusColor = const Color(0xFFFF9800);
+    } else {
+      statusText = 'New';
+      statusColor = const Color(0xFF78909C);
+    }
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(22),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x30091E36),
+            blurRadius: 10,
+            offset: Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(22),
+          onTap: () => _handlePictureTap(pic, isUnlocked),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Photo Thumbnail with Rounded Top & Badges
+              Expanded(
+                flex: 12,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(22)),
+                      child: Image.asset(
+                        pic.path,
+                        cacheWidth: 400,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            color: const Color(0xFFCFD8DC),
+                            child: const Center(
+                              child: Icon(Icons.image_outlined, color: Colors.blueGrey, size: 36),
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.lock, size: 16, color: Colors.black),
-                        const SizedBox(width: 4),
-                        Text(
-                          '${AppConfig.coinsUnlockPremium}',
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
+
+                    // Top Right Badges
+                    if (isCompleted)
+                      Positioned(
+                        top: 8,
+                        right: 8,
+                        child: Container(
+                          width: 28,
+                          height: 28,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF00E676),
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(color: Color(0x33000000), blurRadius: 4, offset: Offset(0, 2)),
+                            ],
+                          ),
+                          child: const Center(
+                            child: Icon(Icons.check_rounded, color: Color(0xFF0D2544), size: 18, weight: 800),
                           ),
                         ),
-                      ],
+                      )
+                    else if (!isUnlocked)
+                      Positioned(
+                        top: 8,
+                        right: 8,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: const Color(0xEE112238),
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: const [
+                              BoxShadow(color: Color(0x33000000), blurRadius: 4, offset: Offset(0, 2)),
+                            ],
+                          ),
+                          child: const Text(
+                            'Unlock 50',
+                            style: TextStyle(
+                              color: Color(0xFFFFC107),
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+
+              // Bottom Info Portion (White card body)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      pic.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Color(0xFF0E2A47),
+                        fontWeight: FontWeight.w800,
+                        fontSize: 13.5,
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 3),
+                    Text(
+                      statusText,
+                      style: TextStyle(
+                        color: statusColor,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 11.5,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            // Checkmark if completed
-            if (isCompleted)
-              Positioned(
-                top: 8,
-                right: 8,
-                child: Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: const BoxDecoration(
-                    color: Colors.green,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(Icons.check, color: Colors.white, size: 16),
-                ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
   void _handlePictureTap(PuzzlePicture pic, bool isUnlocked) {
+    HapticFeedback.lightImpact();
     if (isUnlocked) {
       context.push('/difficulty/${pic.id}');
     } else {
@@ -440,31 +434,44 @@ class _GalleryPageState extends State<GalleryPage> with SingleTickerProviderStat
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text('Unlock ${pic.title}'),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        backgroundColor: Colors.white,
+        title: Text(
+          'Unlock ${pic.title}',
+          style: const TextStyle(
+            fontWeight: FontWeight.w900,
+            fontSize: 18,
+            color: Color(0xFF0E2A47),
+          ),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.asset(pic.path, cacheWidth: 400, height: 160, fit: BoxFit.cover),
+              borderRadius: BorderRadius.circular(16),
+              child: Image.asset(pic.path, cacheWidth: 400, height: 150, fit: BoxFit.cover),
             ),
             const SizedBox(height: 16),
             Text(
-              'Unlock this premium puzzle for ${AppConfig.coinsUnlockPremium} coins?',
+              'Unlock this premium puzzle picture for ${AppConfig.coinsUnlockPremium} coins?',
               textAlign: TextAlign.center,
+              style: const TextStyle(color: Color(0xFF4A5568), fontSize: 13.5, height: 1.3),
             ),
           ],
         ),
+        actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: const Text('Cancel', style: TextStyle(color: Color(0xFF718096), fontWeight: FontWeight.bold)),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.accentAmber,
-              foregroundColor: Colors.black,
+              backgroundColor: const Color(0xFFFFB300),
+              foregroundColor: const Color(0xFF0E2A47),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              elevation: 3,
             ),
             onPressed: () async {
               Navigator.pop(ctx);
@@ -477,12 +484,12 @@ class _GalleryPageState extends State<GalleryPage> with SingleTickerProviderStat
                   'Not enough coins',
                   'You need ${AppConfig.coinsUnlockPremium} coins to unlock this picture.',
                   snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: Colors.black87,
+                  backgroundColor: const Color(0xEE112238),
                   colorText: Colors.white,
                 );
               }
             },
-            child: const Text('Unlock', style: TextStyle(fontWeight: FontWeight.bold)),
+            child: const Text('Unlock 50 🪙', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 14)),
           ),
         ],
       ),

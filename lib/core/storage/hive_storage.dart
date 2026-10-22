@@ -41,16 +41,27 @@ class HiveStorage {
   bool get soundEnabled => _settingsBox.get('sound', defaultValue: true) as bool;
   Future<void> setSoundEnabled(bool value) => _settingsBox.put('sound', value);
 
+  bool get musicEnabled => _settingsBox.get('music', defaultValue: true) as bool;
+  Future<void> setMusicEnabled(bool value) => _settingsBox.put('music', value);
+
   bool get vibrationEnabled => _settingsBox.get('vibration', defaultValue: true) as bool;
   Future<void> setVibrationEnabled(bool value) => _settingsBox.put('vibration', value);
+
+  bool get keepScreenAwake => _settingsBox.get('keepScreenAwake', defaultValue: true) as bool;
+  Future<void> setKeepScreenAwake(bool value) => _settingsBox.put('keepScreenAwake', value);
+
+  String get playerName => _settingsBox.get('playerName', defaultValue: 'Puzzle Master') as String;
+  Future<void> setPlayerName(String name) => _settingsBox.put('playerName', name);
 
   String get themeMode => _settingsBox.get('themeMode', defaultValue: 'system') as String;
   Future<void> setThemeMode(String mode) => _settingsBox.put('themeMode', mode);
 
-  String get boardBackground => _settingsBox.get('boardBg', defaultValue: 'feltGreen') as String;
+  String get boardBackground => _settingsBox.get('boardBg', defaultValue: 'cleanLight') as String;
   Future<void> setBoardBackground(String bg) => _settingsBox.put('boardBg', bg);
 
-  // --- Economy ---
+  // --- Economy & Hints ---
+  int get freeHints => _settingsBoxSafeInt(_economyBox.get('freeHints'), 3);
+  Future<void> setFreeHints(int value) => _economyBox.put('freeHints', value);
   int get coins => _settingsBoxSafeInt(_economyBox.get('coins'), AppConfig.startingCoins);
   Future<void> setCoins(int value) => _economyBox.put('coins', value);
 
@@ -112,6 +123,34 @@ class HiveStorage {
   bool isLevelUnlocked(String category, int levelNumber) {
     if (levelNumber <= 1) return true;
     return levelNumber <= getHighestUnlockedLevel(category);
+  }
+
+  // --- Candy Crush 25-Level Saga Campaign ---
+  int getHighestSagaLevel() {
+    return _progressBox.get('unlocked_saga_level', defaultValue: 1) as int;
+  }
+
+  Future<void> unlockNextSagaLevel(int completedLevel) async {
+    final current = getHighestSagaLevel();
+    if (completedLevel >= current && current < 25) {
+      await _progressBox.put('unlocked_saga_level', completedLevel + 1);
+    }
+  }
+
+  bool isSagaLevelUnlocked(int levelNumber) {
+    if (levelNumber <= 1) return true;
+    return levelNumber <= getHighestSagaLevel();
+  }
+
+  int getSagaStars(int levelNumber) {
+    return _progressBox.get('saga_stars_$levelNumber', defaultValue: 0) as int;
+  }
+
+  Future<void> setSagaStars(int levelNumber, int stars) async {
+    final current = getSagaStars(levelNumber);
+    if (stars > current) {
+      await _progressBox.put('saga_stars_$levelNumber', stars);
+    }
   }
 
   // --- Purchases ---

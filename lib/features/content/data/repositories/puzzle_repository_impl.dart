@@ -100,4 +100,55 @@ class PuzzleRepositoryImpl implements PuzzleRepository {
 
     return levels;
   }
+
+  @override
+  Future<List<PuzzleLevel>> getSagaLevels() async {
+    final all = await getAll();
+    final categories = ['nature', 'animals', 'flowers', 'landmarks', 'art'];
+    final catMap = <String, List<PuzzlePicture>>{};
+
+    for (final cat in categories) {
+      catMap[cat] = all.where((p) => p.category.toLowerCase() == cat).toList();
+    }
+
+    final orderedPics = <PuzzlePicture>[];
+
+    // Interleave 5 categories across 5 rounds = 25 unique levels
+    for (var round = 0; round < 5; round++) {
+      for (final cat in categories) {
+        final list = catMap[cat] ?? [];
+        if (round < list.length) {
+          orderedPics.add(list[round]);
+        }
+      }
+    }
+
+    // Fallback if any category had fewer images
+    if (orderedPics.length < 25) {
+      for (final p in all) {
+        if (!orderedPics.contains(p) && orderedPics.length < 25) {
+          orderedPics.add(p);
+        }
+      }
+    }
+
+    final sagaLevels = <PuzzleLevel>[];
+    for (var i = 0; i < orderedPics.length && i < 25; i++) {
+      final levelNum = i + 1;
+      final pic = orderedPics[i];
+      final pieceCount = PuzzleLevel.compute25LevelPieceCount(levelNum);
+
+      sagaLevels.add(PuzzleLevel(
+        levelNumber: levelNum,
+        category: pic.category,
+        id: pic.id,
+        title: pic.title,
+        imagePath: pic.path,
+        defaultPieceCount: pieceCount,
+        isPremium: pic.premium,
+      ));
+    }
+
+    return sagaLevels;
+  }
 }

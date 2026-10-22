@@ -15,6 +15,7 @@ import 'package:jigsaw_pro/features/puzzle/domain/engine/edge_generator.dart';
 import 'package:jigsaw_pro/features/puzzle/domain/engine/grid_calculator.dart';
 import 'package:jigsaw_pro/features/puzzle/domain/engine/snap_merge_engine.dart';
 import 'package:jigsaw_pro/features/puzzle/presentation/canvas/piece_image_pre_renderer.dart';
+import 'package:jigsaw_pro/features/settings/presentation/controllers/settings_controller.dart';
 
 enum PuzzleState { initial, preparing, playing, completed, error }
 
@@ -40,6 +41,8 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
   late String pictureId;
   late String picturePath;
   late String pictureTitle;
+  bool isDaily = false;
+  int? currentSagaLevel;
   late int targetPieceCount;
   late int actualPieceCount;
   late int rows;
@@ -57,6 +60,10 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
   // Live piece & group states
   final Map<String, PieceModel> pieces = {};
   final Map<int, GroupModel> groups = {};
+
+  // Tray & Board state (Easybrain style bottom scrollable tray)
+  final RxList<String> trayPieceKeys = <String>[].obs;
+  final RxSet<String> lockedPieceKeys = <String>{}.obs;
 
   // Interactive controls & tools
   final RxBool showGhost = false.obs;
@@ -113,14 +120,27 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
     required int pieceCount,
     required Size boardRenderSize,
     bool isResume = false,
+    int? sagaLevel,
+    bool isDailyPuzzle = false,
   }) async {
     state.value = PuzzleState.preparing;
     prepareProgress.value = 0.05;
 
     pictureId = id;
     picturePath = assetPath;
-    pictureTitle = title;
+    isDaily = isDailyPuzzle;
+
+    // Clean and sanitize picture title from raw file extensions or ids
+    var cleanTitle = title.replaceAll(RegExp(r'\.(bpm|png|jpg|jpeg)$', caseSensitive: false), '').trim();
+    if (isDailyPuzzle) {
+      cleanTitle = 'Daily Puzzle';
+    } else if (RegExp(r'^[a-z]+[0-9]+$', caseSensitive: false).hasMatch(cleanTitle)) {
+      final numStr = cleanTitle.replaceAll(RegExp(r'[^0-9]'), '').replaceFirst(RegExp(r'^0+'), '');
+      cleanTitle = 'Level ${numStr.isEmpty ? "1" : numStr}';
+    }
+    pictureTitle = cleanTitle.isNotEmpty ? cleanTitle : 'Puzzle Level';
     targetPieceCount = pieceCount;
+    currentSagaLevel = sagaLevel;
 
     boardW = boardRenderSize.width;
     boardH = boardRenderSize.height;
@@ -135,6 +155,10 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
       rows = dims.rows;
       cols = dims.cols;
       actualPieceCount = dims.actualCount;
+
+      // Base board width is 750.0, height strictly matches the decoded image aspect ratio
+      boardW = 750.0;
+      boardH = (boardW / imgAspect).clamp(400.0, 1100.0);
 
       pieceW = boardW / cols;
       pieceH = boardH / rows;
@@ -177,17 +201,25 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
       );
 
       pieces.clear();
-      groups.clear();
-      groups[SnapMergeEngine.boardGroupId] = GroupModel(
-        id: SnapMergeEngine.boardGroupId,
-        locked: true,
-        z: 0,
-      );
+      trayPieceKeys.clear();
+      lockedPieceKeys.clear();
+
+      for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+          final key = '${r}_$c';
+          pieces[key] = PieceModel(
+            row: r,
+            col: c,
+            pos: Offset(c * pieceW, r * pieceH),
+            groupId: 0,
+          );
+          trayPieceKeys.add(key);
+        }
+      }
+      trayPieceKeys.shuffle(Random(seed));
 
       if (savedSession != null && savedSession['pictureId'] == id) {
         _restoreFromSnapshot(savedSession);
-      } else {
-        _initializeScatteredPieces();
       }
 
       _updateLockedCount();
@@ -201,63 +233,6 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
     }
   }
 
-  void _initializeScatteredPieces() {
-    final rnd = Random(seed + 1);
-    var groupIdCounter = 1;
-
-    // Board area is [0, 0] to [boardW, boardH].
-    // Pieces start scattered around the outer perimeter of the board
-    final scatterBounds = Rect.fromLTWH(
-      -boardW * 0.25,
-      -boardH * 0.25,
-      boardW * 1.5,
-      boardH * 1.5,
-    );
-
-    for (var r = 0; r < rows; r++) {
-      for (var c = 0; c < cols; c++) {
-        final key = '${r}_$c';
-        // Random position within scatter area, avoiding exact board slot initially
-        double px, py;
-        do {
-          px = scatterBounds.left + rnd.nextDouble() * (scatterBounds.width - pieceW);
-          py = scatterBounds.top + rnd.nextDouble() * (scatterBounds.height - pieceH);
-        } while (px > 0 && px < boardW - pieceW && py > 0 && py < boardH - pieceH);
-
-        final gid = groupIdCounter++;
-        pieces[key] = PieceModel(
-          row: r,
-          col: c,
-          pos: Offset(px, py),
-          groupId: gid,
-        );
-        groups[gid] = GroupModel(id: gid, locked: false, z: _nextZ++);
-      }
-    }
-  }
-
-  void _restoreFromSnapshot(Map<String, dynamic> snapshot) {
-    final snap = PuzzleSessionSnapshot.fromJson(snapshot);
-    for (final item in snap.pieces) {
-      final key = '${item.row}_${item.col}';
-      final pos = Offset(item.normX * boardW, item.normY * boardH);
-      pieces[key] = PieceModel(
-        row: item.row,
-        col: item.col,
-        pos: pos,
-        groupId: item.groupId,
-      );
-
-      if (!groups.containsKey(item.groupId)) {
-        groups[item.groupId] = GroupModel(
-          id: item.groupId,
-          locked: item.groupId == SnapMergeEngine.boardGroupId,
-          z: _nextZ++,
-        );
-      }
-    }
-  }
-
   void _startTimer() {
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
@@ -267,10 +242,82 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
     });
   }
 
+  /// Re-shuffles the remaining pieces in the bottom tray with tactile feedback
+  void shuffleTrayPieces() {
+    trayPieceKeys.shuffle();
+    _haptics.click();
+  }
+
+  /// Attempts to snap a piece dragged from the tray onto the board.
+  /// If dropped near its correct position (within snap threshold), locks to board and returns true.
+  /// If wrong drop, returns false so it cleanly returns back to the tray!
+  bool trySnapPiece(String pieceKey, Offset boardLocalPos) {
+    final piece = pieces[pieceKey];
+    if (piece == null) return false;
+
+    final targetPos = piece.correctPos(pieceW, pieceH);
+    final targetCenter = targetPos + Offset(pieceW / 2, pieceH / 2);
+    // Generous and comfortable magnetic snap threshold for responsive touch gameplay
+    final threshold = max(pieceW, pieceH) * 0.85;
+
+    final distToCenter = (boardLocalPos - targetCenter).distance;
+    final distToTopLeft = (boardLocalPos - targetPos).distance;
+
+    if (distToCenter <= threshold || distToTopLeft <= threshold) {
+      return autoSnapPiece(pieceKey);
+    } else {
+      // Wrong drop: increment moves and return false so piece returns to tray!
+      moves.value++;
+      _saveCurrentSessionDebounced();
+      return false;
+    }
+  }
+
+  /// Locks a piece directly to its correct slot on the board (e.g., via tap-to-place or auto-snap)
+  bool autoSnapPiece(String pieceKey) {
+    if (!pieces.containsKey(pieceKey)) return false;
+    lockedPieceKeys.add(pieceKey);
+    trayPieceKeys.remove(pieceKey);
+    if (hintPieceKey.value == pieceKey) {
+      hintPieceKey.value = null;
+    }
+    moves.value++;
+    _updateLockedCount();
+    _audio.playSnap();
+    _haptics.snap();
+    _saveCurrentSessionDebounced();
+
+    if (lockedPieceKeys.length >= actualPieceCount) {
+      _handlePuzzleVictory();
+    }
+    return true;
+  }
+
   void _updateLockedCount() {
-    lockedPiecesCount.value = pieces.values
-        .where((p) => p.groupId == SnapMergeEngine.boardGroupId)
-        .length;
+    lockedPiecesCount.value = lockedPieceKeys.length;
+  }
+
+  bool isBorderPieceKey(String key) {
+    final p = pieces[key];
+    if (p == null) return false;
+    return p.row == 0 || p.row == rows - 1 || p.col == 0 || p.col == cols - 1;
+  }
+
+  List<String> get visibleTrayPieceKeys {
+    if (!edgesOnly.value) return trayPieceKeys;
+    final borderOnly = trayPieceKeys.where(isBorderPieceKey).toList();
+    return borderOnly.isNotEmpty ? borderOnly : trayPieceKeys;
+  }
+
+  void _restoreFromSnapshot(Map<String, dynamic> snapshot) {
+    final snap = PuzzleSessionSnapshot.fromJson(snapshot);
+    for (final item in snap.pieces) {
+      final key = '${item.row}_${item.col}';
+      if (item.groupId == SnapMergeEngine.boardGroupId) {
+        lockedPieceKeys.add(key);
+        trayPieceKeys.remove(key);
+      }
+    }
   }
 
   /// Hit-tests pieces in descending z-order (front to back).
@@ -355,6 +402,19 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
     // Mark as completed in stats
     _storage.markCompleted(pictureId, actualPieceCount, elapsedSeconds.value, moves.value);
 
+    // If played as a Saga Campaign Level, unlock next Saga level and award stars!
+    if (currentSagaLevel != null) {
+      int stars = 1;
+      final targetSeconds = actualPieceCount * 6;
+      if (elapsedSeconds.value <= targetSeconds) {
+        stars = 3;
+      } else if (elapsedSeconds.value <= targetSeconds * 1.5) {
+        stars = 2;
+      }
+      _storage.unlockNextSagaLevel(currentSagaLevel!);
+      _storage.setSagaStars(currentSagaLevel!, stars);
+    }
+
     // If pictureId is a progressive level (e.g. n001, a015), automatically unlock next level!
     final match = RegExp(r'^([a-zA-Z]+)(\d+)$').firstMatch(pictureId);
     if (match != null) {
@@ -388,50 +448,34 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
   }
 
   bool requestHint() {
-    // Check if player has 15 coins
-    if (!_economy.spendCoins(AppConfig.coinsHintCost)) {
-      return false;
+    // 1. First check if player has free hints available (starts with 3 free hints)
+    final settings = Get.find<SettingsController>();
+    if (settings.useFreeHint()) {
+      _triggerHint();
+      return true;
     }
 
-    _triggerHint();
-    return true;
+    // 2. Otherwise check if player has 15 coins
+    if (_economy.spendCoins(AppConfig.coinsHintCost)) {
+      _triggerHint();
+      return true;
+    }
+
+    // Out of free hints and coins -> player can watch Rewarded Ad to get hints!
+    return false;
   }
 
   void triggerRewardedHint() {
+    final settings = Get.find<SettingsController>();
+    settings.addFreeHint(1);
     _triggerHint();
   }
 
   void _triggerHint() {
-    // Find an unlocked piece, preferring pieces neighboring locked ones
-    final unlockedPieces = pieces.entries
-        .where((e) => e.value.groupId != SnapMergeEngine.boardGroupId)
-        .toList();
-
-    if (unlockedPieces.isEmpty) return;
-
-    // Find neighbor of locked pieces
-    MapEntry<String, PieceModel>? bestCandidate;
-    for (final entry in unlockedPieces) {
-      final p = entry.value;
-      final neighborKeys = [
-        '${p.row - 1}_${p.col}',
-        '${p.row + 1}_${p.col}',
-        '${p.row}_${p.col - 1}',
-        '${p.row}_${p.col + 1}',
-      ];
-      final touchesLocked = neighborKeys.any((k) =>
-          pieces[k]?.groupId == SnapMergeEngine.boardGroupId);
-      if (touchesLocked) {
-        bestCandidate = entry;
-        break;
-      }
-    }
-
-    bestCandidate ??= unlockedPieces[Random().nextInt(unlockedPieces.length)];
-
-    hintPieceKey.value = bestCandidate.key;
+    if (trayPieceKeys.isEmpty) return;
+    hintPieceKey.value = trayPieceKeys.first;
     _hintTimer?.cancel();
-    _hintTimer = Timer(const Duration(milliseconds: AppConfig.hintDurationMs), () {
+    _hintTimer = Timer(const Duration(milliseconds: AppConfig.hintDurationMs * 2), () {
       hintPieceKey.value = null;
     });
   }
@@ -451,14 +495,15 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
   }
 
   Map<String, dynamic> _createSnapshotMap() {
-    final lockedIds = groups.values.where((g) => g.locked).map((g) => g.id).toList();
     final items = pieces.values.map((p) {
+      final key = '${p.row}_${p.col}';
+      final isLocked = lockedPieceKeys.contains(key);
       return PieceSnapshotItem(
         row: p.row,
         col: p.col,
         normX: p.pos.dx / boardW,
         normY: p.pos.dy / boardH,
-        groupId: p.groupId,
+        groupId: isLocked ? SnapMergeEngine.boardGroupId : 1,
       );
     }).toList();
 
@@ -469,7 +514,7 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
       rows: rows,
       cols: cols,
       pieces: items,
-      lockedGroupIds: lockedIds,
+      lockedGroupIds: lockedPieceKeys.isNotEmpty ? [SnapMergeEngine.boardGroupId] : [],
       elapsedSeconds: elapsedSeconds.value,
       moves: moves.value,
     );

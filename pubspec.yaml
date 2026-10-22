@@ -45,6 +45,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/jigsaw.logo.png
     - assets/puzzles_manifest.json
     - assets/puzzles/nature/
     - assets/puzzles/animals/

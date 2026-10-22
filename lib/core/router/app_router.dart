@@ -45,14 +45,17 @@ class AppRouter {
         path: '/puzzle',
         builder: (context, state) {
           final id = state.uri.queryParameters['id'];
-          final countStr = state.uri.queryParameters['count'];
+          final countStr = state.uri.queryParameters['count'] ?? state.uri.queryParameters['pieces'];
           final isResume = state.uri.queryParameters['resume'] == 'true';
           final count = countStr != null ? int.tryParse(countStr) : null;
+          final levelStr = state.uri.queryParameters['level'] ?? state.uri.queryParameters['sagaLevel'];
+          final sagaLevel = levelStr != null ? int.tryParse(levelStr) : null;
 
           return PuzzlePage(
             pictureId: id,
             pieceCount: count,
             isResume: isResume,
+            sagaLevel: sagaLevel,
           );
         },
       ),

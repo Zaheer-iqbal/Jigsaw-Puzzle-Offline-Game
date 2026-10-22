@@ -8,4 +8,5 @@ abstract class PuzzleRepository {
   Future<PuzzlePicture> getDaily(DateTime date);
   Future<List<String>> getCategories();
   Future<List<PuzzleLevel>> getLevelsByCategory(String category);
+  Future<List<PuzzleLevel>> getSagaLevels();
 }

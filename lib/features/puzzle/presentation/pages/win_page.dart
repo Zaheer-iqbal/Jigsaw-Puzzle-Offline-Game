@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jigsaw_pro/core/config/app_config.dart';
-import 'package:jigsaw_pro/core/theme/app_theme.dart';
 import 'package:jigsaw_pro/core/utils/responsive.dart';
+import 'package:jigsaw_pro/core/widgets/casual_game_background.dart';
 import 'package:jigsaw_pro/features/puzzle/presentation/controllers/puzzle_controller.dart';
 
 class WinPage extends StatelessWidget {
@@ -29,11 +29,13 @@ class WinPage extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: const Color(0xFF14171A),
-      body: SafeArea(
-        child: Responsive(
-          portrait: (context, constraints) => _buildPortrait(context, puzzle, time, moves, coinsEarned),
-          landscape: (context, constraints) => _buildLandscape(context, puzzle, time, moves, coinsEarned),
+      backgroundColor: Colors.transparent,
+      body: CasualGameBackground(
+        child: SafeArea(
+          child: Responsive(
+            portrait: (context, constraints) => _buildPortrait(context, puzzle, time, moves, coinsEarned),
+            landscape: (context, constraints) => _buildLandscape(context, puzzle, time, moves, coinsEarned),
+          ),
         ),
       ),
     );
@@ -48,25 +50,39 @@ class WinPage extends StatelessWidget {
   ) {
     return Center(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _buildBadge(),
-            const SizedBox(height: 20),
+            const SizedBox(height: 18),
             Text(
               puzzle.pictureTitle,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 26,
+                fontWeight: FontWeight.w900,
+                shadows: [
+                  Shadow(color: Color(0xFF0D2544), offset: Offset(0, 3), blurRadius: 0),
+                ],
+              ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 6),
             const Text(
-              'Puzzle Completed!',
-              style: TextStyle(color: AppTheme.accentAmber, fontSize: 16, fontWeight: FontWeight.w600),
+              '🎉 Puzzle Completed! 🎉',
+              style: TextStyle(
+                color: Color(0xFFFFD54F),
+                fontSize: 18,
+                fontWeight: FontWeight.w900,
+                shadows: [
+                  Shadow(color: Color(0x664E342E), offset: Offset(0, 2), blurRadius: 0),
+                ],
+              ),
             ),
-            const SizedBox(height: 28),
+            const SizedBox(height: 24),
             _buildStatsCard(time, moves, coinsEarned),
-            const SizedBox(height: 36),
+            const SizedBox(height: 28),
             _buildActionButtons(context),
           ],
         ),
@@ -97,7 +113,14 @@ class WinPage extends StatelessWidget {
                   Text(
                     puzzle.pictureTitle,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w900,
+                      shadows: [
+                        Shadow(color: Color(0xFF0D2544), offset: Offset(0, 3), blurRadius: 0),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -109,7 +132,7 @@ class WinPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   _buildStatsCard(time, moves, coinsEarned),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 20),
                   _buildActionButtons(context),
                 ],
               ),
@@ -127,52 +150,64 @@ class WinPage extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         gradient: const LinearGradient(
-          colors: [AppTheme.accentAmber, Color(0xFFFF6F00)],
+          colors: [Color(0xFFFFD54F), Color(0xFFFF8F00)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
-            color: AppTheme.accentAmber.withValues(alpha: 0.4),
-            blurRadius: 24,
-            offset: const Offset(0, 8),
+            color: Color(0x40000000),
+            blurRadius: 20,
+            offset: Offset(0, 8),
           ),
         ],
       ),
-      child: const Icon(Icons.emoji_events, size: 64, color: Colors.white),
+      child: const Icon(Icons.emoji_events_rounded, size: 68, color: Colors.white),
     );
   }
 
   Widget _buildStatsCard(String time, int moves, int coinsEarned) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
       decoration: BoxDecoration(
-        color: const Color(0xFF1F2429),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white12),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x300D2544),
+            blurRadius: 16,
+            offset: Offset(0, 6),
+          ),
+        ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildStatItem(Icons.timer_outlined, 'Time', time),
-          Container(width: 1, height: 40, color: Colors.white12),
-          _buildStatItem(Icons.touch_app_outlined, 'Moves', '$moves'),
-          Container(width: 1, height: 40, color: Colors.white12),
-          _buildStatItem(Icons.monetization_on, 'Coins', '+$coinsEarned', color: AppTheme.accentAmber),
+          _buildStatItem(Icons.timer_rounded, 'Time', time, const Color(0xFF0288D1)),
+          Container(width: 1, height: 44, color: const Color(0xFFCFD8DC)),
+          _buildStatItem(Icons.touch_app_rounded, 'Moves', '$moves', const Color(0xFF7E57C2)),
+          Container(width: 1, height: 44, color: const Color(0xFFCFD8DC)),
+          _buildStatItem(Icons.monetization_on_rounded, 'Coins', '+$coinsEarned', const Color(0xFFFF8F00)),
         ],
       ),
     );
   }
 
-  Widget _buildStatItem(IconData icon, String label, String value, {Color? color}) {
+  Widget _buildStatItem(IconData icon, String label, String value, Color color) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, color: color ?? Colors.white70, size: 24),
+        Icon(icon, color: color, size: 26),
         const SizedBox(height: 6),
-        Text(value, style: TextStyle(color: color ?? Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+        Text(
+          value,
+          style: TextStyle(color: color, fontSize: 18, fontWeight: FontWeight.w900),
+        ),
         const SizedBox(height: 2),
-        Text(label, style: const TextStyle(color: Colors.white54, fontSize: 12)),
+        Text(
+          label,
+          style: const TextStyle(color: Color(0xFF78909C), fontSize: 12, fontWeight: FontWeight.w700),
+        ),
       ],
     );
   }
@@ -182,33 +217,42 @@ class WinPage extends StatelessWidget {
       children: [
         SizedBox(
           width: double.infinity,
+          height: 52,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.accentAmber,
-              foregroundColor: Colors.black,
-              minimumSize: const Size(double.infinity, 50),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              backgroundColor: const Color(0xFFFFB300),
+              foregroundColor: const Color(0xFF0E2A47),
+              elevation: 4,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
             ),
             onPressed: () {
               context.go('/gallery');
             },
-            child: const Text('Next Puzzle', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.skip_next_rounded, size: 28),
+                SizedBox(width: 6),
+                Text('Next Puzzle', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900)),
+              ],
+            ),
           ),
         ),
         const SizedBox(height: 12),
         SizedBox(
           width: double.infinity,
-          child: OutlinedButton(
-            style: OutlinedButton.styleFrom(
+          height: 48,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF16355C),
               foregroundColor: Colors.white,
-              minimumSize: const Size(double.infinity, 50),
-              side: const BorderSide(color: Colors.white24),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              elevation: 2,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
             ),
             onPressed: () {
               context.go('/home');
             },
-            child: const Text('Back to Home', style: TextStyle(fontSize: 16)),
+            child: const Text('Back to Home', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
           ),
         ),
       ],

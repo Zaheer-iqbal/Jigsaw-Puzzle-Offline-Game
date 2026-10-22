@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 enum BoardBackgroundStyle {
-  feltGreen('Felt Green', Color(0xFF1E3F20), Color(0xFF152C16)),
-  classicWood('Classic Wood', Color(0xFF3E2723), Color(0xFF261715)),
-  midnightSlate('Midnight Slate', Color(0xFF1E222A), Color(0xFF13161C)),
-  deepOcean('Deep Ocean', Color(0xFF0D2538), Color(0xFF07141E)),
-  warmCork('Warm Cork', Color(0xFF4A3B32), Color(0xFF332720));
+  cleanLight('Clean Light', Color(0xFFD6DCE5), Color(0xFFC4CCD8)),
+  feltGreen('Felt Green', Color(0xFF2E7D32), Color(0xFF1B5E20)),
+  classicWood('Classic Wood', Color(0xFF6D4C41), Color(0xFF4E342E)),
+  midnightSlate('Midnight Slate', Color(0xFF37474F), Color(0xFF263238)),
+  deepOcean('Deep Ocean', Color(0xFF1976D2), Color(0xFF0D47A1)),
+  warmCork('Warm Cork', Color(0xFF8D6E63), Color(0xFF5D4037));
 
   final String label;
   final Color primaryColor;

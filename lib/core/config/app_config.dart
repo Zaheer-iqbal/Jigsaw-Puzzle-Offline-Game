@@ -3,7 +3,7 @@
 class AppConfig {
   AppConfig._();
 
-  static const String appName = 'Jigsaw Pro';
+  static const String appName = 'Jigsaw Puzzle: Offline Game';
   static const String appVersion = '1.0.0';
 
   // Economy tuning values
@@ -19,7 +19,7 @@ class AppConfig {
 
   // Snapping & Puzzle Engine parameters
   static const double snapThresholdRatio = 0.28; // ~28% of min(pieceW, pieceH)
-  static const double minZoomScale = 0.5;
+  static const double minZoomScale = 0.2;
   static const double maxZoomScale = 4.0;
   static const double tabOverhangRatio = 1.33;
   static const double tabHeightRatio = 0.95;

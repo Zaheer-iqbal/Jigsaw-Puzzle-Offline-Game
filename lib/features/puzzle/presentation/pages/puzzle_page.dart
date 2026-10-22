@@ -10,12 +10,14 @@ class PuzzlePage extends StatefulWidget {
   final String? pictureId;
   final int? pieceCount;
   final bool isResume;
+  final int? sagaLevel;
 
   const PuzzlePage({
     super.key,
     this.pictureId,
     this.pieceCount,
     this.isResume = false,
+    this.sagaLevel,
   });
 
   @override
@@ -83,6 +85,7 @@ class _PuzzlePageState extends State<PuzzlePage> {
       pieceCount: widget.pieceCount ?? 48,
       boardRenderSize: const Size(baseCanvasW, baseCanvasH),
       isResume: widget.isResume,
+      sagaLevel: widget.sagaLevel,
     );
   }
 
