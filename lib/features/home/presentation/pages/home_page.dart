@@ -550,7 +550,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               onTap: () {
                 HapticFeedback.lightImpact();
                 final picId = dailyPic?.id ?? 'n001.bpm';
-                context.push('/difficulty/$picId?defaultCount=48');
+                context.push('/difficulty/$picId?defaultCount=48&daily=true');
               },
               borderRadius: BorderRadius.circular(16),
               child: Container(
@@ -769,7 +769,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               HapticFeedback.lightImpact();
               final dailyPic = content.dailyPicture.value;
               final picId = dailyPic?.id ?? 'n001.bpm';
-              context.push('/difficulty/$picId?defaultCount=48');
+              context.push('/difficulty/$picId?defaultCount=48&daily=true');
             },
             borderRadius: BorderRadius.circular(20),
             child: Column(

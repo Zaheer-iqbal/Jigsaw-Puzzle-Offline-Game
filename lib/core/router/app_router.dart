@@ -34,10 +34,12 @@ class AppRouter {
         builder: (context, state) {
           final pictureId = state.pathParameters['pictureId'] ?? 'n001';
           final defaultCountStr = state.uri.queryParameters['defaultCount'];
+          final isDaily = state.uri.queryParameters['daily'] == 'true';
           final defaultCount = defaultCountStr != null ? int.tryParse(defaultCountStr) : null;
           return DifficultyPickerPage(
             pictureId: pictureId,
             initialCount: defaultCount,
+            isDaily: isDaily,
           );
         },
       ),
@@ -47,6 +49,7 @@ class AppRouter {
           final id = state.uri.queryParameters['id'];
           final countStr = state.uri.queryParameters['count'] ?? state.uri.queryParameters['pieces'];
           final isResume = state.uri.queryParameters['resume'] == 'true';
+          final isDaily = state.uri.queryParameters['daily'] == 'true';
           final count = countStr != null ? int.tryParse(countStr) : null;
           final levelStr = state.uri.queryParameters['level'] ?? state.uri.queryParameters['sagaLevel'];
           final sagaLevel = levelStr != null ? int.tryParse(levelStr) : null;
@@ -56,6 +59,7 @@ class AppRouter {
             pieceCount: count,
             isResume: isResume,
             sagaLevel: sagaLevel,
+            isDaily: isDaily,
           );
         },
       ),

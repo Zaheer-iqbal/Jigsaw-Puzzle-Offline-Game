@@ -11,6 +11,7 @@ class PuzzlePage extends StatefulWidget {
   final int? pieceCount;
   final bool isResume;
   final int? sagaLevel;
+  final bool isDaily;
 
   const PuzzlePage({
     super.key,
@@ -18,6 +19,7 @@ class PuzzlePage extends StatefulWidget {
     this.pieceCount,
     this.isResume = false,
     this.sagaLevel,
+    this.isDaily = false,
   });
 
   @override
@@ -57,17 +59,27 @@ class _PuzzlePageState extends State<PuzzlePage> {
     var pic = content.allPictures.firstWhereOrNull((p) => p.id == picId);
 
     if (pic == null && content.allPictures.isNotEmpty) {
-      final prefix = picId.substring(0, 1).toLowerCase();
-      const catMap = {'n': 'nature', 'a': 'animals', 'f': 'flowers', 'l': 'landmarks', 'art': 'art'};
-      final cat = catMap[prefix] ?? 'nature';
+      final lower = picId.toLowerCase();
+      String cat = 'nature';
+      if (lower.startsWith('art')) {
+        cat = 'art';
+      } else if (lower.startsWith('n')) {
+        cat = 'nature';
+      } else if (lower.startsWith('a')) {
+        cat = 'animals';
+      } else if (lower.startsWith('f')) {
+        cat = 'flowers';
+      } else if (lower.startsWith('l')) {
+        cat = 'landmarks';
+      }
       final catPics = content.allPictures.where((p) => p.category.toLowerCase() == cat).toList();
       final fallbackPic = catPics.isNotEmpty ? catPics.first : content.allPictures.first;
-      final numStr = picId.replaceAll(RegExp(r'[^0-9]'), '');
+      final numStr = picId.replaceAll(RegExp(r'[^0-9]'), '').replaceFirst(RegExp(r'^0+'), '');
       pic = PuzzlePicture(
         id: picId,
         category: cat,
         path: fallbackPic.path,
-        title: '${cat[0].toUpperCase()}${cat.substring(1)} Level $numStr',
+        title: widget.isDaily ? 'Daily Puzzle' : '${cat[0].toUpperCase()}${cat.substring(1)} Level ${numStr.isEmpty ? "1" : numStr}',
         premium: false,
       );
     }
@@ -81,11 +93,12 @@ class _PuzzlePageState extends State<PuzzlePage> {
     _puzzleController.startPuzzle(
       id: pic.id,
       assetPath: pic.path,
-      title: pic.title,
+      title: widget.isDaily ? 'Daily Puzzle' : pic.title,
       pieceCount: widget.pieceCount ?? 48,
       boardRenderSize: const Size(baseCanvasW, baseCanvasH),
       isResume: widget.isResume,
       sagaLevel: widget.sagaLevel,
+      isDailyPuzzle: widget.isDaily,
     );
   }
 
