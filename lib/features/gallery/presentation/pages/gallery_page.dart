@@ -1,13 +1,16 @@
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jigsaw_pro/core/config/app_config.dart';
 import 'package:jigsaw_pro/core/storage/hive_storage.dart';
+import 'package:jigsaw_pro/core/widgets/app_bottom_nav_bar.dart';
 import 'package:jigsaw_pro/core/widgets/casual_game_background.dart';
 import 'package:jigsaw_pro/features/content/domain/entities/puzzle_picture.dart';
 import 'package:jigsaw_pro/features/content/presentation/controllers/content_controller.dart';
 import 'package:jigsaw_pro/features/economy/presentation/controllers/economy_controller.dart';
+import 'package:jigsaw_pro/features/monetization/presentation/controllers/monetization_controller.dart';
 
 class GalleryPage extends StatefulWidget {
   final String? initialCategory;
@@ -22,6 +25,7 @@ class _GalleryPageState extends State<GalleryPage> {
   final ContentController _content = Get.find<ContentController>();
   final EconomyController _economy = Get.find<EconomyController>();
   final HiveStorage _storage = Get.find<HiveStorage>();
+  final MonetizationController _monetization = Get.find<MonetizationController>();
 
   late String _selectedCategory;
   late List<String> _categories;
@@ -54,6 +58,7 @@ class _GalleryPageState extends State<GalleryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
+      bottomNavigationBar: const AppBottomNavBar(currentTab: AppTab.gallery),
       body: CasualGameBackground(
         child: SafeArea(
           child: Column(
@@ -271,6 +276,10 @@ class _GalleryPageState extends State<GalleryPage> {
   }
 
   Widget _buildPuzzleCard(PuzzlePicture pic, Map<String, dynamic>? activeSession) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardBg = isDark ? const Color(0xFF132238) : Colors.white;
+    final titleColor = isDark ? Colors.white : const Color(0xFF0E2A47);
+
     final isUnlocked = _content.isPictureUnlocked(pic);
     final isCompleted = _content.isPictureCompleted(pic.id);
 
@@ -288,7 +297,7 @@ class _GalleryPageState extends State<GalleryPage> {
       statusText = 'In progress $pct%';
       statusColor = const Color(0xFF0288D1);
     } else if (!isUnlocked) {
-      statusText = 'Premium';
+      statusText = '🔒 Locked • Tap to unlock';
       statusColor = const Color(0xFFFF9800);
     } else {
       statusText = 'New';
@@ -297,8 +306,11 @@ class _GalleryPageState extends State<GalleryPage> {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBg,
         borderRadius: BorderRadius.circular(22),
+        border: isDark
+            ? Border.all(color: Colors.white.withValues(alpha: 0.08), width: 1.2)
+            : null,
         boxShadow: const [
           BoxShadow(
             color: Color(0x30091E36),
@@ -321,22 +333,73 @@ class _GalleryPageState extends State<GalleryPage> {
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
+                    // Picture with blur if locked
                     ClipRRect(
                       borderRadius: const BorderRadius.vertical(top: Radius.circular(22)),
-                      child: Image.asset(
-                        pic.path,
-                        cacheWidth: 400,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Container(
-                            color: const Color(0xFFCFD8DC),
-                            child: const Center(
-                              child: Icon(Icons.image_outlined, color: Colors.blueGrey, size: 36),
+                      child: !isUnlocked
+                          ? ImageFiltered(
+                              imageFilter: ui.ImageFilter.blur(sigmaX: 7, sigmaY: 7),
+                              child: Image.asset(
+                                pic.path,
+                                cacheWidth: 400,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    color: const Color(0xFFCFD8DC),
+                                    child: const Center(
+                                      child: Icon(Icons.image_outlined, color: Colors.blueGrey, size: 36),
+                                    ),
+                                  );
+                                },
+                              ),
+                            )
+                          : Image.asset(
+                              pic.path,
+                              cacheWidth: 400,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Container(
+                                  color: const Color(0xFFCFD8DC),
+                                  child: const Center(
+                                    child: Icon(Icons.image_outlined, color: Colors.blueGrey, size: 36),
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
                     ),
+
+                    // Central 3D Lock Overlay if locked
+                    if (!isUnlocked)
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.32),
+                          borderRadius: const BorderRadius.vertical(top: Radius.circular(22)),
+                        ),
+                        child: Center(
+                          child: Container(
+                            width: 44,
+                            height: 44,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: const LinearGradient(
+                                colors: [Color(0xFFFFD54F), Color(0xFFFF8F00)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.40),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: const Center(
+                              child: Icon(Icons.lock_rounded, color: Color(0xFF3E2723), size: 24),
+                            ),
+                          ),
+                        ),
+                      ),
 
                     // Top Right Badges
                     if (isCompleted)
@@ -363,21 +426,29 @@ class _GalleryPageState extends State<GalleryPage> {
                         top: 8,
                         right: 8,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
                             color: const Color(0xEE112238),
                             borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: const Color(0xFFFFB300), width: 1.2),
                             boxShadow: const [
                               BoxShadow(color: Color(0x33000000), blurRadius: 4, offset: Offset(0, 2)),
                             ],
                           ),
-                          child: const Text(
-                            'Unlock 50',
-                            style: TextStyle(
-                              color: Color(0xFFFFC107),
-                              fontSize: 11,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.ondemand_video_rounded, color: Color(0xFFFFB300), size: 12),
+                              SizedBox(width: 4),
+                              Text(
+                                'UNLOCK',
+                                style: TextStyle(
+                                  color: Color(0xFFFFB300),
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -385,7 +456,7 @@ class _GalleryPageState extends State<GalleryPage> {
                 ),
               ),
 
-              // Bottom Info Portion (White card body)
+              // Bottom Info Portion
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
                 child: Column(
@@ -396,8 +467,8 @@ class _GalleryPageState extends State<GalleryPage> {
                       pic.title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Color(0xFF0E2A47),
+                      style: TextStyle(
+                        color: titleColor,
                         fontWeight: FontWeight.w800,
                         fontSize: 13.5,
                       ),
@@ -431,67 +502,232 @@ class _GalleryPageState extends State<GalleryPage> {
   }
 
   void _showUnlockDialog(PuzzlePicture pic) {
+    final lvl = _content.getPictureLevelNumber(pic);
+    final prevLvl = lvl > 1 ? lvl - 1 : 1;
+
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        backgroundColor: Colors.white,
-        title: Text(
-          'Unlock ${pic.title}',
-          style: const TextStyle(
-            fontWeight: FontWeight.w900,
-            fontSize: 18,
-            color: Color(0xFF0E2A47),
+      builder: (ctx) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+        child: Container(
+          padding: const EdgeInsets.all(22),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(28),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x350D2544),
+                blurRadius: 24,
+                offset: Offset(0, 10),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Picture Thumbnail with Blur & Lock Overlay
+              Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(18),
+                    child: ImageFiltered(
+                      imageFilter: ui.ImageFilter.blur(sigmaX: 7, sigmaY: 7),
+                      child: Image.asset(
+                        pic.path,
+                        cacheWidth: 450,
+                        height: 155,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => Container(
+                          height: 155,
+                          color: const Color(0xFF64B5F6),
+                          child: const Center(
+                            child: Icon(Icons.image_rounded, size: 48, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.35),
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      child: Center(
+                        child: Container(
+                          width: 54,
+                          height: 54,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFFFFD54F), Color(0xFFFF8F00)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.35),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: const Icon(Icons.lock_rounded, color: Color(0xFF3E2723), size: 30),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 10,
+                    right: 10,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: const Color(0xEE112238),
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(color: const Color(0xFFFFB300)),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.lock_outline_rounded, color: Color(0xFFFFB300), size: 14),
+                          SizedBox(width: 4),
+                          Text(
+                            'LOCKED',
+                            style: TextStyle(color: Color(0xFFFFB300), fontSize: 10.5, fontWeight: FontWeight.w900),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+
+              Text(
+                'Unlock ${pic.title}',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Color(0xFF0E2A47),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'Level $prevLvl pehle solve karein ya phir abhi Video Ad dekh kar is puzzle ko foran unlock karein!',
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Color(0xFF607D8B), fontSize: 13, height: 1.35),
+              ),
+              const SizedBox(height: 20),
+
+              // Button 1: Watch Video Ad to Unlock Free (Primary button!)
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(ctx);
+                  _monetization.showRewardedAd(
+                    context: context,
+                    rewardTitle: 'Unlock ${pic.title}',
+                    onRewardEarned: () async {
+                      await _content.unlockPicture(pic);
+                      if (!mounted) return;
+                      setState(() {});
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('${pic.title} unlocked successfully!'),
+                          backgroundColor: const Color(0xEE112238),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                        ),
+                      );
+                      if (mounted) context.push('/difficulty/${pic.id}');
+                    },
+                  );
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(18),
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFFFFCA28), Color(0xFFFFA000), Color(0xFFFF8F00)],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFFD87C00).withValues(alpha: 0.85),
+                        offset: const Offset(0, 4),
+                        blurRadius: 0,
+                      ),
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.18),
+                        offset: const Offset(0, 5),
+                        blurRadius: 6,
+                      ),
+                    ],
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.ondemand_video_rounded, color: Color(0xFF3E2723), size: 22),
+                      SizedBox(width: 8),
+                      Text(
+                        'Watch Video to Unlock Free',
+                        style: TextStyle(
+                          color: Color(0xFF3E2723),
+                          fontSize: 14.5,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+
+              // Button 2: Unlock with 50 Coins
+              OutlinedButton.icon(
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: const Color(0xFF0E2A47),
+                  side: const BorderSide(color: Color(0xFFCFD8DC), width: 1.5),
+                  minimumSize: const Size(double.infinity, 44),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                ),
+                icon: const Text('🪙', style: TextStyle(fontSize: 16)),
+                label: Text(
+                  'Unlock with ${AppConfig.coinsUnlockPremium} Coins',
+                  style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 13.5),
+                ),
+                onPressed: () async {
+                  if (_economy.spendCoins(AppConfig.coinsUnlockPremium)) {
+                    Navigator.pop(ctx);
+                    await _content.unlockPicture(pic);
+                    setState(() {});
+                    if (mounted) context.push('/difficulty/${pic.id}');
+                  } else {
+                    Get.snackbar(
+                      'Paisa kam hai',
+                      'Aap ko ${AppConfig.coinsUnlockPremium} coins chahiye. Video ad dekh kar free unlock karein!',
+                      snackPosition: SnackPosition.BOTTOM,
+                      backgroundColor: const Color(0xEE112238),
+                      colorText: Colors.white,
+                    );
+                  }
+                },
+              ),
+              const SizedBox(height: 6),
+
+              // Cancel Button
+              TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: const Text('Cancel', style: TextStyle(color: Color(0xFF90A4AE), fontWeight: FontWeight.bold)),
+              ),
+            ],
           ),
         ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Image.asset(pic.path, cacheWidth: 400, height: 150, fit: BoxFit.cover),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Unlock this premium puzzle picture for ${AppConfig.coinsUnlockPremium} coins?',
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Color(0xFF4A5568), fontSize: 13.5, height: 1.3),
-            ),
-          ],
-        ),
-        actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel', style: TextStyle(color: Color(0xFF718096), fontWeight: FontWeight.bold)),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFFFB300),
-              foregroundColor: const Color(0xFF0E2A47),
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-              elevation: 3,
-            ),
-            onPressed: () async {
-              Navigator.pop(ctx);
-              if (_economy.spendCoins(AppConfig.coinsUnlockPremium)) {
-                await _content.unlockPicture(pic);
-                setState(() {});
-                if (mounted) context.push('/difficulty/${pic.id}');
-              } else {
-                Get.snackbar(
-                  'Not enough coins',
-                  'You need ${AppConfig.coinsUnlockPremium} coins to unlock this picture.',
-                  snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: const Color(0xEE112238),
-                  colorText: Colors.white,
-                );
-              }
-            },
-            child: const Text('Unlock 50 🪙', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 14)),
-          ),
-        ],
       ),
     );
   }

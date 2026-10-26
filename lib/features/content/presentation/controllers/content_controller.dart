@@ -46,15 +46,42 @@ class ContentController extends GetxController {
     }
   }
 
+  int getPictureLevelNumber(PuzzlePicture picture) {
+    final numStr = picture.id.replaceAll(RegExp(r'[^0-9]'), '').replaceFirst(RegExp(r'^0+'), '');
+    return int.tryParse(numStr) ?? 1;
+  }
+
   bool isPictureUnlocked(PuzzlePicture picture) {
-    if (!picture.premium) return true;
-    return _storage.isPictureUnlocked(picture.id);
+    // 1. Explicitly unlocked via Ad or Coins (Only this specific puzzle!)
+    if (_storage.isPictureUnlocked(picture.id)) return true;
+
+    // 2. Already completed by player
+    if (_storage.isPictureCompleted(picture.id)) return true;
+
+    // 3. Level 1 of any category is always free & unlocked
+    final lvl = getPictureLevelNumber(picture);
+    if (lvl <= 1) return true;
+
+    // 4. Sequential progression: Unlocked ONLY if the immediately previous puzzle is completed!
+    final catPics = allPictures
+        .where((p) => p.category.toLowerCase() == picture.category.toLowerCase())
+        .toList();
+    final index = catPics.indexWhere((p) => p.id == picture.id);
+    if (index > 0) {
+      final prevPic = catPics[index - 1];
+      if (_storage.isPictureCompleted(prevPic.id)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   bool isPictureCompleted(String pictureId) {
     return _storage.isPictureCompleted(pictureId);
   }
 
+  /// Unlocks ONLY this single puzzle (e.g. from watching a rewarded video ad or coins)
   Future<bool> unlockPicture(PuzzlePicture picture) async {
     await _storage.unlockPicture(picture.id);
     update();

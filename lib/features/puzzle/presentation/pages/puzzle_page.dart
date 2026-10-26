@@ -53,10 +53,20 @@ class _PuzzlePageState extends State<PuzzlePage> {
     super.dispose();
   }
 
-  void _initSession() {
+  Future<void> _initSession() async {
     final content = Get.find<ContentController>();
+    if (content.allPictures.isEmpty) {
+      await content.loadContent();
+    }
+
     final picId = widget.pictureId ?? (content.allPictures.isNotEmpty ? content.allPictures.first.id : 'n001');
     var pic = content.allPictures.firstWhereOrNull((p) => p.id == picId);
+
+    // Loose match if exact id match failed (e.g. 'n001' vs 'n001.bpm')
+    pic ??= content.allPictures.firstWhereOrNull(
+      (p) => p.id.toLowerCase().contains(picId.toLowerCase()) ||
+             picId.toLowerCase().contains(p.id.toLowerCase()),
+    );
 
     if (pic == null && content.allPictures.isNotEmpty) {
       final lower = picId.toLowerCase();
@@ -84,7 +94,14 @@ class _PuzzlePageState extends State<PuzzlePage> {
       );
     }
 
-    if (pic == null) return;
+    // Guaranteed ultimate fallback
+    pic ??= const PuzzlePicture(
+      id: 'n001',
+      category: 'nature',
+      path: 'assets/puzzles/nature/n001.jpg',
+      title: 'Nature Level 1',
+      premium: false,
+    );
 
     // Allocate 1000px virtual canvas resolution with image aspect ratio
     const baseCanvasW = 1000.0;

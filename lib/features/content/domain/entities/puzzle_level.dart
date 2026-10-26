@@ -25,9 +25,9 @@ class PuzzleLevel {
   static const PuzzleLevel fallbackNatureLevel = PuzzleLevel(
     levelNumber: 1,
     category: 'nature',
-    id: 'n001.bpm',
+    id: 'n001',
     title: 'Nature Level 1',
-    imagePath: 'assets/puzzles/nature/n001.bpm.jpg',
+    imagePath: 'assets/puzzles/nature/n001.jpg',
     defaultPieceCount: 12,
     isPremium: false,
   );

@@ -39,7 +39,7 @@ class AppInjector {
     Get.put<PuzzleRepository>(puzzleRepository, permanent: true);
 
     // 4. GetX Controllers (State Management)
-    Get.put(SettingsController(storage), permanent: true);
+    Get.put(SettingsController(storage, audio, haptics), permanent: true);
     final economyController = Get.put(EconomyController(storage), permanent: true);
     final monetizationController = Get.put(MonetizationController(storage, economyController), permanent: true);
     Get.put(ContentController(puzzleRepository, storage), permanent: true);

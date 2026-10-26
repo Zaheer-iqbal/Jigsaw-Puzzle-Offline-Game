@@ -26,10 +26,18 @@ class AppConfig {
   static const int hintDurationMs = 2500;
 
   // Monetization & Ads capping
+  static const bool enableAds = true;
+
   // Interstitial: at most once every 3 completed puzzles, never in session 1
   static const int interstitialPuzzleFrequency = 3;
 
-  // Google Test Ad Unit IDs (replace with production IDs in release)
+  // Google AdMob Production IDs
+  static const String adMobAppId = 'ca-app-pub-4263353235645949~8949678814';
+  static const String rewardedAdUnitId = 'ca-app-pub-4263353235645949/3976553734';
+  static const String interstitialAdUnitId = 'ca-app-pub-4263353235645949/5840299748';
+  static const String bannerAdUnitId = 'ca-app-pub-4263353235645949/1410100144';
+
+  // Google Test Ad Unit IDs (fallback during development)
   static const String testBannerId = 'ca-app-pub-3940256099942544/6300978111';
   static const String testInterstitialId = 'ca-app-pub-3940256099942544/1033173712';
   static const String testRewardedId = 'ca-app-pub-3940256099942544/5224354917';

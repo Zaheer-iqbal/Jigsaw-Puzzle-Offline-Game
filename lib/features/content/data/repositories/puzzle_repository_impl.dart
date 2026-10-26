@@ -82,7 +82,7 @@ class PuzzleRepositoryImpl implements PuzzleRepository {
       }
 
       final imagePath = matchingPic?.path ??
-          (catPics.isNotEmpty ? catPics[(i - 1) % catPics.length].path : 'assets/puzzles/nature/n001.bmp');
+          (catPics.isNotEmpty ? catPics[(i - 1) % catPics.length].path : 'assets/puzzles/nature/n001.jpg');
       final title = matchingPic?.title ??
           '${category[0].toUpperCase()}${category.substring(1)} Level $i';
       final isPremium = (i % 10 == 0); // Every 10th level is a special premium unlock

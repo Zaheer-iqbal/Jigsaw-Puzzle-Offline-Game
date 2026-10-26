@@ -59,6 +59,10 @@ class HiveStorage {
   String get boardBackground => _settingsBox.get('boardBg', defaultValue: 'cleanLight') as String;
   Future<void> setBoardBackground(String bg) => _settingsBox.put('boardBg', bg);
 
+  // --- Privacy & GDPR Consent ---
+  bool get hasConsentedToPrivacy => _settingsBox.get('gdprConsent', defaultValue: false) as bool;
+  Future<void> setPrivacyConsent(bool value) => _settingsBox.put('gdprConsent', value);
+
   // --- Economy & Hints ---
   int get freeHints => _settingsBoxSafeInt(_economyBox.get('freeHints'), 3);
   Future<void> setFreeHints(int value) => _economyBox.put('freeHints', value);
@@ -108,6 +112,24 @@ class HiveStorage {
 
   bool isPictureCompleted(String id) => completedIds.contains(id);
 
+  // --- Daily Puzzle Completion Tracker ---
+  List<String> get completedDailyDates =>
+      List<String>.from(_progressBox.get('completedDailyDates', defaultValue: <String>[]) as List);
+
+  Future<void> markDailyCompleted(DateTime date) async {
+    final key = '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+    final list = completedDailyDates;
+    if (!list.contains(key)) {
+      list.add(key);
+      await _progressBox.put('completedDailyDates', list);
+    }
+  }
+
+  bool isDailyDateCompleted(DateTime date) {
+    final key = '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+    return completedDailyDates.contains(key);
+  }
+
   // --- Category Level Progression (1 to 100) ---
   int getHighestUnlockedLevel(String category) {
     return _progressBox.get('unlocked_lvl_${category.toLowerCase()}', defaultValue: 1) as int;
@@ -129,6 +151,9 @@ class HiveStorage {
   int getHighestSagaLevel() {
     return _progressBox.get('unlocked_saga_level', defaultValue: 1) as int;
   }
+
+  ValueListenable<Box> get progressBoxListenable => _progressBox.listenable();
+  ValueListenable<Box> get sessionBoxListenable => _sessionBox.listenable();
 
   Future<void> unlockNextSagaLevel(int completedLevel) async {
     final current = getHighestSagaLevel();
@@ -153,9 +178,11 @@ class HiveStorage {
     }
   }
 
-  // --- Purchases ---
+  // --- Purchases & Ad-Free Unlocks ---
   bool get removeAds => _purchasesBox.get('removeAds', defaultValue: false) as bool;
   Future<void> setRemoveAds(bool value) => _purchasesBox.put('removeAds', value);
+  int get removeAdsProgress => (_purchasesBox.get('removeAdsProgress', defaultValue: 0) as num).toInt();
+  Future<void> setRemoveAdsProgress(int value) => _purchasesBox.put('removeAdsProgress', value);
 
   // --- Active Session Auto-Save (Debounced & Immediate Flush) ---
   Map<String, dynamic>? getActiveSession() {
@@ -189,6 +216,16 @@ class HiveStorage {
     _sessionDebounceTimer?.cancel();
     _pendingSessionSnapshot = null;
     await _sessionBox.delete('current');
+  }
+
+  Future<void> resetAllGameData() async {
+    await clearActiveSession();
+    await _progressBox.clear();
+    await _unlockedBox.clear();
+    await _economyBox.clear();
+    await _economyBox.put('coins', AppConfig.startingCoins);
+    await _economyBox.put('freeHints', 3);
+    await _economyBox.put('streak', 0);
   }
 
   int _settingsBoxSafeInt(dynamic val, int fallback) {

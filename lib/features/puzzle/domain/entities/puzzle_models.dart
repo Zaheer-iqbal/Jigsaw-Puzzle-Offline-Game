@@ -103,20 +103,24 @@ class PuzzleSessionSnapshot {
     'version': version,
   };
 
-  factory PuzzleSessionSnapshot.fromJson(Map<String, dynamic> json) {
+  factory PuzzleSessionSnapshot.fromJson(Map<dynamic, dynamic> json) {
+    final rawPieces = json['pieces'] as List? ?? [];
     return PuzzleSessionSnapshot(
-      pictureId: json['pictureId'] as String,
-      pieceCount: json['pieceCount'] as int,
-      seed: json['seed'] as int,
-      rows: json['rows'] as int,
-      cols: json['cols'] as int,
-      pieces: (json['pieces'] as List)
-          .map((item) => PieceSnapshotItem.fromJson(item as Map<String, dynamic>))
+      pictureId: json['pictureId']?.toString() ?? '',
+      pieceCount: (json['pieceCount'] as num?)?.toInt() ?? 48,
+      seed: (json['seed'] as num?)?.toInt() ?? 0,
+      rows: (json['rows'] as num?)?.toInt() ?? 6,
+      cols: (json['cols'] as num?)?.toInt() ?? 8,
+      pieces: rawPieces
+          .map((item) => PieceSnapshotItem.fromJson(Map<String, dynamic>.from(item as Map)))
           .toList(),
-      lockedGroupIds: List<int>.from(json['lockedGroupIds'] as List),
-      elapsedSeconds: json['elapsedSeconds'] as int? ?? 0,
-      moves: json['moves'] as int? ?? 0,
-      version: json['version'] as int? ?? 1,
+      lockedGroupIds: (json['lockedGroupIds'] as List?)
+              ?.map((e) => (e as num).toInt())
+              .toList() ??
+          [],
+      elapsedSeconds: (json['elapsedSeconds'] as num?)?.toInt() ?? 0,
+      moves: (json['moves'] as num?)?.toInt() ?? 0,
+      version: (json['version'] as num?)?.toInt() ?? 1,
     );
   }
 }
@@ -146,13 +150,13 @@ class PieceSnapshotItem {
     'g': groupId,
   };
 
-  factory PieceSnapshotItem.fromJson(Map<String, dynamic> json) {
+  factory PieceSnapshotItem.fromJson(Map<dynamic, dynamic> json) {
     return PieceSnapshotItem(
-      row: json['r'] as int,
-      col: json['c'] as int,
-      normX: (json['x'] as num).toDouble(),
-      normY: (json['y'] as num).toDouble(),
-      groupId: json['g'] as int,
+      row: (json['r'] as num?)?.toInt() ?? 0,
+      col: (json['c'] as num?)?.toInt() ?? 0,
+      normX: (json['x'] as num?)?.toDouble() ?? 0.0,
+      normY: (json['y'] as num?)?.toDouble() ?? 0.0,
+      groupId: (json['g'] as num?)?.toInt() ?? 0,
     );
   }
 }

@@ -1,8 +1,10 @@
-import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jigsaw_pro/core/theme/app_theme.dart';
+import 'package:jigsaw_pro/core/widgets/casual_game_background.dart';
+import 'package:jigsaw_pro/core/widgets/clay_container.dart';
 import 'package:jigsaw_pro/features/economy/presentation/controllers/economy_controller.dart';
 import 'package:jigsaw_pro/features/monetization/presentation/controllers/monetization_controller.dart';
 import 'package:jigsaw_pro/features/puzzle/presentation/canvas/board_painter.dart';
@@ -62,32 +64,14 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
       final isLight = bgStyle == BoardBackgroundStyle.cleanLight;
 
       return Scaffold(
-        backgroundColor: isLight ? const Color(0xFFEEF2F6) : const Color(0xFF131B26),
-        body: Container(
-          // Clean tabletop ambient illumination
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: isLight
-                  ? [
-                      const Color(0xFFF7FAFD),
-                      const Color(0xFFEEF3F8),
-                      const Color(0xFFDFE6EE),
-                    ]
-                  : [
-                      const Color(0xFF1E2838),
-                      const Color(0xFF131B26),
-                      const Color(0xFF0C1118),
-                    ],
-            ),
-          ),
+        backgroundColor: Colors.transparent,
+        body: CasualGameBackground(
           child: SafeArea(
             child: LayoutBuilder(
               builder: (context, constraints) {
                 // Calculate responsive board dimensions
-                final maxW = constraints.maxWidth - 24; // 12px padding on each side
-                final maxH = constraints.maxHeight - 210; // Reserve for top HUD and bottom tray
+                final maxW = constraints.maxWidth - 16; // 8px margin each side
+                final maxH = constraints.maxHeight - 245; // Reserve for top HUD and elevated bottom tray
                 final aspect = widget.controller.boardW / (widget.controller.boardH > 0 ? widget.controller.boardH : 1.0);
 
                 double renderW, renderH;
@@ -110,7 +94,7 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
                     // 2. Center Assembly Board (responsive for every mobile screen)
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                         child: Center(
                           child: SizedBox(
                             width: renderW,
@@ -121,9 +105,9 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
                       ),
                     ),
 
-                    // 3. Bottom Scrollable Piece Tray (Carousel)
+                    // 3. Bottom Scrollable Piece Tray (Elevated Floating Card)
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(12, 0, 12, 10),
+                      padding: const EdgeInsets.fromLTRB(14, 2, 14, 26),
                       child: _buildBottomPieceTray(isLight, renderW),
                     ),
                   ],
@@ -138,6 +122,8 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
 
   // --- Center Board Drop Target Area ---
   Widget _buildBoardDropZone(double renderW, double renderH, BoardBackgroundStyle bgStyle) {
+    final screenScale = renderW / (widget.controller.boardW > 0 ? widget.controller.boardW : 750.0);
+
     return DragTarget<String>(
       onWillAcceptWithDetails: (details) => true,
       onAcceptWithDetails: (details) {
@@ -148,7 +134,6 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
           final prePiece = widget.controller.preRenderedPieces[pieceKey];
           if (prePiece == null) return;
 
-          final screenScale = renderW / (widget.controller.boardW > 0 ? widget.controller.boardW : 750.0);
           final feedbackW = (widget.controller.pieceW + 2 * prePiece.margin) * screenScale;
           final feedbackH = (widget.controller.pieceH + 2 * prePiece.margin) * screenScale;
 
@@ -161,162 +146,130 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
             droppedCenterScreen.dy / screenScale,
           );
 
-          final didSnap = widget.controller.trySnapPiece(pieceKey, droppedCenter);
-          if (!didSnap) {
-            HapticFeedback.lightImpact();
-          }
+          widget.controller.trySnapPiece(pieceKey, droppedCenter);
         }
       },
       builder: (context, candidateData, rejectedData) {
         return RepaintBoundary(
           key: _boardKey,
-          child: AnimatedBuilder(
-            animation: _pulseController,
-            builder: (context, child) {
-              return CustomPaint(
-                size: Size(renderW, renderH),
-                painter: BoardPainter(
-                  pieces: widget.controller.pieces,
-                  lockedPieceKeys: widget.controller.lockedPieceKeys.toSet(),
-                  preRenderedPieces: widget.controller.preRenderedPieces,
-                  boardSize: Size(widget.controller.boardW, widget.controller.boardH),
-                  rows: widget.controller.rows,
-                  cols: widget.controller.cols,
-                  fullImage: widget.controller.decodedSourceImage,
-                  showGhost: widget.controller.showGhost.value,
-                  hintPieceKey: widget.controller.hintPieceKey.value,
-                  backgroundStyle: bgStyle,
-                  hintPulse: _pulseController.value,
+          child: SizedBox(
+            width: renderW,
+            height: renderH,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                // 1. Board canvas: frame, mat, empty slots, and locked pieces
+                Positioned.fill(
+                  child: AnimatedBuilder(
+                    animation: _pulseController,
+                    builder: (context, child) {
+                      return CustomPaint(
+                        size: Size(renderW, renderH),
+                        painter: BoardPainter(
+                          pieces: widget.controller.pieces,
+                          lockedPieceKeys: widget.controller.lockedPieceKeys.toSet(),
+                          preRenderedPieces: widget.controller.preRenderedPieces,
+                          boardSize: Size(widget.controller.boardW, widget.controller.boardH),
+                          rows: widget.controller.rows,
+                          cols: widget.controller.cols,
+                          fullImage: widget.controller.decodedSourceImage,
+                          showGhost: false,
+                          hintPieceKey: widget.controller.hintPieceKey.value,
+                          backgroundStyle: bgStyle,
+                          hintPulse: _pulseController.value,
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              );
-            },
+
+                // 2. Unlocked pieces resting on the board (freely movable by user!)
+                Obx(() {
+                  final activeBoardKeys = widget.controller.boardPieceKeys.toList();
+                  return Stack(
+                    clipBehavior: Clip.none,
+                    children: activeBoardKeys.map((key) {
+                      final piece = widget.controller.pieces[key];
+                      final prePiece = widget.controller.preRenderedPieces[key];
+                      if (piece == null || prePiece == null) return const SizedBox.shrink();
+
+                      final pieceScreenX = (piece.pos.dx - prePiece.margin) * screenScale;
+                      final pieceScreenY = (piece.pos.dy - prePiece.margin) * screenScale;
+                      final pieceW = (widget.controller.pieceW + 2 * prePiece.margin) * screenScale;
+                      final pieceH = (widget.controller.pieceH + 2 * prePiece.margin) * screenScale;
+
+                      return Positioned(
+                        left: pieceScreenX,
+                        top: pieceScreenY,
+                        width: pieceW,
+                        height: pieceH,
+                        child: Draggable<String>(
+                          data: key,
+                          feedback: Material(
+                            color: Colors.transparent,
+                            child: CustomPaint(
+                              size: Size(pieceW, pieceH),
+                              painter: _PieceCardPainter(prePiece: prePiece),
+                            ),
+                          ),
+                          childWhenDragging: const SizedBox.shrink(),
+                          child: CustomPaint(
+                            size: Size(pieceW, pieceH),
+                            painter: _PieceCardPainter(prePiece: prePiece),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  );
+                }),
+              ],
+            ),
           ),
         );
       },
     );
   }
 
-  // --- Bottom Scrollable Piece Tray (Carousel Dock) ---
+  // --- Bottom Scrollable Piece Tray (Claymorphic 3D Dock & Drop Target) ---
   Widget _buildBottomPieceTray(bool isLight, double renderW) {
     final screenScale = renderW / (widget.controller.boardW > 0 ? widget.controller.boardW : 750.0);
 
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(24),
-      child: BackdropFilter(
-        filter: ui.ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-        child: Container(
-          height: 140,
+    return DragTarget<String>(
+      onWillAcceptWithDetails: (details) => true,
+      onAcceptWithDetails: (details) {
+        widget.controller.returnPieceToTray(details.data);
+      },
+      builder: (context, candidateData, rejectedData) {
+        return ClayContainer(
+          height: 144,
           padding: const EdgeInsets.symmetric(vertical: 8),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: isLight
-                  ? [const Color(0xF8FFFFFF), const Color(0xF2EAEFF5)]
-                  : [const Color(0xF21E2838), const Color(0xF2101722)],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(
-              color: isLight ? Colors.black.withValues(alpha: 0.08) : Colors.white.withValues(alpha: 0.16),
-              width: 1.2,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: isLight ? Colors.black.withValues(alpha: 0.08) : Colors.black.withValues(alpha: 0.50),
-                blurRadius: 18,
-                offset: const Offset(0, 4),
-              ),
-            ],
+          color: Colors.white,
+          depth: 5.5,
+          bevelColor: candidateData.isNotEmpty ? const Color(0xFFFF8F00) : const Color(0xFFCBD5E1),
+          borderRadius: BorderRadius.circular(28),
+          border: Border.all(
+            color: candidateData.isNotEmpty ? const Color(0xFFFFB300) : Colors.white.withValues(alpha: 0.90),
+            width: candidateData.isNotEmpty ? 2.5 : 1.2,
           ),
           child: Obx(() {
-            final trayKeys = widget.controller.visibleTrayPieceKeys;
+            final trayKeys = widget.controller.trayPieceKeys;
 
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Tray status header: remaining count + edges toggle + shuffle
+                // Tray status header: remaining count only
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
                   child: Row(
                     children: [
-                      const Icon(Icons.extension_rounded, size: 14, color: AppTheme.accentAmber),
-                      const SizedBox(width: 5),
+                      const Icon(Icons.extension_rounded, size: 16, color: Color(0xFFFF8F00)),
+                      const SizedBox(width: 7),
                       Text(
-                        '${trayKeys.length} pieces remaining',
-                        style: TextStyle(
-                          color: isLight ? const Color(0xFF4A5568) : Colors.white70,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const Spacer(),
-                      // Edges filter pill
-                      InkWell(
-                        onTap: () {
-                          HapticFeedback.lightImpact();
-                          widget.controller.toggleEdges();
-                        },
-                        borderRadius: BorderRadius.circular(12),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                          decoration: BoxDecoration(
-                            color: widget.controller.edgesOnly.value
-                                ? AppTheme.accentAmber.withValues(alpha: 0.28)
-                                : (isLight ? Colors.black.withValues(alpha: 0.05) : Colors.white.withValues(alpha: 0.08)),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: widget.controller.edgesOnly.value
-                                  ? AppTheme.accentAmber
-                                  : (isLight ? Colors.black.withValues(alpha: 0.10) : Colors.white.withValues(alpha: 0.14)),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.crop_square_rounded,
-                                size: 13,
-                                color: widget.controller.edgesOnly.value
-                                    ? AppTheme.accentAmber
-                                    : (isLight ? const Color(0xFF4A5568) : Colors.white70),
-                              ),
-                              const SizedBox(width: 4),
-                              Text(
-                                'Edges',
-                                style: TextStyle(
-                                  color: widget.controller.edgesOnly.value
-                                      ? AppTheme.accentAmber
-                                      : (isLight ? const Color(0xFF4A5568) : Colors.white70),
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      // Shuffle button
-                      InkWell(
-                        onTap: () {
-                          HapticFeedback.lightImpact();
-                          widget.controller.shuffleTrayPieces();
-                        },
-                        borderRadius: BorderRadius.circular(12),
-                        child: Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: isLight ? Colors.black.withValues(alpha: 0.05) : Colors.white.withValues(alpha: 0.08),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: isLight ? Colors.black.withValues(alpha: 0.10) : Colors.white.withValues(alpha: 0.14),
-                            ),
-                          ),
-                          child: Icon(
-                            Icons.shuffle_rounded,
-                            size: 14,
-                            color: isLight ? const Color(0xFF4A5568) : Colors.white70,
-                          ),
+                        '${widget.controller.actualPieceCount - widget.controller.lockedPieceKeys.length} pieces remaining',
+                        style: const TextStyle(
+                          color: Color(0xFF0E2A47),
+                          fontSize: 12.5,
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
                     ],
@@ -324,20 +277,20 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
                 ),
                 const SizedBox(height: 4),
 
-                // Horizontal Carousel of Pure Jigsaw Pieces (No button cards!)
+                // Horizontal Carousel of Pure Jigsaw Pieces (Closer together: 8px gap!)
                 Expanded(
                   child: trayKeys.isEmpty
-                      ? Center(
+                      ? const Center(
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(Icons.check_circle_rounded, color: AppTheme.accentAmber, size: 22),
-                              const SizedBox(width: 8),
+                              Icon(Icons.check_circle_rounded, color: Color(0xFF00E676), size: 22),
+                              SizedBox(width: 8),
                               Text(
-                                'All pieces assembled!',
+                                'All tray pieces placed!',
                                 style: TextStyle(
-                                  color: isLight ? const Color(0xFF2D3748) : Colors.white,
-                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF0E2A47),
+                                  fontWeight: FontWeight.w800,
                                   fontSize: 13,
                                 ),
                               ),
@@ -347,9 +300,9 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
                       : ListView.separated(
                           scrollDirection: Axis.horizontal,
                           physics: const BouncingScrollPhysics(),
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                          // Half-inch gap (~28px) between pieces as requested
-                          separatorBuilder: (_, __) => const SizedBox(width: 28),
+                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+                          // Closer together as requested!
+                          separatorBuilder: (_, __) => const SizedBox(width: 8),
                           itemCount: trayKeys.length,
                           itemBuilder: (context, index) {
                             final key = trayKeys[index];
@@ -371,16 +324,12 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
                             return GestureDetector(
                               onTap: () {
                                 HapticFeedback.selectionClick();
+                                // Toggle hint highlight for target slot (no auto-snap)
                                 if (widget.controller.hintPieceKey.value == key) {
-                                  // Tapped again: auto snap directly to its slot!
-                                  widget.controller.autoSnapPiece(key);
+                                  widget.controller.hintPieceKey.value = null;
                                 } else {
-                                  // Select piece & highlight its exact target slot on the board!
                                   widget.controller.hintPieceKey.value = key;
                                 }
-                              },
-                              onDoubleTap: () {
-                                widget.controller.autoSnapPiece(key);
                               },
                               child: Draggable<String>(
                                 data: key,
@@ -391,20 +340,9 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
                                 },
                                 feedback: Material(
                                   color: Colors.transparent,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withValues(alpha: isLight ? 0.35 : 0.65),
-                                          blurRadius: 18,
-                                          offset: const Offset(0, 8),
-                                        ),
-                                      ],
-                                    ),
-                                    child: CustomPaint(
-                                      size: Size(feedbackW, feedbackH),
-                                      painter: _PieceCardPainter(prePiece: prePiece),
-                                    ),
+                                  child: CustomPaint(
+                                    size: Size(feedbackW, feedbackH),
+                                    painter: _PieceCardPainter(prePiece: prePiece),
                                   ),
                                 ),
                                 childWhenDragging: Opacity(
@@ -447,343 +385,628 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
               ],
             );
           }),
-        ),
-      ),
+        );
+      },
     );
   }
 
-  // --- Floating Top HUD Bar ---
+  // --- Floating Top HUD Bar (Claymorphic 3D Floating Pill) ---
   Widget _buildFloatingTopBar(bool isLight, SettingsController settings) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(22),
-      child: BackdropFilter(
-        filter: ui.ImageFilter.blur(sigmaX: 16, sigmaY: 16),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-          decoration: BoxDecoration(
-            color: isLight ? const Color(0xF2FFFFFF) : const Color(0xE0131924),
-            borderRadius: BorderRadius.circular(22),
-            border: Border.all(
-              color: isLight ? Colors.black.withValues(alpha: 0.08) : Colors.white.withValues(alpha: 0.16),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: isLight ? Colors.black.withValues(alpha: 0.08) : Colors.black.withValues(alpha: 0.35),
-                blurRadius: 14,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              // Circular Back Button
-              Material(
-                color: isLight ? Colors.black.withValues(alpha: 0.06) : Colors.white.withValues(alpha: 0.10),
-                shape: const CircleBorder(),
-                child: InkWell(
-                  customBorder: const CircleBorder(),
-                  onTap: () {
-                    HapticFeedback.lightImpact();
-                    widget.onBack();
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(7),
-                    child: Icon(
-                      Icons.arrow_back_ios_new,
-                      color: isLight ? const Color(0xFF2D3748) : Colors.white,
-                      size: 16,
-                    ),
+    return ClayContainer(
+      color: Colors.white,
+      depth: 4.5,
+      bevelColor: const Color(0xFFCBD5E1),
+      borderRadius: BorderRadius.circular(24),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+      border: Border.all(
+        color: Colors.white.withValues(alpha: 0.90),
+        width: 1.2,
+      ),
+        child: Row(
+          children: [
+            // Circular Back / Pause Button
+            Material(
+              color: const Color(0xFF16355C),
+              shape: const CircleBorder(),
+              child: InkWell(
+                customBorder: const CircleBorder(),
+                onTap: () {
+                  HapticFeedback.lightImpact();
+                  _showPauseMenuDialog(context, settings);
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(7),
+                  child: Icon(
+                    Icons.arrow_back_ios_new,
+                    color: Colors.white,
+                    size: 15,
                   ),
                 ),
               ),
-              const SizedBox(width: 10),
+            ),
+            const SizedBox(width: 10),
 
-              // Level Title & Mini Progress
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        if (widget.controller.currentSagaLevel != null) ...[
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: AppTheme.accentAmber.withValues(alpha: 0.22),
-                              borderRadius: BorderRadius.circular(6),
-                              border: Border.all(color: AppTheme.accentAmber.withValues(alpha: 0.5)),
-                            ),
-                            child: Text(
-                              'LVL ${widget.controller.currentSagaLevel}',
-                              style: const TextStyle(
-                                color: AppTheme.accentAmber,
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+            // Level Title & Mini Progress (Reactive with Obx)
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      if (widget.controller.currentSagaLevel != null) ...[
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFFF3E0),
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(color: const Color(0xFFFFB300)),
                           ),
-                          const SizedBox(width: 6),
-                        ],
-                        Flexible(
                           child: Text(
-                            _getDisplayTitle(),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: isLight ? const Color(0xFF1A202C) : Colors.white,
+                            'LVL ${widget.controller.currentSagaLevel}',
+                            style: const TextStyle(
+                              color: Color(0xFFE65100),
+                              fontSize: 10,
                               fontWeight: FontWeight.bold,
-                              fontSize: 12,
                             ),
                           ),
                         ),
+                        const SizedBox(width: 6),
                       ],
-                    ),
-                    const SizedBox(height: 4),
-                    // Mini gold progress bar
-                    Row(
+                      Flexible(
+                        child: Text(
+                          _getDisplayTitle(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Color(0xFF0E2A47),
+                            fontWeight: FontWeight.w900,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  // Mini gold progress bar (Reactive Obx)
+                  Obx(() {
+                    final locked = widget.controller.lockedPieceKeys.length;
+                    final total = widget.controller.actualPieceCount;
+                    return Row(
                       children: [
                         Expanded(
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(4),
                             child: LinearProgressIndicator(
-                              value: widget.controller.actualPieceCount > 0
-                                  ? widget.controller.lockedPieceKeys.length / widget.controller.actualPieceCount
-                                  : 0,
+                              value: total > 0 ? locked / total : 0,
                               minHeight: 5,
-                              backgroundColor: isLight ? Colors.black12 : Colors.white12,
-                              valueColor: const AlwaysStoppedAnimation(AppTheme.accentAmber),
+                              backgroundColor: const Color(0xFFECEFF1),
+                              valueColor: const AlwaysStoppedAnimation(Color(0xFFFFB300)),
                             ),
                           ),
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          '${widget.controller.lockedPieceKeys.length}/${widget.controller.actualPieceCount}',
-                          style: TextStyle(
-                            color: isLight ? const Color(0xFF4A5568) : Colors.white70,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w600,
+                          '$locked/$total',
+                          style: const TextStyle(
+                            color: Color(0xFF607D8B),
+                            fontSize: 10.5,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ],
-                    ),
-                  ],
-                ),
+                    );
+                  }),
+                ],
               ),
-              const SizedBox(width: 8),
+            ),
+            const SizedBox(width: 8),
 
-              // Timer chip
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
-                decoration: BoxDecoration(
-                  color: isLight ? Colors.black.withValues(alpha: 0.05) : Colors.white.withValues(alpha: 0.08),
-                  borderRadius: BorderRadius.circular(10),
-                ),
+            // Timer chip (Reactive Obx - ticks every second)
+            Obx(() => Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: const Color(0xFFEEF3FB),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: const Color(0xFFCFD8DC)),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.timer_outlined,
+                    size: 13,
+                    color: Color(0xFF0E2A47),
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    _formatTime(widget.controller.elapsedSeconds.value),
+                    style: const TextStyle(
+                      color: Color(0xFF0E2A47),
+                      fontSize: 11.5,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
+              ),
+            )),
+            const SizedBox(width: 8),
+
+            // Free Hints Button (Claymorphic 3D press-down depth)
+            Obx(() {
+              final freeHints = settings.freeHints.value;
+              return ClayButton(
+                onTap: _handleHintPress,
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                borderRadius: BorderRadius.circular(14),
+                depth: 3.5,
+                color: const Color(0xFFFFB300),
+                bevelColor: const Color(0xFFD87C00),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
-                      Icons.timer_outlined,
-                      size: 12,
-                      color: isLight ? const Color(0xFF4A5568) : Colors.white70,
-                    ),
-                    const SizedBox(width: 3),
+                    const Icon(Icons.lightbulb_rounded, color: Color(0xFF3E2723), size: 16),
+                    const SizedBox(width: 4),
                     Text(
-                      _formatTime(widget.controller.elapsedSeconds.value),
-                      style: TextStyle(
-                        color: isLight ? const Color(0xFF1A202C) : Colors.white,
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold,
+                      freeHints > 0 ? '$freeHints' : '+ AD',
+                      style: const TextStyle(
+                        color: Color(0xFF3E2723),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w900,
                       ),
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(width: 6),
+              );
+            }),
+          ],
+        ),
+      );
+    }
 
-              // Ghost Preview Toggle
-              _buildTopIconButton(
-                icon: widget.controller.showGhost.value
-                    ? Icons.visibility_rounded
-                    : Icons.visibility_off_outlined,
-                isActive: widget.controller.showGhost.value,
-                isLight: isLight,
-                tooltip: 'Preview Ghost',
-                onTap: () {
-                  HapticFeedback.lightImpact();
-                  widget.controller.toggleGhost();
-                },
-              ),
-              const SizedBox(width: 6),
+  void _handleHintPress() {
+    final settings = Get.find<SettingsController>();
+    if (settings.useFreeHint()) {
+      widget.controller.triggerHintAnimation();
+    } else {
+      _showOutOfHintsSheet();
+    }
+  }
 
-              // Free Hints Button
-              Obx(() {
-                final freeHints = settings.freeHints.value;
-                return InkWell(
-                  onTap: () {
-                    HapticFeedback.lightImpact();
-                    _handleHintPress();
-                  },
-                  borderRadius: BorderRadius.circular(14),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+  void _showPauseMenuDialog(BuildContext context, SettingsController settings) {
+    widget.controller.pauseTimer();
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) {
+        return PopScope(
+          canPop: false,
+          child: Dialog(
+            backgroundColor: Colors.transparent,
+            insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+            child: Container(
+              padding: const EdgeInsets.all(22),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(28),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x350D2544),
+                    blurRadius: 24,
+                    offset: Offset(0, 10),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Top Pause Badge
+                  Container(
+                    width: 66,
+                    height: 66,
                     decoration: BoxDecoration(
-                      color: AppTheme.accentAmber.withValues(alpha: 0.22),
-                      borderRadius: BorderRadius.circular(14),
-                      border: Border.all(color: AppTheme.accentAmber.withValues(alpha: 0.6)),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.lightbulb_rounded, color: AppTheme.accentAmber, size: 16),
-                        const SizedBox(width: 4),
-                        Text(
-                          '$freeHints',
-                          style: TextStyle(
-                            color: isLight ? const Color(0xFF1A202C) : Colors.white,
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      shape: BoxShape.circle,
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF29B6F6), Color(0xFF1E88E5)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF1E88E5).withValues(alpha: 0.35),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
                         ),
                       ],
                     ),
+                    child: const Center(
+                      child: Icon(Icons.pause_rounded, size: 38, color: Colors.white),
+                    ),
                   ),
-                );
-              }),
-            ],
+                  const SizedBox(height: 14),
+
+                  const Text(
+                    'Game Paused',
+                    style: TextStyle(
+                      color: Color(0xFF0E2A47),
+                      fontSize: 24,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 0.4,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '${_getDisplayTitle()} • ${widget.controller.lockedPieceKeys.length}/${widget.controller.actualPieceCount} Pieces',
+                    style: const TextStyle(
+                      color: Color(0xFF607D8B),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 18),
+
+                  // Quick Sound / Vibration Settings Row
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF1F5F9),
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: Obx(() {
+                      final sound = settings.soundEnabled.value;
+                      final vib = settings.vibrationEnabled.value;
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          _buildSettingToggle(
+                            icon: sound ? Icons.volume_up_rounded : Icons.volume_off_rounded,
+                            label: 'Sound',
+                            isActive: sound,
+                            onTap: settings.toggleSound,
+                          ),
+                          Container(width: 1, height: 32, color: const Color(0xFFCBD5E1)),
+                          _buildSettingToggle(
+                            icon: vib ? Icons.vibration_rounded : Icons.smartphone_rounded,
+                            label: 'Haptics',
+                            isActive: vib,
+                            onTap: settings.toggleVibration,
+                          ),
+                        ],
+                      );
+                    }),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Big 3D Tactile Claymorphic RESUME Button
+                  ClayButton(
+                    onTap: () {
+                      HapticFeedback.lightImpact();
+                      Navigator.pop(ctx);
+                      widget.controller.resumeTimer();
+                    },
+                    width: double.infinity,
+                    height: 52,
+                    depth: 4.5,
+                    borderRadius: BorderRadius.circular(26),
+                    color: const Color(0xFFFFB300),
+                    bevelColor: const Color(0xFFD87C00),
+                    child: const Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.play_arrow_rounded, color: Color(0xFF3E2723), size: 28),
+                          SizedBox(width: 6),
+                          Text(
+                            'RESUME',
+                            style: TextStyle(
+                              color: Color(0xFF3E2723),
+                              fontSize: 17,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: 1.2,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Restart Puzzle Button
+                  OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: const Color(0xFF0E2A47),
+                      side: const BorderSide(color: Color(0xFFCFD8DC), width: 1.5),
+                      minimumSize: const Size(double.infinity, 46),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(23)),
+                    ),
+                    icon: const Icon(Icons.refresh_rounded, size: 20, color: Color(0xFF0E2A47)),
+                    label: const Text(
+                      'Restart Puzzle',
+                      style: TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
+                    ),
+                    onPressed: () {
+                      _showRestartConfirmation(ctx);
+                    },
+                  ),
+                  const SizedBox(height: 8),
+
+                  // Back to Home Button
+                  TextButton.icon(
+                    style: TextButton.styleFrom(
+                      foregroundColor: const Color(0xFF546E7A),
+                      minimumSize: const Size(double.infinity, 42),
+                    ),
+                    icon: const Icon(Icons.home_rounded, size: 20),
+                    label: const Text(
+                      'Exit to Home',
+                      style: TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(ctx);
+                      widget.onBack();
+                    },
+                  ),
+                ],
+              ),
+            ),
           ),
+        );
+      },
+    );
+  }
+
+  void _showRestartConfirmation(BuildContext parentCtx) {
+    showDialog(
+      context: parentCtx,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
+        title: const Text(
+          'Restart Puzzle?',
+          style: TextStyle(color: Color(0xFF0E2A47), fontWeight: FontWeight.w900, fontSize: 18),
         ),
+        content: const Text(
+          'All placed pieces will be returned to the tray. Are you sure?',
+          style: TextStyle(color: Color(0xFF546E7A), fontSize: 13.5),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF78909C))),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFFFB300),
+              foregroundColor: const Color(0xFF0E2A47),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+            ),
+            onPressed: () {
+              Navigator.pop(ctx);
+              Navigator.pop(parentCtx);
+              widget.controller.restartPuzzle();
+            },
+            child: const Text('Restart', style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildTopIconButton({
+  Widget _buildSettingToggle({
     required IconData icon,
+    required String label,
+    required bool isActive,
     required VoidCallback onTap,
-    required bool isLight,
-    String? tooltip,
-    bool isActive = false,
   }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(14),
-      child: Container(
-        padding: const EdgeInsets.all(7),
-        decoration: BoxDecoration(
-          color: isActive
-              ? AppTheme.accentAmber.withValues(alpha: 0.28)
-              : (isLight ? Colors.black.withValues(alpha: 0.05) : Colors.white.withValues(alpha: 0.08)),
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(
-            color: isActive
-                ? AppTheme.accentAmber
-                : (isLight ? Colors.black.withValues(alpha: 0.10) : Colors.white.withValues(alpha: 0.12)),
+    return GestureDetector(
+      onTap: () {
+        HapticFeedback.lightImpact();
+        onTap();
+      },
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 20,
+            color: isActive ? const Color(0xFF1E88E5) : const Color(0xFF90A4AE),
           ),
-        ),
-        child: Icon(
-          icon,
-          color: isActive ? AppTheme.accentAmber : (isLight ? const Color(0xFF2D3748) : Colors.white),
-          size: 17,
-        ),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: TextStyle(
+              color: isActive ? const Color(0xFF0E2A47) : const Color(0xFF90A4AE),
+              fontWeight: FontWeight.w800,
+              fontSize: 13,
+            ),
+          ),
+        ],
       ),
     );
-  }
-
-  void _handleHintPress() {
-    final success = widget.controller.requestHint();
-    if (!success) {
-      _showOutOfHintsSheet();
-    }
   }
 
   void _showOutOfHintsSheet() {
     final monetization = Get.find<MonetizationController>();
     final economy = Get.find<EconomyController>();
 
-    Get.bottomSheet(
-      Container(
-        padding: const EdgeInsets.all(24),
-        decoration: const BoxDecoration(
-          color: Color(0xFF1B2332),
-          borderRadius: BorderRadius.vertical(top: Radius.circular(26)),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 58,
-              height: 58,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppTheme.accentAmber.withValues(alpha: 0.22),
-              ),
-              child: const Icon(Icons.lightbulb_rounded, color: AppTheme.accentAmber, size: 34),
-            ),
-            const SizedBox(height: 14),
-            const Text(
-              'Need More Hints?',
-              style: TextStyle(color: Colors.white, fontSize: 19, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'You have used your 3 free hints! Watch a quick video to earn +1 Free Hint, or use coins.',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white70, fontSize: 13),
-            ),
-            const SizedBox(height: 22),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.accentAmber,
-                  foregroundColor: Colors.black,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (ctx) {
+        return Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+            boxShadow: [
+              BoxShadow(color: Color(0x350D2544), blurRadius: 20, offset: Offset(0, -6)),
+            ],
+          ),
+          padding: const EdgeInsets.fromLTRB(22, 16, 22, 28),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Top drag indicator
+              Container(
+                width: 44,
+                height: 5,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFCFD8DC),
+                  borderRadius: BorderRadius.circular(3),
                 ),
-                icon: const Icon(Icons.play_circle_filled_rounded),
-                label: const Text('Watch Video for +1 Hint', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              ),
+              const SizedBox(height: 18),
+
+              // Lightbulb / Coins icon
+              Container(
+                width: 64,
+                height: 64,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFFFFD54F), Color(0xFFFFB300)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFFFF8F00).withValues(alpha: 0.35),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: const Center(
+                  child: Icon(Icons.lightbulb_rounded, color: Colors.white, size: 36),
+                ),
+              ),
+              const SizedBox(height: 14),
+
+              const Text(
+                'Need More Hints or Coins?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFF0E2A47),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              const SizedBox(height: 6),
+              const Text(
+                'Watch a video ad to get a free hint, earn +30 coins, or visit the coin shop!',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Color(0xFF607D8B), fontSize: 13, height: 1.3),
+              ),
+              const SizedBox(height: 20),
+
+              // Option 1: Watch Video for +1 Free Hint
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFFFB300),
+                  foregroundColor: const Color(0xFF0E2A47),
+                  minimumSize: const Size(double.infinity, 50),
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                ),
+                icon: const Icon(Icons.ondemand_video_rounded, size: 22),
+                label: const Text('Watch Video for +1 Hint', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15)),
                 onPressed: () {
-                  Get.back();
+                  Navigator.pop(ctx);
                   monetization.showRewardedAd(
+                    context: context,
+                    rewardTitle: '+1 Free Hint',
                     onRewardEarned: () {
                       widget.controller.triggerRewardedHint();
-                      Get.snackbar(
-                        'Hint Unlocked!',
-                        '+1 Free Hint received!',
-                        backgroundColor: const Color(0xDD000000),
-                        colorText: Colors.white,
-                        snackPosition: SnackPosition.BOTTOM,
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text('+1 Free Hint received!'),
+                          backgroundColor: const Color(0xEE112238),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                        ),
                       );
                     },
                   );
                 },
               ),
-            ),
-            const SizedBox(height: 10),
-            if (economy.coins.value >= 15) ...[
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton.icon(
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    side: const BorderSide(color: Colors.white24),
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                  ),
-                  icon: const Icon(Icons.monetization_on, color: AppTheme.accentAmber),
-                  label: const Text('Spend 15 Coins'),
-                  onPressed: () {
-                    Get.back();
-                    if (economy.spendCoins(15)) {
-                      widget.controller.triggerRewardedHint();
-                    }
-                  },
+              const SizedBox(height: 10),
+
+              // Option 2: Watch Video for +30 Coins
+              OutlinedButton.icon(
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: const Color(0xFF0E2A47),
+                  side: const BorderSide(color: Color(0xFFFFB300), width: 1.8),
+                  minimumSize: const Size(double.infinity, 48),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
                 ),
+                icon: const Icon(Icons.monetization_on_rounded, color: Color(0xFFFF8F00), size: 22),
+                label: const Text('Watch Video for +30 Coins', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 14)),
+                onPressed: () {
+                  Navigator.pop(ctx);
+                  monetization.showRewardedAd(
+                    context: context,
+                    rewardTitle: '+30 Coins',
+                    onRewardEarned: () {
+                      economy.addCoins(30);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text('+30 coins added to your stash!'),
+                          backgroundColor: const Color(0xEE112238),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+              const SizedBox(height: 10),
+
+              // Option 3: If coins >= 15, spend 15 coins
+              Obx(() {
+                final c = economy.coins.value;
+                if (c >= 15) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: const Color(0xFF0E2A47),
+                        side: const BorderSide(color: Color(0xFFCFD8DC), width: 1.5),
+                        minimumSize: const Size(double.infinity, 46),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                      ),
+                      icon: const Text('🪙', style: TextStyle(fontSize: 16)),
+                      label: Text('Use 15 Coins ($c available)', style: const TextStyle(fontWeight: FontWeight.w800)),
+                      onPressed: () {
+                        Navigator.pop(ctx);
+                        if (economy.spendCoins(15)) {
+                          widget.controller.triggerRewardedHint();
+                        }
+                      },
+                    ),
+                  );
+                }
+                return const SizedBox.shrink();
+              }),
+
+              // Option 4: Visit Shop
+              TextButton.icon(
+                style: TextButton.styleFrom(
+                  foregroundColor: const Color(0xFF16355C),
+                  minimumSize: const Size(double.infinity, 40),
+                ),
+                icon: const Icon(Icons.shopping_bag_rounded, size: 18),
+                label: const Text('Visit Coin Shop', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 14)),
+                onPressed: () {
+                  Navigator.pop(ctx);
+                  context.push('/shop');
+                },
               ),
             ],
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -811,48 +1034,90 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
 
   Widget _buildLoadingScreen(double progress) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F141B),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppTheme.accentAmber.withValues(alpha: 0.15),
-                  border: Border.all(color: AppTheme.accentAmber.withValues(alpha: 0.4), width: 1.5),
-                ),
-                child: const Icon(Icons.extension, size: 54, color: AppTheme.accentAmber),
+      backgroundColor: Colors.transparent,
+      body: CasualGameBackground(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 28),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(28),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x2E0D2544),
+                    blurRadius: 20,
+                    offset: Offset(0, 10),
+                  ),
+                ],
               ),
-              const SizedBox(height: 24),
-              const Text(
-                'Cutting puzzle pieces...',
-                style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold, letterSpacing: 0.3),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 76,
+                    height: 76,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFFFFD54F), Color(0xFFFFB300)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFFFF8F00).withValues(alpha: 0.4),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: const Center(
+                      child: Icon(Icons.extension_rounded, size: 42, color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Preparing Puzzle...',
+                    style: TextStyle(
+                      color: Color(0xFF0E2A47),
+                      fontSize: 22,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 0.3,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  const Text(
+                    'Precision cutting tabs & blanks',
+                    style: TextStyle(
+                      color: Color(0xFF607D8B),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: LinearProgressIndicator(
+                      value: progress,
+                      minHeight: 10,
+                      backgroundColor: const Color(0xFFECEFF1),
+                      valueColor: const AlwaysStoppedAnimation(Color(0xFFFFB300)),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    '${(progress * 100).toInt()}%',
+                    style: const TextStyle(
+                      color: Color(0xFF0E2A47),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 8),
-              const Text(
-                'Real tabs & blanks precision cut',
-                style: TextStyle(color: Colors.white60, fontSize: 13),
-              ),
-              const SizedBox(height: 24),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: LinearProgressIndicator(
-                  value: progress,
-                  minHeight: 10,
-                  backgroundColor: Colors.white12,
-                  valueColor: const AlwaysStoppedAnimation(AppTheme.accentAmber),
-                ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                '${(progress * 100).toInt()}%',
-                style: const TextStyle(color: AppTheme.accentAmber, fontSize: 15, fontWeight: FontWeight.bold),
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -861,28 +1126,70 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
 
   Widget _buildErrorScreen() {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F141B),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.error_outline, size: 56, color: Colors.redAccent),
-            const SizedBox(height: 16),
-            const Text(
-              'Could not load puzzle',
-              style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.accentAmber,
-                foregroundColor: Colors.black,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      backgroundColor: Colors.transparent,
+      body: CasualGameBackground(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 28),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(28),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x2E0D2544),
+                    blurRadius: 20,
+                    offset: Offset(0, 10),
+                  ),
+                ],
               ),
-              onPressed: widget.onBack,
-              child: const Text('Back to Home', style: TextStyle(fontWeight: FontWeight.bold)),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 72,
+                    height: 72,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: const Color(0xFFFFEBEE),
+                      border: Border.all(color: const Color(0xFFFFCDD2), width: 2),
+                    ),
+                    child: const Center(
+                      child: Icon(Icons.error_outline_rounded, size: 40, color: Color(0xFFE53935)),
+                    ),
+                  ),
+                  const SizedBox(height: 18),
+                  const Text(
+                    'Could not load puzzle',
+                    style: TextStyle(
+                      color: Color(0xFF0E2A47),
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Please try again or select another image.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Color(0xFF607D8B), fontSize: 13, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 22),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFFFB300),
+                      foregroundColor: const Color(0xFF0E2A47),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      elevation: 3,
+                    ),
+                    onPressed: widget.onBack,
+                    child: const Text('Back to Home', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15)),
+                  ),
+                ],
+              ),
             ),
-          ],
+          ),
         ),
       ),
     );

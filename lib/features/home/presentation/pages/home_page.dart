@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jigsaw_pro/core/audio/audio_service.dart';
 import 'package:jigsaw_pro/core/storage/hive_storage.dart';
 import 'package:jigsaw_pro/core/theme/app_theme.dart';
+import 'package:jigsaw_pro/core/widgets/app_bottom_nav_bar.dart';
 import 'package:jigsaw_pro/core/widgets/casual_game_background.dart';
+import 'package:jigsaw_pro/core/widgets/clay_container.dart';
 import 'package:jigsaw_pro/features/content/domain/entities/puzzle_level.dart';
 import 'package:jigsaw_pro/features/content/presentation/controllers/content_controller.dart';
 import 'package:jigsaw_pro/features/economy/presentation/controllers/economy_controller.dart';
@@ -28,6 +31,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       vsync: this,
       duration: const Duration(milliseconds: 1200),
     )..repeat(reverse: true);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (Get.isRegistered<AudioService>()) {
+        Get.find<AudioService>().startBgm();
+      }
+      final storage = Get.find<HiveStorage>();
+      if (!storage.hasConsentedToPrivacy && mounted) {
+        _showConsentDialog(context, storage);
+      }
+    });
   }
 
   @override
@@ -44,18 +57,38 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     final settings = Get.find<SettingsController>();
     final monetization = Get.find<MonetizationController>();
 
-    final activeSession = storage.getActiveSession();
+    return ValueListenableBuilder(
+      valueListenable: storage.progressBoxListenable,
+      builder: (context, _, __) {
+        return ValueListenableBuilder(
+          valueListenable: storage.sessionBoxListenable,
+          builder: (context, _, __) {
+            return Obx(() {
+              final activeSession = storage.getActiveSession();
+              final highestSaga = storage.getHighestSagaLevel();
 
-    final highestSaga = storage.getHighestSagaLevel();
-
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      bottomNavigationBar: _buildBottomNav(context, storage, settings, monetization, economy, content),
-      body: CasualGameBackground(
-        child: SafeArea(
-          child: _buildHeroHomeView(context, storage, content, economy, settings, monetization, activeSession, highestSaga),
-        ),
-      ),
+              return Scaffold(
+                backgroundColor: Colors.transparent,
+                bottomNavigationBar: const AppBottomNavBar(currentTab: AppTab.home),
+                body: CasualGameBackground(
+                  child: SafeArea(
+                    child: _buildHeroHomeView(
+                      context,
+                      storage,
+                      content,
+                      economy,
+                      settings,
+                      monetization,
+                      activeSession,
+                      highestSaga,
+                    ),
+                  ),
+                ),
+              );
+            });
+          },
+        );
+      },
     );
   }
 
@@ -70,12 +103,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     Map<String, dynamic>? activeSession,
     int highestSaga,
   ) {
-    final heroImagePath = _getHeroImagePath(activeSession, content, highestSaga);
-    final heroTitle = _getHeroTitle(activeSession, content, highestSaga);
-    final heroPieces = _getHeroPieces(activeSession, content, highestSaga);
-    final heroProgress = _getHeroProgress(activeSession);
+    final lockedInSession = (activeSession?['lockedPieceKeys'] as List?)?.length ?? 0;
+    final totalInSession = (activeSession?['pieceCount'] ?? activeSession?['actualPieceCount']) as int? ?? 1;
+    final isContinue = activeSession != null && lockedInSession > 0 && lockedInSession < totalInSession;
+
+    final heroImagePath = _getHeroImagePath(activeSession, content, highestSaga, isContinue);
+    final heroTitle = _getHeroTitle(activeSession, content, highestSaga, isContinue);
+    final heroPieces = _getHeroPieces(activeSession, content, highestSaga, isContinue);
+    final heroProgress = _getHeroProgress(activeSession, isContinue);
     final heroProgressPercent = '${(heroProgress * 100).toInt()}%';
-    final isContinue = activeSession != null;
 
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
@@ -118,8 +154,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
           const SizedBox(height: 18),
 
-          // Daily Puzzle Card (+20 coins today)
-          _buildDailyPuzzleCard(context, content),
+          // Daily Puzzle Card (+20 coins today / in progress / completed)
+          _buildDailyPuzzleCard(context, content, storage),
 
           const SizedBox(height: 18),
 
@@ -189,45 +225,17 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           );
         }),
 
-        // Streak Pill
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-          decoration: BoxDecoration(
-            color: const Color(0xFF132238),
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.20),
-                blurRadius: 6,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.local_fire_department_rounded, color: Color(0xFFFF9100), size: 18),
-              const SizedBox(width: 5),
-              Text(
-                '${storage.streak > 0 ? storage.streak : 3} days',
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 13),
-              ),
-            ],
-          ),
-        ),
-
-        // Settings / Sliders Filter Circular Button
-        InkWell(
+        // Streak Pill (opens Daily Calendar)
+        GestureDetector(
           onTap: () {
             HapticFeedback.lightImpact();
-            _showProfileModal(context, storage, settings, monetization, economy);
+            context.push('/daily');
           },
-          borderRadius: BorderRadius.circular(20),
           child: Container(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
             decoration: BoxDecoration(
               color: const Color(0xFF132238),
-              shape: BoxShape.circle,
+              borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.20),
@@ -236,8 +244,73 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 ),
               ],
             ),
-            child: const Icon(Icons.tune_rounded, color: Colors.white, size: 20),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.local_fire_department_rounded, color: Color(0xFFFF9100), size: 18),
+                const SizedBox(width: 5),
+                Text(
+                  '${storage.streak > 0 ? storage.streak : 1} days',
+                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 13),
+                ),
+              ],
+            ),
           ),
+        ),
+
+        // Profile & Settings Action Buttons (Top Right)
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Profile Circular Button (opens Game Hub Modal)
+            InkWell(
+              onTap: () {
+                HapticFeedback.lightImpact();
+                _showProfileModal(context, storage, settings, monetization, economy);
+              },
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF132238),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.20),
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: const Icon(Icons.person_rounded, color: Colors.white, size: 20),
+              ),
+            ),
+            const SizedBox(width: 8),
+
+            // Settings Circular Button
+            InkWell(
+              onTap: () {
+                HapticFeedback.lightImpact();
+                context.push('/settings');
+              },
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF132238),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.20),
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: const Icon(Icons.settings_rounded, color: Colors.white, size: 20),
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -286,7 +359,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
-  // --- Hero Puzzle Featured Card ---
+  // --- Hero Puzzle Featured Card (Claymorphic 3D Card) ---
   Widget _buildHeroCard({
     required BuildContext context,
     required String imagePath,
@@ -299,279 +372,391 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     required Map<String, dynamic>? activeSession,
     required ContentController content,
   }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(26),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.16),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      ),
-      padding: const EdgeInsets.all(12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Image Preview Container with rounded corners
-          ClipRRect(
-            borderRadius: BorderRadius.circular(18),
-            child: Stack(
-              children: [
-                // Real Image Asset
-                Image.asset(
-                  imagePath,
-                  height: 160,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Container(
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardBg = isDark ? const Color(0xFF132238) : Colors.white;
+    final cardBevel = isDark ? const Color(0xFF091322) : const Color(0xFFCBD5E1);
+    final titleColor = isDark ? Colors.white : const Color(0xFF1E293B);
+    final subtitleColor = isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B);
+
+    return GestureDetector(
+      onTap: () => _onPlayHeroPressed(context, activeSession, content, highestSaga),
+      child: ClayContainer(
+        color: cardBg,
+        depth: 6.0,
+        bevelColor: cardBevel,
+        borderRadius: BorderRadius.circular(28),
+        padding: const EdgeInsets.all(12),
+        border: Border.all(
+          color: isDark ? Colors.white.withValues(alpha: 0.12) : Colors.white.withValues(alpha: 0.90),
+          width: 1.2,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Image Preview Container with rounded corners
+            ClipRRect(
+              borderRadius: BorderRadius.circular(18),
+              child: Stack(
+                children: [
+                  // Real Image Asset
+                  Image.asset(
+                    imagePath,
                     height: 160,
-                    color: const Color(0xFF64B5F6),
-                    child: const Center(
-                      child: Icon(Icons.image_rounded, size: 48, color: Colors.white),
-                    ),
-                  ),
-                ),
-
-                // Subtle jigsaw watermark silhouette overlay
-                Positioned(
-                  top: 10,
-                  right: 14,
-                  child: Icon(
-                    Icons.extension_rounded,
-                    size: 44,
-                    color: Colors.white.withValues(alpha: 0.35),
-                  ),
-                ),
-
-                // Badge: "Continue" (pink) or "Level X"
-                Positioned(
-                  top: 10,
-                  left: 10,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFF3366),
-                      borderRadius: BorderRadius.circular(14),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0xFFFF3366).withValues(alpha: 0.4),
-                          blurRadius: 6,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Text(
-                      isContinue ? 'Continue' : 'Level $highestSaga',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w900,
-                        fontSize: 11,
-                        letterSpacing: 0.2,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => Container(
+                      height: 160,
+                      color: const Color(0xFF64B5F6),
+                      child: const Center(
+                        child: Icon(Icons.image_rounded, size: 48, color: Colors.white),
                       ),
                     ),
+                  ),
+
+                  // Subtle jigsaw watermark silhouette overlay
+                  Positioned(
+                    top: 10,
+                    right: 14,
+                    child: Icon(
+                      Icons.extension_rounded,
+                      size: 44,
+                      color: Colors.white.withValues(alpha: 0.35),
+                    ),
+                  ),
+
+                  // Badge: "Continue" (pink) or "Level X"
+                  Positioned(
+                    top: 10,
+                    left: 10,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFF3366),
+                        borderRadius: BorderRadius.circular(14),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFFFF3366).withValues(alpha: 0.4),
+                            blurRadius: 6,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        isContinue ? 'Continue' : 'Level $highestSaga',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 11,
+                          letterSpacing: 0.2,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            // Title & Stats Row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        color: titleColor,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '$pieceCount pieces',
+                      style: TextStyle(
+                        color: subtitleColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  progressPercent,
+                  style: TextStyle(
+                    color: titleColor,
+                    fontWeight: FontWeight.w900,
+                    fontSize: 15,
                   ),
                 ),
               ],
             ),
-          ),
 
-          const SizedBox(height: 10),
+            const SizedBox(height: 8),
 
-          // Title & Stats Row
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      color: Color(0xFF1E293B),
-                      fontWeight: FontWeight.w900,
-                      fontSize: 16,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    '$pieceCount pieces',
-                    style: const TextStyle(
-                      color: Color(0xFF64748B),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
+            // Emerald Green Progress Bar
+            ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: LinearProgressIndicator(
+                value: progress,
+                minHeight: 7,
+                backgroundColor: isDark ? const Color(0xFF243B55) : const Color(0xFFE2E8F0),
+                valueColor: const AlwaysStoppedAnimation(Color(0xFF00E676)),
               ),
-              Text(
-                progressPercent,
-                style: const TextStyle(
-                  color: Color(0xFF1E293B),
-                  fontWeight: FontWeight.w900,
-                  fontSize: 15,
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 8),
-
-          // Emerald Green Progress Bar
-          ClipRRect(
-            borderRadius: BorderRadius.circular(6),
-            child: LinearProgressIndicator(
-              value: progress,
-              minHeight: 7,
-              backgroundColor: const Color(0xFFE2E8F0),
-              valueColor: const AlwaysStoppedAnimation(Color(0xFF00E676)),
             ),
-          ),
-          const SizedBox(height: 2),
-        ],
+            const SizedBox(height: 2),
+          ],
+        ),
       ),
     );
   }
 
-  // --- Big 3D Tactile PLAY Button ---
+  // --- Big 3D Tactile Claymorphic PLAY Button ---
   Widget _buildBigPlayButton({required VoidCallback onPressed}) {
-    return InkWell(
+    return ClayButton(
       onTap: onPressed,
+      width: 240,
+      height: 56,
+      depth: 5.5,
+      color: const Color(0xFFFFB300),
+      bevelColor: const Color(0xFFD87C00),
       borderRadius: BorderRadius.circular(28),
-      child: Container(
-        width: 230,
-        height: 54,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(28),
-          gradient: const LinearGradient(
-            colors: [
-              Color(0xFFFFCA28),
-              Color(0xFFFFA000),
-              Color(0xFFFF8F00),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFFD87C00).withValues(alpha: 0.90),
-              offset: const Offset(0, 5),
-              blurRadius: 0,
-            ),
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.22),
-              offset: const Offset(0, 8),
-              blurRadius: 10,
+      gradient: const LinearGradient(
+        colors: [
+          Color(0xFFFFD54F),
+          Color(0xFFFFB300),
+          Color(0xFFFFA000),
+        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ),
+      child: const Center(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.play_arrow_rounded, color: Color(0xFF3E2723), size: 30),
+            SizedBox(width: 6),
+            Text(
+              'PLAY',
+              style: TextStyle(
+                color: Color(0xFF3E2723),
+                fontSize: 22,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 1.8,
+              ),
             ),
           ],
         ),
-        alignment: Alignment.center,
-        child: const Text(
-          'PLAY',
-          style: TextStyle(
-            color: Color(0xFF3E2723),
-            fontSize: 22,
-            fontWeight: FontWeight.w900,
-            letterSpacing: 1.8,
-          ),
-        ),
       ),
     );
   }
 
-  // --- Daily Puzzle Card ---
-  Widget _buildDailyPuzzleCard(BuildContext context, ContentController content) {
+  // --- Daily Puzzle Card (Claymorphic) ---
+  Widget _buildDailyPuzzleCard(BuildContext context, ContentController content, HiveStorage storage) {
     return Obx(() {
       final dailyPic = content.dailyPicture.value;
-      final dailyImg = dailyPic?.path ?? 'assets/puzzles/animals/a001.bmp';
+      final dailyImg = dailyPic?.path ?? 'assets/puzzles/animals/a001.jpg';
+      final isCompletedToday = storage.isDailyDateCompleted(DateTime.now());
 
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        decoration: BoxDecoration(
-          color: const Color(0xEE112238),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.20),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
-            ),
-          ],
+      final activeSession = storage.getActiveSession();
+      final isDailySession = activeSession != null &&
+          (activeSession['isDaily'] == true ||
+           (dailyPic != null && activeSession['pictureId'] == dailyPic.id));
+
+      final totalPieces = isDailySession
+          ? ((activeSession['pieceCount'] ?? activeSession['actualPieceCount']) as int? ?? 48)
+          : 48;
+      final placedPieces = isDailySession
+          ? ((activeSession['lockedPieceKeys'] as List?)?.length ?? 0)
+          : 0;
+      final remainingPieces = totalPieces - placedPieces;
+      final progressFraction = totalPieces > 0 ? (placedPieces / totalPieces).clamp(0.0, 1.0) : 0.0;
+
+      return ClayContainer(
+        color: const Color(0xFF132238),
+        depth: 4.5,
+        bevelColor: const Color(0xFF091322),
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(
+          color: isCompletedToday
+              ? const Color(0xFF00E676).withValues(alpha: 0.35)
+              : Colors.white.withValues(alpha: 0.15),
+          width: 1.2,
         ),
-        child: Row(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            // Daily Real Image Thumbnail
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.asset(
-                dailyImg,
-                width: 48,
-                height: 48,
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => Container(
-                  width: 48,
-                  height: 48,
-                  color: AppTheme.accentAmber,
-                  child: const Icon(Icons.extension_rounded, color: Colors.white, size: 28),
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
-
-            // Daily Text & Coin Bonus
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    'Daily Puzzle',
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 15),
-                  ),
-                  const SizedBox(height: 3),
-                  Row(
-                    children: const [
-                      Icon(Icons.monetization_on_rounded, color: Color(0xFFFFD54F), size: 14),
-                      SizedBox(width: 4),
-                      Text(
-                        '+20 coins today',
-                        style: TextStyle(color: Color(0xFFFFD54F), fontWeight: FontWeight.bold, fontSize: 12),
+            Row(
+              children: [
+                // Daily Real Image Thumbnail with Checkmark if completed
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Stack(
+                    children: [
+                      Image.asset(
+                        dailyImg,
+                        width: 52,
+                        height: 52,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => Container(
+                          width: 52,
+                          height: 52,
+                          color: AppTheme.accentAmber,
+                          child: const Icon(Icons.extension_rounded, color: Colors.white, size: 28),
+                        ),
                       ),
+                      if (isCompletedToday)
+                        Container(
+                          width: 52,
+                          height: 52,
+                          color: Colors.black.withValues(alpha: 0.40),
+                          child: const Center(
+                            child: Icon(Icons.check_circle_rounded, color: Color(0xFF00E676), size: 28),
+                          ),
+                        ),
                     ],
                   ),
-                ],
-              ),
-            ),
+                ),
+                const SizedBox(width: 12),
 
-            // Green Play Button
-            InkWell(
-              onTap: () {
-                HapticFeedback.lightImpact();
-                final picId = dailyPic?.id ?? 'n001.bpm';
-                context.push('/difficulty/$picId?defaultCount=48&daily=true');
-              },
-              borderRadius: BorderRadius.circular(16),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF00E676),
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFF00E676).withValues(alpha: 0.35),
-                      blurRadius: 6,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
+                // Daily Text & Coin Bonus / In-Progress Stats
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        children: [
+                          const Text(
+                            'Daily Puzzle',
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 15),
+                          ),
+                          if (isCompletedToday) ...[
+                            const SizedBox(width: 6),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF1B5E20),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Text(
+                                'SOLVED',
+                                style: TextStyle(color: Color(0xFF00E676), fontSize: 9.5, fontWeight: FontWeight.w900),
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                      const SizedBox(height: 3),
+                      if (isCompletedToday)
+                        Row(
+                          children: const [
+                            Icon(Icons.check_circle_outline_rounded, color: Color(0xFF00E676), size: 14),
+                            SizedBox(width: 4),
+                            Text(
+                              'Completed Today! +20 Coins Claimed',
+                              style: TextStyle(color: Color(0xFF00E676), fontWeight: FontWeight.bold, fontSize: 11.5),
+                            ),
+                          ],
+                        )
+                      else if (isDailySession && placedPieces > 0)
+                        Text(
+                          '$placedPieces placed • $remainingPieces left (${(progressFraction * 100).toInt()}%)',
+                          style: const TextStyle(color: Color(0xFFFFD54F), fontWeight: FontWeight.bold, fontSize: 12),
+                        )
+                      else
+                        Row(
+                          children: const [
+                            Icon(Icons.monetization_on_rounded, color: Color(0xFFFFD54F), size: 14),
+                            SizedBox(width: 4),
+                            Text(
+                              '+20 coins today',
+                              style: TextStyle(color: Color(0xFFFFD54F), fontWeight: FontWeight.bold, fontSize: 12),
+                            ),
+                          ],
+                        ),
+                    ],
+                  ),
                 ),
-                child: const Text(
-                  'Play',
-                  style: TextStyle(color: Color(0xFF053E1B), fontWeight: FontWeight.w900, fontSize: 13),
+                const SizedBox(width: 8),
+
+                // Action Button (Play / Continue / Done)
+                if (isCompletedToday)
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF1B5E20),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: const Color(0xFF00E676)),
+                    ),
+                    child: const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.check_rounded, color: Color(0xFF00E676), size: 16),
+                        SizedBox(width: 4),
+                        Text(
+                          'Done',
+                          style: TextStyle(color: Color(0xFF00E676), fontWeight: FontWeight.w900, fontSize: 12.5),
+                        ),
+                      ],
+                    ),
+                  )
+                else
+                  InkWell(
+                    onTap: () {
+                      HapticFeedback.lightImpact();
+                      final picId = dailyPic?.id ?? 'n001';
+                      if (isDailySession) {
+                        context.push('/puzzle?id=$picId&pieces=$totalPieces&daily=true&resume=true');
+                      } else {
+                        context.push('/difficulty/$picId?defaultCount=48&daily=true');
+                      }
+                    },
+                    borderRadius: BorderRadius.circular(16),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
+                      decoration: BoxDecoration(
+                        gradient: isDailySession
+                            ? const LinearGradient(colors: [Color(0xFFFFCA28), Color(0xFFFFA000)])
+                            : const LinearGradient(colors: [Color(0xFF00E676), Color(0xFF00C853)]),
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: isDailySession
+                                ? const Color(0xFFFF8F00).withValues(alpha: 0.35)
+                                : const Color(0xFF00E676).withValues(alpha: 0.35),
+                            blurRadius: 6,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        isDailySession ? 'Continue' : 'Play',
+                        style: TextStyle(
+                          color: isDailySession ? const Color(0xFF3E2723) : const Color(0xFF053E1B),
+                          fontWeight: FontWeight.w900,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            if (isDailySession && placedPieces > 0 && !isCompletedToday) ...[
+              const SizedBox(height: 8),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: LinearProgressIndicator(
+                  value: progressFraction,
+                  minHeight: 5,
+                  backgroundColor: Colors.white12,
+                  valueColor: const AlwaysStoppedAnimation(Color(0xFFFFB300)),
                 ),
               ),
-            ),
+            ],
           ],
         ),
       );
@@ -581,11 +766,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   // --- Collections Section (WITH REAL ASSET IMAGES) ---
   Widget _buildCollectionsSection(BuildContext context, ContentController content) {
     final categoriesData = [
-      {'id': 'nature', 'name': 'Nature', 'fallback': 'assets/puzzles/nature/n001.bpm.jpg'},
-      {'id': 'animals', 'name': 'Animals', 'fallback': 'assets/puzzles/animals/a001.bmp'},
-      {'id': 'flowers', 'name': 'Flowers', 'fallback': 'assets/puzzles/flowers/f001.bpm.jpg'},
-      {'id': 'landmarks', 'name': 'Landmarks', 'fallback': 'assets/puzzles/landmarks/l001.bmp'},
-      {'id': 'art', 'name': 'Art', 'fallback': 'assets/puzzles/art/art001.bmp'},
+      {'id': 'nature', 'name': 'Nature', 'fallback': 'assets/puzzles/nature/n001.jpg'},
+      {'id': 'animals', 'name': 'Animals', 'fallback': 'assets/puzzles/animals/a001.jpg'},
+      {'id': 'flowers', 'name': 'Flowers', 'fallback': 'assets/puzzles/flowers/f001.jpg'},
+      {'id': 'landmarks', 'name': 'Landmarks', 'fallback': 'assets/puzzles/landmarks/l001.jpg'},
+      {'id': 'art', 'name': 'Art', 'fallback': 'assets/puzzles/art/art001.jpg'},
     ];
 
     return Column(
@@ -681,140 +866,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
-  // --- Bottom Navigation Bar (Matching Reference Screenshot) ---
-  Widget _buildBottomNav(
-    BuildContext context,
-    HiveStorage storage,
-    SettingsController settings,
-    MonetizationController monetization,
-    EconomyController economy,
-    ContentController content,
-  ) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(26)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
-            blurRadius: 16,
-            offset: const Offset(0, -4),
-          ),
-        ],
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          // 1. Home (Active Amber Circular Pill)
-          InkWell(
-            onTap: () {
-              HapticFeedback.lightImpact();
-            },
-            borderRadius: BorderRadius.circular(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFFB300),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: const Icon(
-                    Icons.home_rounded,
-                    color: Colors.white,
-                    size: 22,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                const Text(
-                  'Home',
-                  style: TextStyle(
-                    color: Color(0xFFE65100),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 11,
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // 2. Gallery
-          InkWell(
-            onTap: () {
-              HapticFeedback.lightImpact();
-              context.push('/gallery');
-            },
-            borderRadius: BorderRadius.circular(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                  child: Icon(Icons.grid_view_rounded, color: Color(0xFF718096), size: 22),
-                ),
-                SizedBox(height: 2),
-                Text(
-                  'Gallery',
-                  style: TextStyle(color: Color(0xFF718096), fontWeight: FontWeight.bold, fontSize: 11),
-                ),
-              ],
-            ),
-          ),
-
-          // 3. Daily
-          InkWell(
-            onTap: () {
-              HapticFeedback.lightImpact();
-              final dailyPic = content.dailyPicture.value;
-              final picId = dailyPic?.id ?? 'n001.bpm';
-              context.push('/difficulty/$picId?defaultCount=48&daily=true');
-            },
-            borderRadius: BorderRadius.circular(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                  child: Icon(Icons.calendar_today_rounded, color: Color(0xFF718096), size: 20),
-                ),
-                SizedBox(height: 2),
-                Text(
-                  'Daily',
-                  style: TextStyle(color: Color(0xFF718096), fontWeight: FontWeight.bold, fontSize: 11),
-                ),
-              ],
-            ),
-          ),
-
-          // 4. Shop
-          InkWell(
-            onTap: () {
-              HapticFeedback.lightImpact();
-              context.push('/shop');
-            },
-            borderRadius: BorderRadius.circular(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                  child: Icon(Icons.shopping_bag_outlined, color: Color(0xFF718096), size: 22),
-                ),
-                SizedBox(height: 2),
-                Text(
-                  'Shop',
-                  style: TextStyle(color: Color(0xFF718096), fontWeight: FontWeight.bold, fontSize: 11),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   // --- Real Asset Category Lookup ---
   String _getCategoryRealImagePath(String category, ContentController content, String fallback) {
     final match = content.allPictures.firstWhereOrNull(
@@ -826,46 +877,56 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     return fallback;
   }
 
-  String _getHeroImagePath(Map<String, dynamic>? activeSession, ContentController content, int highestSaga) {
-    if (activeSession != null && activeSession['picturePath'] != null) {
+  String _getHeroImagePath(Map<String, dynamic>? activeSession, ContentController content, int highestSaga, bool isContinue) {
+    if (isContinue && activeSession != null && activeSession['picturePath'] != null) {
       return activeSession['picturePath'] as String;
     }
     final currentLevel = content.sagaLevels.firstWhereOrNull((l) => l.levelNumber == highestSaga);
     if (currentLevel != null && currentLevel.imagePath.isNotEmpty) {
       return currentLevel.imagePath;
     }
-    return 'assets/puzzles/nature/n001.bpm.jpg';
+    if (content.allPictures.isNotEmpty) {
+      final index = (highestSaga - 1) % content.allPictures.length;
+      return content.allPictures[index].path;
+    }
+    return 'assets/puzzles/nature/n001.jpg';
   }
 
-  String _getHeroTitle(Map<String, dynamic>? activeSession, ContentController content, int highestSaga) {
-    if (activeSession != null && activeSession['pictureTitle'] != null) {
+  String _getHeroTitle(Map<String, dynamic>? activeSession, ContentController content, int highestSaga, bool isContinue) {
+    if (isContinue && activeSession != null && activeSession['pictureTitle'] != null) {
       return activeSession['pictureTitle'] as String;
     }
     final currentLevel = content.sagaLevels.firstWhereOrNull((l) => l.levelNumber == highestSaga);
     if (currentLevel != null && currentLevel.title.isNotEmpty) {
       return currentLevel.title;
     }
-    return 'Sunset Hills';
+    if (content.allPictures.isNotEmpty) {
+      final index = (highestSaga - 1) % content.allPictures.length;
+      return content.allPictures[index].title;
+    }
+    return 'Level $highestSaga';
   }
 
-  int _getHeroPieces(Map<String, dynamic>? activeSession, ContentController content, int highestSaga) {
-    if (activeSession != null && activeSession['actualPieceCount'] != null) {
-      return activeSession['actualPieceCount'] as int;
+  int _getHeroPieces(Map<String, dynamic>? activeSession, ContentController content, int highestSaga, bool isContinue) {
+    if (isContinue && activeSession != null && (activeSession['actualPieceCount'] != null || activeSession['pieceCount'] != null)) {
+      return (activeSession['actualPieceCount'] ?? activeSession['pieceCount']) as int;
     }
     final currentLevel = content.sagaLevels.firstWhereOrNull((l) => l.levelNumber == highestSaga);
     if (currentLevel != null) {
       return currentLevel.pieceCount;
     }
-    return 100;
+    return PuzzleLevel.compute25LevelPieceCount(highestSaga);
   }
 
-  double _getHeroProgress(Map<String, dynamic>? activeSession) {
-    if (activeSession != null) {
-      final pieces = activeSession['actualPieceCount'] as int? ?? 100;
+  double _getHeroProgress(Map<String, dynamic>? activeSession, bool isContinue) {
+    if (isContinue && activeSession != null) {
+      final pieces = (activeSession['pieceCount'] ?? activeSession['actualPieceCount']) as int? ?? 100;
       final locked = (activeSession['lockedPieceKeys'] as List?)?.length ?? 0;
-      return pieces > 0 ? (locked / pieces).clamp(0.0, 1.0) : 0.0;
+      if (pieces > 0) {
+        return (locked / pieces).clamp(0.0, 1.0);
+      }
     }
-    return 0.62;
+    return 0.0;
   }
 
   void _onPlayHeroPressed(
@@ -875,21 +936,33 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     int highestSaga,
   ) {
     HapticFeedback.lightImpact();
-    if (activeSession != null && activeSession['pictureId'] != null) {
-      final picId = activeSession['pictureId'] as String;
-      final pieces = activeSession['actualPieceCount'] as int? ?? 48;
+    final locked = (activeSession?['lockedPieceKeys'] as List?)?.length ?? 0;
+    final total = (activeSession?['pieceCount'] ?? activeSession?['actualPieceCount']) as int? ?? 48;
+    final isContinue = activeSession != null && locked > 0 && locked < total;
+
+    if (isContinue && activeSession?['pictureId'] != null) {
+      final picId = activeSession!['pictureId'] as String;
       final saga = activeSession['sagaLevel'] as int?;
-      context.push('/puzzle?id=$picId&pieces=$pieces${saga != null ? "&sagaLevel=$saga" : ""}&resume=true');
+      context.push('/puzzle?id=$picId&pieces=$total${saga != null ? "&sagaLevel=$saga" : ""}&resume=true');
+      return;
+    }
+
+    // Always start clean fresh puzzle with all pieces in bottom card
+    final currentLevel = content.sagaLevels.firstWhereOrNull((l) => l.levelNumber == highestSaga);
+    if (currentLevel != null) {
+      _startLevel(context, currentLevel);
     } else {
-      final currentLevel = content.sagaLevels.firstWhereOrNull((l) => l.levelNumber == highestSaga);
-      if (currentLevel != null) {
-        _startLevel(context, currentLevel);
-      } else {
-        context.push('/puzzle?id=n001.bpm&pieces=48&sagaLevel=1');
+      String fallbackId = 'n001';
+      if (content.allPictures.isNotEmpty) {
+        final index = (highestSaga - 1) % content.allPictures.length;
+        fallbackId = content.allPictures[index].id;
       }
+      final pcs = PuzzleLevel.compute25LevelPieceCount(highestSaga);
+      context.push('/puzzle?id=$fallbackId&pieces=$pcs&sagaLevel=$highestSaga');
     }
   }
 
+  // --- Start Level ---
   void _startLevel(BuildContext context, PuzzleLevel level) {
     HapticFeedback.lightImpact();
     context.push(
@@ -1085,10 +1158,18 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                               label: const Text('+1 Free Hint', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
                               onPressed: () {
                                 monetization.showRewardedAd(
+                                  context: context,
+                                  rewardTitle: '+1 Free Hint',
                                   onRewardEarned: () {
                                     settings.addFreeHint(1);
-                                    Get.snackbar('Reward Earned!', '+1 Free Hint added!',
-                                        backgroundColor: const Color(0xDD000000), colorText: Colors.white);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: const Text('+1 Free Hint added to balance!'),
+                                        backgroundColor: const Color(0xEE112238),
+                                        behavior: SnackBarBehavior.floating,
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                                      ),
+                                    );
                                   },
                                 );
                               },
@@ -1106,10 +1187,18 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                               label: const Text('+30 Coins', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
                               onPressed: () {
                                 monetization.showRewardedAd(
+                                  context: context,
+                                  rewardTitle: '+30 Coins',
                                   onRewardEarned: () {
                                     economy.addCoins(30);
-                                    Get.snackbar('Coins Earned!', '+30 Coins added!',
-                                        backgroundColor: const Color(0xDD000000), colorText: Colors.white);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: const Text('+30 Coins added to your stash!'),
+                                        backgroundColor: const Color(0xEE112238),
+                                        behavior: SnackBarBehavior.floating,
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                                      ),
+                                    );
                                   },
                                 );
                               },
@@ -1339,6 +1428,140 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Close', style: TextStyle(color: AppTheme.accentAmber))),
         ],
       ),
+    );
+  }
+
+  void _showConsentDialog(BuildContext context, HiveStorage storage) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) {
+        return PopScope(
+          canPop: false,
+          child: Dialog(
+            backgroundColor: Colors.transparent,
+            insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+            child: Container(
+              padding: const EdgeInsets.all(22),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(28),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x350D2544),
+                    blurRadius: 24,
+                    offset: Offset(0, 10),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 66,
+                    height: 66,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF42A5F5), Color(0xFF1976D2)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF1976D2).withValues(alpha: 0.35),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: const Center(
+                      child: Icon(Icons.security_rounded, size: 36, color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+
+                  const Text(
+                    'Privacy & Data Consent',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFF0E2A47),
+                      fontSize: 22,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+
+                  const Text(
+                    'We value your privacy! This game runs offline and stores your progress locally on your device.\n\n'
+                    'Google AdMob may use device identifiers to provide rewarded ads for free hints and coins.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Color(0xFF546E7A), fontSize: 13, height: 1.4),
+                  ),
+                  const SizedBox(height: 22),
+
+                  // Agree & Continue Button
+                  GestureDetector(
+                    onTap: () {
+                      HapticFeedback.lightImpact();
+                      storage.setPrivacyConsent(true);
+                      Navigator.pop(ctx);
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 52,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(26),
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0xFFFFCA28),
+                            Color(0xFFFFA000),
+                            Color(0xFFFF8F00),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFFD87C00).withValues(alpha: 0.90),
+                            offset: const Offset(0, 4),
+                            blurRadius: 0,
+                          ),
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.20),
+                            offset: const Offset(0, 6),
+                            blurRadius: 8,
+                          ),
+                        ],
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'AGREE & CONTINUE',
+                          style: TextStyle(
+                            color: Color(0xFF3E2723),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 1.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+
+                  // Privacy details button
+                  TextButton(
+                    onPressed: () {
+                      _showPrivacyPolicy(ctx);
+                    },
+                    child: const Text('View Privacy Policy', style: TextStyle(color: Color(0xFF78909C), fontWeight: FontWeight.w700)),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

@@ -131,47 +131,79 @@ class BoardPainter extends CustomPainter {
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5);
     canvas.drawRRect(boardRRect.deflate(1.5), innerShadowPaint);
 
-    // 5. Subtle piece matrix guide grooves
-    if (rows > 0 && cols > 0) {
-      final gridPaint = Paint()
-        ..color = isLight ? Colors.black.withValues(alpha: 0.20) : Colors.white.withValues(alpha: 0.22)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.2;
-
-      final pieceW = boardSize.width / cols;
-      final pieceH = boardSize.height / rows;
-
-      for (var c = 1; c < cols; c++) {
-        canvas.drawLine(Offset(c * pieceW, 0), Offset(c * pieceW, boardSize.height), gridPaint);
-      }
-      for (var r = 1; r < rows; r++) {
-        canvas.drawLine(Offset(0, r * pieceH), Offset(boardSize.width, r * pieceH), gridPaint);
-      }
-
-      // Small subtle dot markers at grid intersections
-      final dotPaint = Paint()
-        ..color = isLight ? Colors.black.withValues(alpha: 0.28) : Colors.white.withValues(alpha: 0.30)
-        ..style = PaintingStyle.fill;
-      for (var r = 1; r < rows; r++) {
-        for (var c = 1; c < cols; c++) {
-          canvas.drawCircle(Offset(c * pieceW, r * pieceH), 2.0, dotPaint);
-        }
-      }
-    }
-
-    // 6. Preview / Watermark Artwork Guide
-    // Always render a pleasant, subtle watermark guide so the board is NEVER an empty black box!
-    // When showGhost is toggled ON (eye icon active), render at clear high opacity (0.65)!
-    if (fullImage != null) {
+    // 5. Preview / Watermark Artwork Guide (Only when showGhost is explicitly toggled true)
+    if (showGhost && fullImage != null) {
       canvas.save();
       canvas.clipRRect(boardRRect);
-      final watermarkOpacity = showGhost ? 0.65 : (isLight ? 0.24 : 0.18);
       final ghostPaint = Paint()
-        ..color = Color.fromRGBO(255, 255, 255, watermarkOpacity)
+        ..color = const Color.fromRGBO(255, 255, 255, 0.75)
         ..filterQuality = FilterQuality.high;
       final srcRect = Rect.fromLTWH(0, 0, fullImage!.width.toDouble(), fullImage!.height.toDouble());
       canvas.drawImageRect(fullImage!, srcRect, boardRect, ghostPaint);
       canvas.restore();
+    }
+
+    // 6. Laser-Etched Piece Matrix Slots & Jigsaw Outlines
+    // Drawn ON TOP of the mat & watermark guide so every single piece box (e.g. all 24 slots) is 100% visible!
+    if (rows > 0 && cols > 0) {
+      final pieceW = boardSize.width / cols;
+      final pieceH = boardSize.height / rows;
+
+      // A. Dual-tone laser cut matrix groove lines (crisp, clearly defined piece boxes)
+      final shadowGroovePaint = Paint()
+        ..color = isLight ? Colors.black.withValues(alpha: 0.35) : Colors.black.withValues(alpha: 0.45)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.3;
+
+      final highlightGroovePaint = Paint()
+        ..color = isLight ? Colors.white.withValues(alpha: 0.85) : Colors.white.withValues(alpha: 0.35)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.0;
+
+      // Vertical slot borders
+      for (var c = 1; c < cols; c++) {
+        final x = c * pieceW;
+        canvas.drawLine(Offset(x, 0), Offset(x, boardSize.height), shadowGroovePaint);
+        canvas.drawLine(Offset(x + 0.8, 0), Offset(x + 0.8, boardSize.height), highlightGroovePaint);
+      }
+      // Horizontal slot borders
+      for (var r = 1; r < rows; r++) {
+        final y = r * pieceH;
+        canvas.drawLine(Offset(0, y), Offset(boardSize.width, y), shadowGroovePaint);
+        canvas.drawLine(Offset(0, y + 0.8), Offset(boardSize.width, y + 0.8), highlightGroovePaint);
+      }
+
+      // B. Clean, elegant slot outlines for empty piece slots (simple & uncluttered)
+      final emptySlotPaint = Paint()
+        ..color = isLight ? Colors.black.withValues(alpha: 0.18) : Colors.white.withValues(alpha: 0.16)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.0;
+
+      for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+          final key = '${r}_$c';
+          if (!lockedPieceKeys.contains(key)) {
+            final slotRect = Rect.fromLTWH(c * pieceW + 1.5, r * pieceH + 1.5, pieceW - 3.0, pieceH - 3.0);
+            canvas.drawRRect(RRect.fromRectAndRadius(slotRect, const Radius.circular(3)), emptySlotPaint);
+          }
+        }
+      }
+
+      // C. Subtle anchor dot markers at slot grid intersections
+      final dotShadow = Paint()
+        ..color = isLight ? Colors.black.withValues(alpha: 0.40) : Colors.black.withValues(alpha: 0.60)
+        ..style = PaintingStyle.fill;
+      final dotHighlight = Paint()
+        ..color = isLight ? Colors.white : const Color(0xFFD4A346)
+        ..style = PaintingStyle.fill;
+
+      for (var r = 1; r < rows; r++) {
+        for (var c = 1; c < cols; c++) {
+          final pt = Offset(c * pieceW, r * pieceH);
+          canvas.drawCircle(pt.translate(0, 0.8), 2.5, dotShadow);
+          canvas.drawCircle(pt, 1.8, dotHighlight);
+        }
+      }
     }
 
     // 7. Animated hint target slot glow
@@ -183,25 +215,23 @@ class BoardPainter extends CustomPainter {
         final pieceH = boardSize.height / rows;
         final hintSlotPos = hintPiece.correctPos(pieceW, pieceH);
 
-        canvas.save();
-        canvas.translate(hintSlotPos.dx - prePiece.margin, hintSlotPos.dy - prePiece.margin);
+        final hintSlotRect = Rect.fromLTWH(hintSlotPos.dx + 1, hintSlotPos.dy + 1, pieceW - 2, pieceH - 2);
+        final hintSlotRRect = RRect.fromRectAndRadius(hintSlotRect, const Radius.circular(4));
 
         // Pulsing golden aura
         final pulseAlpha = 0.35 + 0.35 * math.sin(hintPulse * math.pi);
         final glowPaint = Paint()
           ..color = AppTheme.accentAmber.withValues(alpha: pulseAlpha)
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 10.0
-          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10);
-        canvas.drawPath(prePiece.path, glowPaint);
+          ..strokeWidth = 6.0
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
+        canvas.drawRRect(hintSlotRRect, glowPaint);
 
         final linePaint = Paint()
           ..color = AppTheme.accentAmber
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 3.5;
-        canvas.drawPath(prePiece.path, linePaint);
-
-        canvas.restore();
+          ..strokeWidth = 2.5;
+        canvas.drawRRect(hintSlotRRect, linePaint);
       }
     }
 

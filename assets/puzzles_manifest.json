@@ -1,177 +1,177 @@
 [
   {
-    "id": "n001.bpm",
+    "id": "n001",
     "category": "nature",
-    "path": "assets/puzzles/nature/n001.bpm.jpg",
-    "title": "N001.bpm",
+    "path": "assets/puzzles/nature/n001.jpg",
+    "title": "Peaceful Lake",
     "premium": false
   },
   {
-    "id": "n002.bpm",
+    "id": "n002",
     "category": "nature",
-    "path": "assets/puzzles/nature/n002.bpm.jpg",
-    "title": "N002.bpm",
+    "path": "assets/puzzles/nature/n002.jpg",
+    "title": "Forest Stream",
     "premium": false
   },
   {
-    "id": "n003.bpm",
+    "id": "n003",
     "category": "nature",
-    "path": "assets/puzzles/nature/n003.bpm.jpg",
-    "title": "N003.bpm",
+    "path": "assets/puzzles/nature/n003.jpg",
+    "title": "Misty Mountain",
     "premium": false
   },
   {
-    "id": "n004.bpm",
+    "id": "n004",
     "category": "nature",
-    "path": "assets/puzzles/nature/n004.bpm.jpg",
-    "title": "N004.bpm",
+    "path": "assets/puzzles/nature/n004.jpg",
+    "title": "Autumn Creek",
     "premium": false
   },
   {
-    "id": "n005.bpm",
+    "id": "n005",
     "category": "nature",
-    "path": "assets/puzzles/nature/n005.bpm.jpg",
-    "title": "N005.bpm",
+    "path": "assets/puzzles/nature/n005.jpg",
+    "title": "Sunset Valley",
     "premium": false
   },
   {
     "id": "a001",
     "category": "animals",
-    "path": "assets/puzzles/animals/a001.bmp",
-    "title": "A001",
+    "path": "assets/puzzles/animals/a001.jpg",
+    "title": "Playful Puppy",
     "premium": false
   },
   {
     "id": "a002",
     "category": "animals",
-    "path": "assets/puzzles/animals/a002.bmp",
-    "title": "A002",
+    "path": "assets/puzzles/animals/a002.jpg",
+    "title": "Majestic Cat",
     "premium": false
   },
   {
     "id": "a003",
     "category": "animals",
-    "path": "assets/puzzles/animals/a003.bmp",
-    "title": "A003",
+    "path": "assets/puzzles/animals/a003.jpg",
+    "title": "Forest Deer",
     "premium": false
   },
   {
     "id": "a004",
     "category": "animals",
-    "path": "assets/puzzles/animals/a004.bmp",
-    "title": "A004",
+    "path": "assets/puzzles/animals/a004.jpg",
+    "title": "Wild Leopard",
     "premium": false
   },
   {
     "id": "a005",
     "category": "animals",
-    "path": "assets/puzzles/animals/a005.bmp",
-    "title": "A005",
+    "path": "assets/puzzles/animals/a005.jpg",
+    "title": "Golden Eagle",
     "premium": true
   },
   {
-    "id": "f001.bpm",
+    "id": "f001",
     "category": "flowers",
-    "path": "assets/puzzles/flowers/f001.bpm.jpg",
-    "title": "F001.bpm",
+    "path": "assets/puzzles/flowers/f001.jpg",
+    "title": "Spring Blossom",
     "premium": false
   },
   {
-    "id": "f002.bpm",
+    "id": "f002",
     "category": "flowers",
-    "path": "assets/puzzles/flowers/f002.bpm.jpg",
-    "title": "F002.bpm",
+    "path": "assets/puzzles/flowers/f002.jpg",
+    "title": "Red Roses",
     "premium": false
   },
   {
-    "id": "f003.bpm",
+    "id": "f003",
     "category": "flowers",
-    "path": "assets/puzzles/flowers/f003.bpm.jpg",
-    "title": "F003.bpm",
+    "path": "assets/puzzles/flowers/f003.jpg",
+    "title": "Wild Daisies",
     "premium": false
   },
   {
-    "id": "f004.bpm",
+    "id": "f004",
     "category": "flowers",
-    "path": "assets/puzzles/flowers/f004.bpm.jpg",
-    "title": "F004.bpm",
+    "path": "assets/puzzles/flowers/f004.jpg",
+    "title": "Purple Tulips",
     "premium": false
   },
   {
-    "id": "f005.bpm",
+    "id": "f005",
     "category": "flowers",
-    "path": "assets/puzzles/flowers/f005.bpm.jpg",
-    "title": "F005.bpm",
+    "path": "assets/puzzles/flowers/f005.jpg",
+    "title": "Sunflowers",
     "premium": false
   },
   {
     "id": "l001",
     "category": "landmarks",
-    "path": "assets/puzzles/landmarks/l001.bmp",
-    "title": "L001",
+    "path": "assets/puzzles/landmarks/l001.jpg",
+    "title": "Historic Bridge",
     "premium": false
   },
   {
     "id": "l002",
     "category": "landmarks",
-    "path": "assets/puzzles/landmarks/l002.bmp",
-    "title": "L002",
+    "path": "assets/puzzles/landmarks/l002.jpg",
+    "title": "Coastal Lighthouse",
     "premium": false
   },
   {
     "id": "l003",
     "category": "landmarks",
-    "path": "assets/puzzles/landmarks/l003.bmp",
-    "title": "L003",
+    "path": "assets/puzzles/landmarks/l003.jpg",
+    "title": "Mountain Fortress",
     "premium": false
   },
   {
     "id": "l004",
     "category": "landmarks",
-    "path": "assets/puzzles/landmarks/l004.bmp",
-    "title": "L004",
+    "path": "assets/puzzles/landmarks/l004.jpg",
+    "title": "City Skyline",
     "premium": false
   },
   {
     "id": "l005",
     "category": "landmarks",
-    "path": "assets/puzzles/landmarks/l005.bmp",
-    "title": "L005",
+    "path": "assets/puzzles/landmarks/l005.jpg",
+    "title": "Sunset Pier",
     "premium": true
   },
   {
     "id": "art001",
     "category": "art",
-    "path": "assets/puzzles/art/art001.bmp",
-    "title": "Art001",
+    "path": "assets/puzzles/art/art001.jpg",
+    "title": "Oil Painting",
     "premium": false
   },
   {
     "id": "art002",
     "category": "art",
-    "path": "assets/puzzles/art/art002.bmp",
-    "title": "Art002",
+    "path": "assets/puzzles/art/art002.jpg",
+    "title": "Watercolor Sunset",
     "premium": false
   },
   {
     "id": "art003",
     "category": "art",
-    "path": "assets/puzzles/art/art003.bmp",
-    "title": "Art003",
+    "path": "assets/puzzles/art/art003.jpg",
+    "title": "Classic Canvas",
     "premium": false
   },
   {
     "id": "art004",
     "category": "art",
-    "path": "assets/puzzles/art/art004.bmp",
-    "title": "Art004",
+    "path": "assets/puzzles/art/art004.jpg",
+    "title": "Modern Color",
     "premium": false
   },
   {
     "id": "art005",
     "category": "art",
-    "path": "assets/puzzles/art/art005.bmp",
-    "title": "Art005",
+    "path": "assets/puzzles/art/art005.jpg",
+    "title": "Abstract Horizon",
     "premium": true
   }
 ]

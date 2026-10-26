@@ -38,7 +38,7 @@ class PieceImagePreRenderer {
   }) async {
     final pieceW = boardW / cols;
     final pieceH = boardH / rows;
-    final margin = (pieceW < pieceH ? pieceW : pieceH) * 0.3;
+    final margin = edgeGenerator.flatEdges ? 0.0 : (pieceW < pieceH ? pieceW : pieceH) * 0.25;
 
     // Adjust scale based on piece count to balance crispness vs memory budget
     final totalPieces = rows * cols;
@@ -54,12 +54,12 @@ class PieceImagePreRenderer {
     final strokePaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0
-      ..color = const Color(0x77FFFFFF);
+      ..color = const Color(0x44FFFFFF);
 
     final darkOutlinePaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0
-      ..color = const Color(0x33000000);
+      ..color = const Color(0x22000000);
 
     for (var r = 0; r < rows; r++) {
       for (var c = 0; c < cols; c++) {

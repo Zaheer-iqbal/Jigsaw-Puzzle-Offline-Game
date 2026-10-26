@@ -61,8 +61,9 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
   final Map<String, PieceModel> pieces = {};
   final Map<int, GroupModel> groups = {};
 
-  // Tray & Board state (Easybrain style bottom scrollable tray)
+  // Tray & Board state (Easybrain style bottom scrollable tray + active board workspace)
   final RxList<String> trayPieceKeys = <String>[].obs;
+  final RxSet<String> boardPieceKeys = <String>{}.obs;
   final RxSet<String> lockedPieceKeys = <String>{}.obs;
 
   // Interactive controls & tools
@@ -156,9 +157,11 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
       cols = dims.cols;
       actualPieceCount = dims.actualCount;
 
-      // Base board width is 750.0, height strictly matches the decoded image aspect ratio
+      // Base board width is 750.0. Clamped to ~1.25 so the board has comfortable, tall height
+      // and fills mobile portrait screens prominently rather than looking like a narrow strip!
       boardW = 750.0;
-      boardH = (boardW / imgAspect).clamp(400.0, 1100.0);
+      final effectiveAspect = imgAspect.clamp(1.15, 1.30);
+      boardH = boardW / effectiveAspect;
 
       pieceW = boardW / cols;
       pieceH = boardH / rows;
@@ -166,18 +169,29 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
 
       // 2. Check for resume snapshot or create fresh seed
       final savedSession = isResume ? _storage.getActiveSession() : null;
+      bool shouldRestore = false;
       if (savedSession != null && savedSession['pictureId'] == id) {
-        seed = savedSession['seed'] as int;
-        elapsedSeconds.value = savedSession['elapsedSeconds'] as int? ?? 0;
-        moves.value = savedSession['moves'] as int? ?? 0;
-      } else {
+        final lockedCount = (savedSession['lockedPieceKeys'] as List?)?.length ?? 0;
+        final totalCount = (savedSession['pieceCount'] ?? savedSession['actualPieceCount']) as int? ?? targetPieceCount;
+        if (lockedCount > 0 && lockedCount < totalCount) {
+          shouldRestore = true;
+          seed = savedSession['seed'] as int;
+          elapsedSeconds.value = savedSession['elapsedSeconds'] as int? ?? 0;
+          moves.value = savedSession['moves'] as int? ?? 0;
+        } else {
+          // Already completed or empty: clear session so user gets a fresh game
+          _storage.clearActiveSession();
+        }
+      }
+
+      if (!shouldRestore) {
         seed = Random().nextInt(1000000);
         elapsedSeconds.value = 0;
         moves.value = 0;
       }
 
-      // 3. Generate deterministic edges
-      final edgeGen = EdgeGenerator(rows: rows, cols: cols, seed: seed);
+      // 3. Generate deterministic edges (flatEdges: true ensures clean straight tiles without side cuts)
+      final edgeGen = EdgeGenerator(rows: rows, cols: cols, seed: seed, flatEdges: true);
 
       // 4. Pre-render piece bitmaps with progress reporting
       preRenderedPieces = await PieceImagePreRenderer.preRenderAll(
@@ -202,6 +216,7 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
 
       pieces.clear();
       trayPieceKeys.clear();
+      boardPieceKeys.clear();
       lockedPieceKeys.clear();
 
       for (var r = 0; r < rows; r++) {
@@ -211,15 +226,20 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
             row: r,
             col: c,
             pos: Offset(c * pieceW, r * pieceH),
-            groupId: 0,
+            groupId: -1,
           );
           trayPieceKeys.add(key);
         }
       }
       trayPieceKeys.shuffle(Random(seed));
 
-      if (savedSession != null && savedSession['pictureId'] == id) {
-        _restoreFromSnapshot(savedSession);
+      if (shouldRestore && savedSession != null) {
+        try {
+          _restoreFromSnapshot(savedSession);
+        } catch (e) {
+          debugPrint('Snapshot restore notice: $e');
+          _storage.clearActiveSession();
+        }
       }
 
       _updateLockedCount();
@@ -242,40 +262,105 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
     });
   }
 
+  void pauseTimer() {
+    _timer?.cancel();
+  }
+
+  void resumeTimer() {
+    if (state.value == PuzzleState.playing) {
+      _startTimer();
+    }
+  }
+
+  /// Restarts the current puzzle session fresh from the beginning
+  void restartPuzzle() {
+    _timer?.cancel();
+    _storage.clearActiveSession();
+    elapsedSeconds.value = 0;
+    moves.value = 0;
+    lockedPieceKeys.clear();
+    boardPieceKeys.clear();
+    trayPieceKeys.clear();
+
+    for (var r = 0; r < rows; r++) {
+      for (var c = 0; c < cols; c++) {
+        final key = '${r}_$c';
+        pieces[key] = PieceModel(
+          row: r,
+          col: c,
+          pos: Offset(c * pieceW, r * pieceH),
+          groupId: 0,
+        );
+        trayPieceKeys.add(key);
+      }
+    }
+    trayPieceKeys.shuffle(Random(seed));
+    _updateLockedCount();
+    _startTimer();
+  }
+
   /// Re-shuffles the remaining pieces in the bottom tray with tactile feedback
   void shuffleTrayPieces() {
     trayPieceKeys.shuffle();
     _haptics.click();
   }
 
-  /// Attempts to snap a piece dragged from the tray onto the board.
-  /// If dropped near its correct position (within snap threshold), locks to board and returns true.
-  /// If wrong drop, returns false so it cleanly returns back to the tray!
+  /// Attempts to snap a piece dragged onto the board.
+  /// If dropped over its correct slot, locks to the board permanently.
+  /// If dropped anywhere else (wrong slot or empty board space), it does NOT fix on the board
+  /// and safely returns to the bottom tray!
   bool trySnapPiece(String pieceKey, Offset boardLocalPos) {
     final piece = pieces[pieceKey];
     if (piece == null) return false;
 
     final targetPos = piece.correctPos(pieceW, pieceH);
     final targetCenter = targetPos + Offset(pieceW / 2, pieceH / 2);
-    // Generous and comfortable magnetic snap threshold for responsive touch gameplay
-    final threshold = max(pieceW, pieceH) * 0.85;
 
+    // Exact slot hit-test: slot rectangle or tight radial distance to center
+    final slotRect = Rect.fromLTWH(targetPos.dx, targetPos.dy, pieceW, pieceH).inflate(min(pieceW, pieceH) * 0.20);
     final distToCenter = (boardLocalPos - targetCenter).distance;
-    final distToTopLeft = (boardLocalPos - targetPos).distance;
+    final maxSnapDistance = min(pieceW, pieceH) * 0.55;
 
-    if (distToCenter <= threshold || distToTopLeft <= threshold) {
+    final isCorrectSlot = slotRect.contains(boardLocalPos) || distToCenter <= maxSnapDistance;
+
+    if (isCorrectSlot) {
+      // Piece belongs here: snap and lock into exact target position!
       return autoSnapPiece(pieceKey);
     } else {
-      // Wrong drop: increment moves and return false so piece returns to tray!
-      moves.value++;
-      _saveCurrentSessionDebounced();
+      // Wrong location: do NOT fix on the board!
+      // Return to tray if it was on the board, or keep in tray
+      if (boardPieceKeys.contains(pieceKey)) {
+        boardPieceKeys.remove(pieceKey);
+        if (!trayPieceKeys.contains(pieceKey)) {
+          trayPieceKeys.insert(0, pieceKey);
+        }
+      }
+      _haptics.light();
       return false;
+    }
+  }
+
+  /// Returns a piece currently on the board back to the bottom tray
+  void returnPieceToTray(String pieceKey) {
+    if (boardPieceKeys.contains(pieceKey)) {
+      boardPieceKeys.remove(pieceKey);
+      if (!trayPieceKeys.contains(pieceKey)) {
+        trayPieceKeys.insert(0, pieceKey);
+      }
+      moves.value++;
+      _haptics.click();
+      _saveCurrentSessionDebounced();
     }
   }
 
   /// Locks a piece directly to its correct slot on the board (e.g., via tap-to-place or auto-snap)
   bool autoSnapPiece(String pieceKey) {
     if (!pieces.containsKey(pieceKey)) return false;
+    final piece = pieces[pieceKey]!;
+    piece.groupId = SnapMergeEngine.boardGroupId;
+    piece.pos = piece.correctPos(pieceW, pieceH);
+
+    boardPieceKeys.remove(pieceKey);
     lockedPieceKeys.add(pieceKey);
     trayPieceKeys.remove(pieceKey);
     if (hintPieceKey.value == pieceKey) {
@@ -287,7 +372,8 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
     _haptics.snap();
     _saveCurrentSessionDebounced();
 
-    if (lockedPieceKeys.length >= actualPieceCount) {
+    // Strict Victory check: All pieces must be placed, tray must be empty, boardPieceKeys empty!
+    if (lockedPieceKeys.length >= actualPieceCount && trayPieceKeys.isEmpty && boardPieceKeys.isEmpty) {
       _handlePuzzleVictory();
     }
     return true;
@@ -309,14 +395,26 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
     return borderOnly.isNotEmpty ? borderOnly : trayPieceKeys;
   }
 
-  void _restoreFromSnapshot(Map<String, dynamic> snapshot) {
-    final snap = PuzzleSessionSnapshot.fromJson(snapshot);
-    for (final item in snap.pieces) {
-      final key = '${item.row}_${item.col}';
-      if (item.groupId == SnapMergeEngine.boardGroupId) {
-        lockedPieceKeys.add(key);
-        trayPieceKeys.remove(key);
+  void _restoreFromSnapshot(Map<dynamic, dynamic> snapshot) {
+    try {
+      final snap = PuzzleSessionSnapshot.fromJson(snapshot);
+      for (final item in snap.pieces) {
+        final key = '${item.row}_${item.col}';
+        if (item.groupId == SnapMergeEngine.boardGroupId) {
+          lockedPieceKeys.add(key);
+          trayPieceKeys.remove(key);
+          boardPieceKeys.remove(key);
+        } else if (item.groupId == 1) {
+          final p = pieces[key];
+          if (p != null) {
+            p.pos = Offset(item.normX * boardW, item.normY * boardH);
+          }
+          trayPieceKeys.remove(key);
+          boardPieceKeys.add(key);
+        }
       }
+    } catch (e) {
+      debugPrint('Error restoring snapshot: $e');
     }
   }
 
@@ -380,27 +478,42 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
       _haptics.snap();
     }
 
+    // Sync any board-locked pieces
+    for (final p in pieces.values) {
+      if (p.groupId == SnapMergeEngine.boardGroupId) {
+        final key = '${p.row}_${p.col}';
+        lockedPieceKeys.add(key);
+        trayPieceKeys.remove(key);
+        boardPieceKeys.remove(key);
+      }
+    }
+
     _updateLockedCount();
     _saveCurrentSessionDebounced();
 
-    // 3. Victory check
-    if (snapResult.isPuzzleComplete) {
+    // 3. Victory check: ONLY when all pieces are locked and none left in tray or loose
+    if (snapResult.isPuzzleComplete && lockedPieceKeys.length >= actualPieceCount && trayPieceKeys.isEmpty && boardPieceKeys.isEmpty) {
       _handlePuzzleVictory();
     }
   }
 
-  void _handlePuzzleVictory() {
+  void _handlePuzzleVictory() async {
     state.value = PuzzleState.completed;
     _timer?.cancel();
 
     _audio.playWin();
     _haptics.win();
 
-    // Clear session snapshot from Hive
-    _storage.clearActiveSession();
+    // Clear session snapshot from Hive IMMEDIATELY
+    await _storage.clearActiveSession();
 
     // Mark as completed in stats
     _storage.markCompleted(pictureId, actualPieceCount, elapsedSeconds.value, moves.value);
+
+    // If played as a Daily Puzzle, mark today's calendar date as completed!
+    if (isDaily) {
+      _storage.markDailyCompleted(DateTime.now());
+    }
 
     // If played as a Saga Campaign Level, unlock next Saga level and award stars!
     if (currentSagaLevel != null) {
@@ -411,15 +524,21 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
       } else if (elapsedSeconds.value <= targetSeconds * 1.5) {
         stars = 2;
       }
-      _storage.unlockNextSagaLevel(currentSagaLevel!);
-      _storage.setSagaStars(currentSagaLevel!, stars);
+      await _storage.unlockNextSagaLevel(currentSagaLevel!);
+      await _storage.setSagaStars(currentSagaLevel!, stars);
+    } else {
+      // Also advance saga on home screen so the hero card advances to the next level!
+      final currentSaga = _storage.getHighestSagaLevel();
+      await _storage.unlockNextSagaLevel(currentSaga);
     }
 
-    // If pictureId is a progressive level (e.g. n001, a015), automatically unlock next level!
-    final match = RegExp(r'^([a-zA-Z]+)(\d+)$').firstMatch(pictureId);
+    // If pictureId is a progressive level (e.g. n001, a015, or numeric like 1, 2)
+    int? lvlNum;
+    String cat = 'nature';
+    final match = RegExp(r'^([a-zA-Z]+)(\d+)').firstMatch(pictureId);
     if (match != null) {
       final prefix = match.group(1)!.toLowerCase();
-      final lvlNum = int.tryParse(match.group(2)!) ?? 1;
+      lvlNum = int.tryParse(match.group(2)!);
       const categoryMap = {
         'n': 'nature',
         'a': 'animals',
@@ -427,8 +546,21 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
         'l': 'landmarks',
         'art': 'art',
       };
-      final cat = categoryMap[prefix] ?? prefix;
-      _storage.unlockNextLevel(cat, lvlNum);
+      cat = categoryMap[prefix] ?? prefix;
+    } else {
+      lvlNum = int.tryParse(pictureId.replaceAll(RegExp(r'[^0-9]'), ''));
+      if (assetPath.contains('animals')) {
+        cat = 'animals';
+      } else if (assetPath.contains('flowers')) {
+        cat = 'flowers';
+      } else if (assetPath.contains('landmarks')) {
+        cat = 'landmarks';
+      } else if (assetPath.contains('art')) {
+        cat = 'art';
+      }
+    }
+    if (lvlNum != null) {
+      await _storage.unlockNextLevel(cat, lvlNum);
     }
 
     // Reward player with coins
@@ -471,9 +603,14 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
     _triggerHint();
   }
 
+  void triggerHintAnimation() {
+    _triggerHint();
+  }
+
   void _triggerHint() {
-    if (trayPieceKeys.isEmpty) return;
-    hintPieceKey.value = trayPieceKeys.first;
+    final available = trayPieceKeys.isNotEmpty ? trayPieceKeys : boardPieceKeys.toList();
+    if (available.isEmpty) return;
+    hintPieceKey.value = available.first;
     _hintTimer?.cancel();
     _hintTimer = Timer(const Duration(milliseconds: AppConfig.hintDurationMs * 2), () {
       hintPieceKey.value = null;
@@ -498,12 +635,13 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
     final items = pieces.values.map((p) {
       final key = '${p.row}_${p.col}';
       final isLocked = lockedPieceKeys.contains(key);
+      final isBoard = boardPieceKeys.contains(key);
       return PieceSnapshotItem(
         row: p.row,
         col: p.col,
         normX: p.pos.dx / boardW,
         normY: p.pos.dy / boardH,
-        groupId: isLocked ? SnapMergeEngine.boardGroupId : 1,
+        groupId: isLocked ? SnapMergeEngine.boardGroupId : (isBoard ? 1 : 0),
       );
     }).toList();
 
@@ -519,14 +657,31 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
       moves: moves.value,
     );
 
-    return snapshot.toJson();
+    final map = snapshot.toJson();
+    map['picturePath'] = assetPath;
+    map['pictureTitle'] = title;
+    map['actualPieceCount'] = actualPieceCount;
+    map['lockedPieceKeys'] = lockedPieceKeys.toList();
+    if (currentSagaLevel != null) {
+      map['sagaLevel'] = currentSagaLevel;
+    }
+    return map;
   }
 
   Future<ui.Image> _loadUiImageFromAsset(String assetPath) async {
-    final data = await rootBundle.load(assetPath);
-    final bytes = data.buffer.asUint8List();
-    final codec = await ui.instantiateImageCodec(bytes);
-    final frame = await codec.getNextFrame();
-    return frame.image;
+    try {
+      final data = await rootBundle.load(assetPath);
+      final bytes = data.buffer.asUint8List();
+      final codec = await ui.instantiateImageCodec(bytes, targetWidth: 1200);
+      final frame = await codec.getNextFrame();
+      return frame.image;
+    } catch (e) {
+      debugPrint('Error loading asset $assetPath: $e. Falling back to nature...');
+      final data = await rootBundle.load('assets/puzzles/nature/n001.jpg');
+      final bytes = data.buffer.asUint8List();
+      final codec = await ui.instantiateImageCodec(bytes, targetWidth: 1200);
+      final frame = await codec.getNextFrame();
+      return frame.image;
+    }
   }
 }

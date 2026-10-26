@@ -66,31 +66,30 @@ class JigsawPathBuilder {
     final ny = -ux * edgeValue;
 
     final tabStart = Offset(
-      p0.dx + ux * (0.36 * len),
-      p0.dy + uy * (0.36 * len),
+      p0.dx + ux * (0.38 * len),
+      p0.dy + uy * (0.38 * len),
     );
 
     final tabEnd = Offset(
-      p0.dx + ux * (0.64 * len),
-      p0.dy + uy * (0.64 * len),
+      p0.dx + ux * (0.62 * len),
+      p0.dy + uy * (0.62 * len),
     );
 
-    // Control points at 20% and 80% along edge length, with 1.33x overhang height
-    final effectiveHeight = tabHeight * AppConfig.tabOverhangRatio;
+    // Smooth gentle curve without balloon overhang
     final cp1 = Offset(
-      p0.dx + ux * (0.20 * len) + nx * effectiveHeight,
-      p0.dy + uy * (0.20 * len) + ny * effectiveHeight,
+      p0.dx + ux * (0.40 * len) + nx * tabHeight,
+      p0.dy + uy * (0.40 * len) + ny * tabHeight,
     );
 
     final cp2 = Offset(
-      p0.dx + ux * (0.80 * len) + nx * effectiveHeight,
-      p0.dy + uy * (0.80 * len) + ny * effectiveHeight,
+      p0.dx + ux * (0.60 * len) + nx * tabHeight,
+      p0.dy + uy * (0.60 * len) + ny * tabHeight,
     );
 
     // Straight segment to neck base
     path.lineTo(tabStart.dx, tabStart.dy);
 
-    // Rounded bulb knob with overhang
+    // Smooth rounded knob
     path.cubicTo(cp1.dx, cp1.dy, cp2.dx, cp2.dy, tabEnd.dx, tabEnd.dy);
 
     // Straight segment to corner

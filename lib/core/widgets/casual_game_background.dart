@@ -10,11 +10,13 @@ class CasualGameBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Stack(
       children: [
-        const Positioned.fill(
+        Positioned.fill(
           child: CustomPaint(
-            painter: CasualCloudPillsPainter(),
+            painter: CasualCloudPillsPainter(isDark: isDark),
           ),
         ),
         child,
@@ -24,31 +26,40 @@ class CasualGameBackground extends StatelessWidget {
 }
 
 class CasualCloudPillsPainter extends CustomPainter {
-  const CasualCloudPillsPainter();
+  final bool isDark;
+  const CasualCloudPillsPainter({this.isDark = false});
 
   @override
   void paint(Canvas canvas, Size size) {
-    // 1. Playful Azure Sky Gradient
+    // 1. Light: Playful Azure Sky Gradient | Dark: Deep Obsidian & Midnight Navy Casual Night
     final bgPaint = Paint()
       ..shader = ui.Gradient.linear(
         Offset(size.width / 2, 0),
         Offset(size.width / 2, size.height),
-        const [
-          Color(0xFF29B6F6), // Top bright azure
-          Color(0xFF42A5F5), // Mid vibrant sky blue
-          Color(0xFF5C6BC0), // Soft indigo base
-        ],
+        isDark
+            ? const [
+                Color(0xFF0F1A2A), // Top deep midnight
+                Color(0xFF16263D), // Mid dark navy
+                Color(0xFF09121E), // Bottom obsidian
+              ]
+            : const [
+                Color(0xFF29B6F6), // Top bright azure
+                Color(0xFF42A5F5), // Mid vibrant sky blue
+                Color(0xFF5C6BC0), // Soft indigo base
+              ],
         const [0.0, 0.55, 1.0],
       );
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), bgPaint);
 
-    // 2. Decorative Floating Rounded Cloud Pills (Matching Reference Images)
+    // 2. Decorative Floating Rounded Cloud Pills
     final pillPaintLight = Paint()
-      ..color = Colors.white.withValues(alpha: 0.15)
+      ..color = (isDark ? const Color(0xFF38BDF8) : Colors.white)
+          .withValues(alpha: isDark ? 0.08 : 0.15)
       ..style = PaintingStyle.fill;
 
     final pillPaintDark = Paint()
-      ..color = const Color(0xFF1565C0).withValues(alpha: 0.14)
+      ..color = (isDark ? Colors.black : const Color(0xFF1565C0))
+          .withValues(alpha: isDark ? 0.30 : 0.14)
       ..style = PaintingStyle.fill;
 
     // Top-left floating pill
@@ -98,5 +109,5 @@ class CasualCloudPillsPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CasualCloudPillsPainter oldDelegate) => false;
+  bool shouldRepaint(covariant CasualCloudPillsPainter oldDelegate) => oldDelegate.isDark != isDark;
 }

@@ -25,6 +25,7 @@ class EdgeGenerator {
   final int rows;
   final int cols;
   final int seed;
+  final bool flatEdges;
 
   late final List<List<int>> _right;
   late final List<List<int>> _bottom;
@@ -33,11 +34,18 @@ class EdgeGenerator {
     required this.rows,
     required this.cols,
     required this.seed,
+    this.flatEdges = false,
   }) {
     _generate();
   }
 
   void _generate() {
+    if (flatEdges) {
+      _right = List.generate(rows, (_) => List.filled(cols, 0));
+      _bottom = List.generate(rows, (_) => List.filled(cols, 0));
+      return;
+    }
+
     final rnd = Random(seed);
 
     _right = List.generate(
@@ -58,6 +66,9 @@ class EdgeGenerator {
   }
 
   PieceEdges edgesFor(int r, int c) {
+    if (flatEdges) {
+      return const PieceEdges(top: 0, right: 0, bottom: 0, left: 0);
+    }
     final top = r == 0 ? 0 : -_bottom[r - 1][c];
     final right = _right[r][c];
     final bottom = _bottom[r][c];

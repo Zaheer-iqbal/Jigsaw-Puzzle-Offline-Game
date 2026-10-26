@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jigsaw_pro/core/audio/audio_service.dart';
+import 'package:jigsaw_pro/core/haptics/haptic_service.dart';
 import 'package:jigsaw_pro/core/storage/hive_storage.dart';
 import 'package:jigsaw_pro/core/theme/app_theme.dart';
 
 class SettingsController extends GetxController {
   final HiveStorage _storage;
+  final AudioService _audio;
+  final HapticService _haptics;
 
-  SettingsController(this._storage);
+  SettingsController(this._storage, this._audio, this._haptics);
 
   late final RxBool soundEnabled;
   late final RxBool musicEnabled;
@@ -24,7 +28,9 @@ class SettingsController extends GetxController {
     vibrationEnabled = _storage.vibrationEnabled.obs;
     keepScreenAwake = _storage.keepScreenAwake.obs;
     themeModeString = _storage.themeMode.obs;
-    freeHints = _storage.freeHints.obs;
+    final initialHints = _storage.freeHints.clamp(0, 3);
+    freeHints = initialHints.obs;
+    _storage.setFreeHints(freeHints.value);
 
     final savedBg = BoardBackgroundStyle.values.firstWhere(
       (b) => b.name == _storage.boardBackground,
@@ -34,16 +40,25 @@ class SettingsController extends GetxController {
   }
 
   void toggleSound() {
+    _haptics.click();
     soundEnabled.value = !soundEnabled.value;
     _storage.setSoundEnabled(soundEnabled.value);
+    if (soundEnabled.value) {
+      _audio.playClick();
+    }
   }
 
   void toggleMusic() {
+    _haptics.click();
+    _audio.playClick();
     musicEnabled.value = !musicEnabled.value;
     _storage.setMusicEnabled(musicEnabled.value);
+    _audio.updateMusicPreference(musicEnabled.value);
   }
 
   void toggleKeepScreenAwake() {
+    _haptics.click();
+    _audio.playClick();
     keepScreenAwake.value = !keepScreenAwake.value;
     _storage.setKeepScreenAwake(keepScreenAwake.value);
   }
@@ -51,6 +66,8 @@ class SettingsController extends GetxController {
   void toggleVibration() {
     vibrationEnabled.value = !vibrationEnabled.value;
     _storage.setVibrationEnabled(vibrationEnabled.value);
+    _haptics.click();
+    _audio.playClick();
   }
 
   void addFreeHint([int count = 1]) {
@@ -88,5 +105,10 @@ class SettingsController extends GetxController {
   void setBoardBackground(BoardBackgroundStyle style) {
     boardBackground.value = style;
     _storage.setBoardBackground(style.name);
+  }
+
+  Future<void> resetAllGameData() async {
+    await _storage.resetAllGameData();
+    freeHints.value = 3;
   }
 }

@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jigsaw_pro/features/daily/presentation/pages/daily_puzzle_page.dart';
 import 'package:jigsaw_pro/features/gallery/presentation/pages/difficulty_picker_page.dart';
 import 'package:jigsaw_pro/features/gallery/presentation/pages/gallery_page.dart';
 import 'package:jigsaw_pro/features/home/presentation/pages/home_page.dart';
@@ -11,7 +13,10 @@ import 'package:jigsaw_pro/features/settings/presentation/pages/settings_page.da
 class AppRouter {
   AppRouter._();
 
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   static final GoRouter router = GoRouter(
+    navigatorKey: navigatorKey,
     initialLocation: '/',
     routes: [
       GoRoute(
@@ -70,6 +75,10 @@ class AppRouter {
       GoRoute(
         path: '/shop',
         builder: (context, state) => const ShopPage(),
+      ),
+      GoRoute(
+        path: '/daily',
+        builder: (context, state) => const DailyPuzzlePage(),
       ),
       GoRoute(
         path: '/settings',
