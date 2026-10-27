@@ -32,7 +32,7 @@ class AudioService {
           stayAwake: false,
           contentType: AndroidContentType.music,
           usageType: AndroidUsageType.game,
-          audioFocus: AndroidAudioFocus.duckOthers,
+          audioFocus: AndroidAudioFocus.gainTransientMayDuck,
         ),
       ));
       await _bgmPlayer.setReleaseMode(ReleaseMode.loop);

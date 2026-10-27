@@ -62,13 +62,13 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     // 4. Smooth Puffy Progress Bar
     _progressController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 2200),
+      duration: const Duration(milliseconds: 1200),
     )..forward();
 
     _assembleController.forward();
 
     // Play subtle tactile snap sound & haptic when clay pieces lock together
-    Future.delayed(const Duration(milliseconds: 400), () {
+    Future.delayed(const Duration(milliseconds: 300), () {
       if (mounted) {
         if (Get.isRegistered<AudioService>()) Get.find<AudioService>().playSnap();
         if (Get.isRegistered<HapticService>()) Get.find<HapticService>().snap();
@@ -89,21 +89,28 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   }
 
   Future<void> _bootstrap() async {
+    // Guaranteed failsafe timer: maximum 1.5 seconds on splash
+    Future.delayed(const Duration(milliseconds: 1500), () {
+      if (mounted) _navigateToHome();
+    });
+
     try {
       final content = Get.find<ContentController>();
 
       await Future.any([
         Future.wait([
-          Future.delayed(const Duration(milliseconds: 2200)),
+          Future.delayed(const Duration(milliseconds: 900)),
           _waitForContentLoaded(content),
         ]),
-        Future.delayed(const Duration(milliseconds: 2700)),
+        Future.delayed(const Duration(milliseconds: 1300)),
       ]);
     } catch (e) {
       debugPrint('Bootstrap notice: $e');
     }
 
-    _navigateToHome();
+    if (mounted) {
+      _navigateToHome();
+    }
   }
 
   Future<void> _waitForContentLoaded(ContentController content) async {

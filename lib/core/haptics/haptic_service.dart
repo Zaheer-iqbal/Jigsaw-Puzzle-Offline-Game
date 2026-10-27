@@ -22,6 +22,14 @@ class HapticService {
     } catch (_) {}
   }
 
+  /// Light haptic feedback for misplacing or returning a piece
+  Future<void> light() async {
+    if (!_storage.vibrationEnabled) return;
+    try {
+      await HapticFeedback.lightImpact();
+    } catch (_) {}
+  }
+
   /// Celebratory haptic when a puzzle is finished
   Future<void> win() async {
     if (!_storage.vibrationEnabled) return;

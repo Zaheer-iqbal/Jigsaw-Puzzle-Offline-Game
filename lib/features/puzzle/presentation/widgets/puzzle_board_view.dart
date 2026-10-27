@@ -28,7 +28,9 @@ class PuzzleBoardView extends StatefulWidget {
 
 class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProviderStateMixin {
   final GlobalKey _boardKey = GlobalKey();
+  final ScrollController _trayScrollController = ScrollController();
   late final AnimationController _pulseController;
+  Worker? _hintWorker;
 
   @override
   void initState() {
@@ -37,10 +39,22 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
       vsync: this,
       duration: const Duration(milliseconds: 1100),
     )..repeat(reverse: true);
+
+    _hintWorker = ever(widget.controller.hintPieceKey, (key) {
+      if (key != null && _trayScrollController.hasClients) {
+        _trayScrollController.animateTo(
+          0.0,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOutCubic,
+        );
+      }
+    });
   }
 
   @override
   void dispose() {
+    _hintWorker?.dispose();
+    _trayScrollController.dispose();
     _pulseController.dispose();
     super.dispose();
   }
@@ -205,6 +219,9 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
                         height: pieceH,
                         child: Draggable<String>(
                           data: key,
+                          dragAnchorStrategy: (draggable, context, position) {
+                            return Offset(pieceW / 2, pieceH / 2);
+                          },
                           feedback: Material(
                             color: Colors.transparent,
                             child: CustomPaint(
@@ -213,9 +230,14 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
                             ),
                           ),
                           childWhenDragging: const SizedBox.shrink(),
-                          child: CustomPaint(
-                            size: Size(pieceW, pieceH),
-                            painter: _PieceCardPainter(prePiece: prePiece),
+                          child: GestureDetector(
+                            onDoubleTap: () {
+                              widget.controller.returnPieceToTray(key);
+                            },
+                            child: CustomPaint(
+                              size: Size(pieceW, pieceH),
+                              painter: _PieceCardPainter(prePiece: prePiece),
+                            ),
                           ),
                         ),
                       );
@@ -241,7 +263,7 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
       },
       builder: (context, candidateData, rejectedData) {
         return ClayContainer(
-          height: 144,
+          height: 116,
           padding: const EdgeInsets.symmetric(vertical: 8),
           color: Colors.white,
           depth: 5.5,
@@ -254,135 +276,130 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
           child: Obx(() {
             final trayKeys = widget.controller.trayPieceKeys;
 
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Tray status header: remaining count only
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-                  child: Row(
+            if (trayKeys.isEmpty) {
+              return const Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.check_circle_rounded, color: Color(0xFF00E676), size: 22),
+                    SizedBox(width: 8),
+                    Text(
+                      'All tray pieces placed!',
+                      style: TextStyle(
+                        color: Color(0xFF0E2A47),
+                        fontWeight: FontWeight.w800,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+
+            return ListView.separated(
+              controller: _trayScrollController,
+              scrollDirection: Axis.horizontal,
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+              separatorBuilder: (_, __) => const SizedBox(width: 10),
+              itemCount: trayKeys.length,
+              itemBuilder: (context, index) {
+                final key = trayKeys[index];
+                final prePiece = widget.controller.preRenderedPieces[key];
+                if (prePiece == null) return const SizedBox.shrink();
+
+                final isHint = key == widget.controller.hintPieceKey.value;
+
+                final feedbackW = (widget.controller.pieceW + 2 * prePiece.margin) * screenScale;
+                final feedbackH = (widget.controller.pieceH + 2 * prePiece.margin) * screenScale;
+
+                const trayH = 76.0;
+                final pieceAspect = (widget.controller.pieceW + 2 * prePiece.margin) /
+                    (widget.controller.pieceH + 2 * prePiece.margin);
+                final trayW = (trayH * pieceAspect).clamp(52.0, 96.0);
+
+                return Draggable<String>(
+                  data: key,
+                  affinity: Axis.vertical,
+                  dragAnchorStrategy: (draggable, context, position) {
+                    return Offset(feedbackW / 2, feedbackH / 2);
+                  },
+                  feedback: Material(
+                    color: Colors.transparent,
+                    child: CustomPaint(
+                      size: Size(feedbackW, feedbackH),
+                      painter: _PieceCardPainter(prePiece: prePiece),
+                    ),
+                  ),
+                  childWhenDragging: Opacity(
+                    opacity: 0.18,
+                    child: SizedBox(
+                      width: trayW,
+                      height: trayH,
+                      child: CustomPaint(
+                        size: Size(trayW, trayH),
+                        painter: _PieceCardPainter(prePiece: prePiece),
+                      ),
+                    ),
+                  ),
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    alignment: Alignment.center,
                     children: [
-                      const Icon(Icons.extension_rounded, size: 16, color: Color(0xFFFF8F00)),
-                      const SizedBox(width: 7),
-                      Text(
-                        '${widget.controller.actualPieceCount - widget.controller.lockedPieceKeys.length} pieces remaining',
-                        style: const TextStyle(
-                          color: Color(0xFF0E2A47),
-                          fontSize: 12.5,
-                          fontWeight: FontWeight.w800,
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 250),
+                        width: trayW,
+                        height: trayH,
+                        alignment: Alignment.center,
+                        decoration: isHint
+                            ? BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(color: const Color(0xFFFF9100), width: 3),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color(0x99FFA000),
+                                    blurRadius: 14,
+                                    spreadRadius: 3,
+                                  ),
+                                ],
+                              )
+                            : null,
+                        child: CustomPaint(
+                          size: Size(trayW, trayH),
+                          painter: _PieceCardPainter(prePiece: prePiece),
                         ),
                       ),
+                      if (isHint)
+                        Positioned(
+                          top: -6,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFFF9100),
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black26,
+                                  blurRadius: 4,
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: const Text(
+                              'THIS PIECE 👆',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 9,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          ),
+                        ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 4),
-
-                // Horizontal Carousel of Pure Jigsaw Pieces (Closer together: 8px gap!)
-                Expanded(
-                  child: trayKeys.isEmpty
-                      ? const Center(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(Icons.check_circle_rounded, color: Color(0xFF00E676), size: 22),
-                              SizedBox(width: 8),
-                              Text(
-                                'All tray pieces placed!',
-                                style: TextStyle(
-                                  color: Color(0xFF0E2A47),
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 13,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          physics: const BouncingScrollPhysics(),
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-                          // Closer together as requested!
-                          separatorBuilder: (_, __) => const SizedBox(width: 8),
-                          itemCount: trayKeys.length,
-                          itemBuilder: (context, index) {
-                            final key = trayKeys[index];
-                            final prePiece = widget.controller.preRenderedPieces[key];
-                            if (prePiece == null) return const SizedBox.shrink();
-
-                            final isHint = key == widget.controller.hintPieceKey.value;
-
-                            // Feedback size matches the exact on-screen size of the board slot (1:1 scale)
-                            final feedbackW = (widget.controller.pieceW + 2 * prePiece.margin) * screenScale;
-                            final feedbackH = (widget.controller.pieceH + 2 * prePiece.margin) * screenScale;
-
-                            // Tray resting display size: proportional to aspect ratio, height 72px
-                            const trayH = 72.0;
-                            final pieceAspect = (widget.controller.pieceW + 2 * prePiece.margin) /
-                                (widget.controller.pieceH + 2 * prePiece.margin);
-                            final trayW = (trayH * pieceAspect).clamp(52.0, 96.0);
-
-                            return GestureDetector(
-                              onTap: () {
-                                HapticFeedback.selectionClick();
-                                // Toggle hint highlight for target slot (no auto-snap)
-                                if (widget.controller.hintPieceKey.value == key) {
-                                  widget.controller.hintPieceKey.value = null;
-                                } else {
-                                  widget.controller.hintPieceKey.value = key;
-                                }
-                              },
-                              child: Draggable<String>(
-                                data: key,
-                                // CRITICAL: vertical affinity allows horizontal swipes to scroll the ListView!
-                                affinity: Axis.vertical,
-                                dragAnchorStrategy: (draggable, context, position) {
-                                  return Offset(feedbackW / 2, feedbackH / 2);
-                                },
-                                feedback: Material(
-                                  color: Colors.transparent,
-                                  child: CustomPaint(
-                                    size: Size(feedbackW, feedbackH),
-                                    painter: _PieceCardPainter(prePiece: prePiece),
-                                  ),
-                                ),
-                                childWhenDragging: Opacity(
-                                  opacity: 0.18,
-                                  child: SizedBox(
-                                    width: trayW,
-                                    height: trayH,
-                                    child: CustomPaint(
-                                      size: Size(trayW, trayH),
-                                      painter: _PieceCardPainter(prePiece: prePiece),
-                                    ),
-                                  ),
-                                ),
-                                child: Container(
-                                  width: trayW,
-                                  height: trayH,
-                                  alignment: Alignment.center,
-                                  decoration: isHint
-                                      ? BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: AppTheme.accentAmber.withValues(alpha: 0.60),
-                                              blurRadius: 16,
-                                              spreadRadius: 3,
-                                            ),
-                                          ],
-                                        )
-                                      : null,
-                                  child: CustomPaint(
-                                    size: Size(trayW, trayH),
-                                    painter: _PieceCardPainter(prePiece: prePiece),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                ),
-              ],
+                );
+              },
             );
           }),
         );

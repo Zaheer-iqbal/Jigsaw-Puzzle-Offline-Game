@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:jigsaw_pro/core/audio/audio_service.dart';
 import 'package:jigsaw_pro/core/haptics/haptic_service.dart';
+import 'package:jigsaw_pro/core/services/reminder_service.dart';
 import 'package:jigsaw_pro/core/storage/hive_storage.dart';
 import 'package:jigsaw_pro/features/content/data/datasources/asset_manifest_data_source.dart';
 import 'package:jigsaw_pro/features/content/data/repositories/puzzle_repository_impl.dart';
@@ -24,13 +25,16 @@ class AppInjector {
     getIt.registerSingleton<HiveStorage>(storage);
     Get.put<HiveStorage>(storage, permanent: true);
 
-    // 2. Audio & Haptics
+    // 2. Audio & Haptics & Reminders
     final audio = AudioService(storage);
     final haptics = HapticService(storage);
+    final reminderService = ReminderService(storage);
     getIt.registerSingleton<AudioService>(audio);
     getIt.registerSingleton<HapticService>(haptics);
+    getIt.registerSingleton<ReminderService>(reminderService);
     Get.put<AudioService>(audio, permanent: true);
     Get.put<HapticService>(haptics, permanent: true);
+    Get.put<ReminderService>(reminderService, permanent: true);
 
     // 3. Domain & Data Content Repositories
     final manifestDataSource = AssetManifestDataSource();

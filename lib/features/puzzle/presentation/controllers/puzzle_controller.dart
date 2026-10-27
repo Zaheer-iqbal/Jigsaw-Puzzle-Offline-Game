@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:jigsaw_pro/core/audio/audio_service.dart';
 import 'package:jigsaw_pro/core/config/app_config.dart';
 import 'package:jigsaw_pro/core/haptics/haptic_service.dart';
+import 'package:jigsaw_pro/core/services/reminder_service.dart';
 import 'package:jigsaw_pro/core/storage/hive_storage.dart';
 import 'package:jigsaw_pro/features/economy/presentation/controllers/economy_controller.dart';
 import 'package:jigsaw_pro/features/monetization/presentation/controllers/monetization_controller.dart';
@@ -91,6 +92,12 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
   void onClose() {
     _timer?.cancel();
     _hintTimer?.cancel();
+    _saveCurrentSessionImmediate();
+    if (lockedPieceKeys.isNotEmpty && lockedPieceKeys.length < actualPieceCount) {
+      if (Get.isRegistered<ReminderService>()) {
+        Get.find<ReminderService>().schedulePuzzleReminder();
+      }
+    }
     _storage.flushSessionSync();
     _disposeImages();
     WidgetsBinding.instance.removeObserver(this);
@@ -101,6 +108,11 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused || state == AppLifecycleState.inactive) {
       _saveCurrentSessionImmediate();
+      if (lockedPieceKeys.isNotEmpty && lockedPieceKeys.length < actualPieceCount) {
+        if (Get.isRegistered<ReminderService>()) {
+          Get.find<ReminderService>().schedulePuzzleReminder();
+        }
+      }
     }
   }
 
@@ -327,15 +339,24 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
       // Piece belongs here: snap and lock into exact target position!
       return autoSnapPiece(pieceKey);
     } else {
-      // Wrong location: do NOT fix on the board!
-      // Return to tray if it was on the board, or keep in tray
-      if (boardPieceKeys.contains(pieceKey)) {
-        boardPieceKeys.remove(pieceKey);
-        if (!trayPieceKeys.contains(pieceKey)) {
-          trayPieceKeys.insert(0, pieceKey);
-        }
+      // Free placement on the board:
+      // The piece stays resting on the board at this dropped location
+      // until the player drags it back down to the tray!
+      final clampedX = (boardLocalPos.dx - pieceW / 2).clamp(0.0, boardW - pieceW);
+      final clampedY = (boardLocalPos.dy - pieceH / 2).clamp(0.0, boardH - pieceH);
+      piece.pos = Offset(clampedX, clampedY);
+
+      // Remove from tray and add to active board pieces
+      trayPieceKeys.remove(pieceKey);
+      if (!boardPieceKeys.contains(pieceKey)) {
+        boardPieceKeys.add(pieceKey);
+      } else {
+        boardPieceKeys.refresh();
       }
+
+      moves.value++;
       _haptics.light();
+      _saveCurrentSessionDebounced();
       return false;
     }
   }
@@ -506,6 +527,9 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
 
     // Clear session snapshot from Hive IMMEDIATELY
     await _storage.clearActiveSession();
+    if (Get.isRegistered<ReminderService>()) {
+      Get.find<ReminderService>().cancelReminder();
+    }
 
     // Mark as completed in stats
     _storage.markCompleted(pictureId, actualPieceCount, elapsedSeconds.value, moves.value);
@@ -549,13 +573,13 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
       cat = categoryMap[prefix] ?? prefix;
     } else {
       lvlNum = int.tryParse(pictureId.replaceAll(RegExp(r'[^0-9]'), ''));
-      if (assetPath.contains('animals')) {
+      if (picturePath.contains('animals')) {
         cat = 'animals';
-      } else if (assetPath.contains('flowers')) {
+      } else if (picturePath.contains('flowers')) {
         cat = 'flowers';
-      } else if (assetPath.contains('landmarks')) {
+      } else if (picturePath.contains('landmarks')) {
         cat = 'landmarks';
-      } else if (assetPath.contains('art')) {
+      } else if (picturePath.contains('art')) {
         cat = 'art';
       }
     }
@@ -610,9 +634,14 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
   void _triggerHint() {
     final available = trayPieceKeys.isNotEmpty ? trayPieceKeys : boardPieceKeys.toList();
     if (available.isEmpty) return;
-    hintPieceKey.value = available.first;
+    final key = available.first;
+    if (trayPieceKeys.contains(key)) {
+      trayPieceKeys.remove(key);
+      trayPieceKeys.insert(0, key);
+    }
+    hintPieceKey.value = key;
     _hintTimer?.cancel();
-    _hintTimer = Timer(const Duration(milliseconds: AppConfig.hintDurationMs * 2), () {
+    _hintTimer = Timer(const Duration(milliseconds: AppConfig.hintDurationMs * 3), () {
       hintPieceKey.value = null;
     });
   }
@@ -658,10 +687,11 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
     );
 
     final map = snapshot.toJson();
-    map['picturePath'] = assetPath;
-    map['pictureTitle'] = title;
+    map['picturePath'] = picturePath;
+    map['pictureTitle'] = pictureTitle;
     map['actualPieceCount'] = actualPieceCount;
     map['lockedPieceKeys'] = lockedPieceKeys.toList();
+    map['timestamp'] = DateTime.now().millisecondsSinceEpoch;
     if (currentSagaLevel != null) {
       map['sagaLevel'] = currentSagaLevel;
     }

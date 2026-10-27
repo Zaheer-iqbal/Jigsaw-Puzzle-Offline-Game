@@ -654,13 +654,17 @@ class _DailyPuzzlePageState extends State<DailyPuzzlePage> {
                     size: 28,
                   ),
                   const SizedBox(width: 6),
-                  Text(
-                    isTodayDone ? 'REPLAY TODAY\'S PUZZLE' : 'PLAY TODAY\'S PUZZLE',
-                    style: const TextStyle(
-                      color: Color(0xFF3E2723),
-                      fontSize: 16.5,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: 1.1,
+                  Flexible(
+                    child: Text(
+                      isTodayDone ? 'REPLAY TODAY\'S PUZZLE' : 'PLAY TODAY\'S PUZZLE',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Color(0xFF3E2723),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 0.8,
+                      ),
                     ),
                   ),
                 ],

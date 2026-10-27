@@ -70,6 +70,90 @@
     "premium": true
   },
   {
+    "id": "a006",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a006.jpg",
+    "title": "Cute Bunny",
+    "premium": false
+  },
+  {
+    "id": "a007",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a007.jpg",
+    "title": "Red Fox",
+    "premium": false
+  },
+  {
+    "id": "a008",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a008.jpg",
+    "title": "Gentle Panda",
+    "premium": false
+  },
+  {
+    "id": "a009",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a009.jpg",
+    "title": "Curious Squirrel",
+    "premium": false
+  },
+  {
+    "id": "a010",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a010.jpg",
+    "title": "African Lion",
+    "premium": true
+  },
+  {
+    "id": "a011",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a011.jpg",
+    "title": "Striped Zebra",
+    "premium": false
+  },
+  {
+    "id": "a012",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a012.jpg",
+    "title": "Towering Giraffe",
+    "premium": false
+  },
+  {
+    "id": "a013",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a013.jpg",
+    "title": "Wise Owl",
+    "premium": false
+  },
+  {
+    "id": "a014",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a014.jpg",
+    "title": "Polar Bear",
+    "premium": false
+  },
+  {
+    "id": "a015",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a015.jpg",
+    "title": "Colorful Parrot",
+    "premium": true
+  },
+  {
+    "id": "a016",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a016.jpg",
+    "title": "Graceful Horse",
+    "premium": false
+  },
+  {
+    "id": "a017",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a017.jpg",
+    "title": "Dolphin Splash",
+    "premium": false
+  },
+  {
     "id": "f001",
     "category": "flowers",
     "path": "assets/puzzles/flowers/f001.jpg",

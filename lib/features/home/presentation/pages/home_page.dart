@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jigsaw_pro/core/audio/audio_service.dart';
+import 'package:jigsaw_pro/core/services/reminder_service.dart';
 import 'package:jigsaw_pro/core/storage/hive_storage.dart';
 import 'package:jigsaw_pro/core/theme/app_theme.dart';
 import 'package:jigsaw_pro/core/widgets/app_bottom_nav_bar.dart';
@@ -39,6 +40,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       final storage = Get.find<HiveStorage>();
       if (!storage.hasConsentedToPrivacy && mounted) {
         _showConsentDialog(context, storage);
+      } else if (mounted && Get.isRegistered<ReminderService>()) {
+        try {
+          Get.find<ReminderService>().checkPendingReminder(context);
+        } catch (_) {}
       }
     });
   }
@@ -147,8 +152,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
           const SizedBox(height: 14),
 
-          // Big 3D Tactile Golden PLAY Button
+          // Big 3D Tactile Golden PLAY / CONTINUE Button
           _buildBigPlayButton(
+            isContinue: isContinue,
             onPressed: () => _onPlayHeroPressed(context, activeSession, content, highestSaga),
           ),
 
@@ -377,6 +383,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     final cardBevel = isDark ? const Color(0xFF091322) : const Color(0xFFCBD5E1);
     final titleColor = isDark ? Colors.white : const Color(0xFF1E293B);
     final subtitleColor = isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B);
+    final lockedInSession = (activeSession?['lockedPieceKeys'] as List?)?.length ?? 0;
+    final remainingPieces = (pieceCount - lockedInSession).clamp(0, pieceCount);
 
     return GestureDetector(
       onTap: () => _onPlayHeroPressed(context, activeSession, content, highestSaga),
@@ -462,31 +470,42 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        color: titleColor,
-                        fontWeight: FontWeight.w900,
-                        fontSize: 16,
+                Expanded(
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          title,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: titleColor,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 16,
+                          ),
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      '$pieceCount pieces',
-                      style: TextStyle(
-                        color: subtitleColor,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12,
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          isContinue
+                              ? '($lockedInSession/$pieceCount placed • $remainingPieces left)'
+                              : '$pieceCount pieces',
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: isContinue ? const Color(0xFF00C853) : subtitleColor,
+                            fontWeight: isContinue ? FontWeight.w800 : FontWeight.w600,
+                            fontSize: 12,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
+                const SizedBox(width: 6),
                 Text(
                   progressPercent,
                   style: TextStyle(
-                    color: titleColor,
+                    color: isContinue ? const Color(0xFF00C853) : titleColor,
                     fontWeight: FontWeight.w900,
                     fontSize: 15,
                   ),
@@ -513,8 +532,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
-  // --- Big 3D Tactile Claymorphic PLAY Button ---
-  Widget _buildBigPlayButton({required VoidCallback onPressed}) {
+  // --- Big 3D Tactile Claymorphic PLAY / CONTINUE Button ---
+  Widget _buildBigPlayButton({
+    required VoidCallback onPressed,
+    bool isContinue = false,
+  }) {
     return ClayButton(
       onTap: onPressed,
       width: 240,
@@ -532,19 +554,26 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
       ),
-      child: const Center(
+      child: Center(
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.play_arrow_rounded, color: Color(0xFF3E2723), size: 30),
-            SizedBox(width: 6),
+            const Icon(Icons.play_arrow_rounded, color: Color(0xFF3E2723), size: 30),
+            const SizedBox(width: 6),
             Text(
-              'PLAY',
-              style: TextStyle(
+              isContinue ? 'CONTINUE' : 'PLAY',
+              style: const TextStyle(
                 color: Color(0xFF3E2723),
                 fontSize: 22,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 1.8,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
               ),
             ),
           ],
@@ -630,9 +659,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     children: [
                       Row(
                         children: [
-                          const Text(
-                            'Daily Puzzle',
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 15),
+                          const Flexible(
+                            child: Text(
+                              'Daily Puzzle',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 15),
+                            ),
                           ),
                           if (isCompletedToday) ...[
                             const SizedBox(width: 6),
@@ -656,9 +689,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                           children: const [
                             Icon(Icons.check_circle_outline_rounded, color: Color(0xFF00E676), size: 14),
                             SizedBox(width: 4),
-                            Text(
-                              'Completed Today! +20 Coins Claimed',
-                              style: TextStyle(color: Color(0xFF00E676), fontWeight: FontWeight.bold, fontSize: 11.5),
+                            Expanded(
+                              child: Text(
+                                'Completed! +20 Coins',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(color: Color(0xFF00E676), fontWeight: FontWeight.bold, fontSize: 11.5),
+                              ),
                             ),
                           ],
                         )
@@ -940,8 +977,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     final total = (activeSession?['pieceCount'] ?? activeSession?['actualPieceCount']) as int? ?? 48;
     final isContinue = activeSession != null && locked > 0 && locked < total;
 
-    if (isContinue && activeSession?['pictureId'] != null) {
-      final picId = activeSession!['pictureId'] as String;
+    if (isContinue && activeSession['pictureId'] != null) {
+      final picId = activeSession['pictureId'] as String;
       final saga = activeSession['sagaLevel'] as int?;
       context.push('/puzzle?id=$picId&pieces=$total${saga != null ? "&sagaLevel=$saga" : ""}&resume=true');
       return;
