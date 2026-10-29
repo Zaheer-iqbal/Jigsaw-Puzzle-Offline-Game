@@ -582,11 +582,11 @@ class _DailyPuzzlePageState extends State<DailyPuzzlePage> {
               children: [
                 Image.asset(
                   dailyPic.path,
-                  height: 160,
+                  height: 200,
                   width: double.infinity,
                   fit: BoxFit.cover,
                   errorBuilder: (_, __, ___) => Container(
-                    height: 160,
+                    height: 200,
                     color: const Color(0xFF64B5F6),
                     child: const Center(
                       child: Icon(Icons.image_rounded, size: 48, color: Colors.white),

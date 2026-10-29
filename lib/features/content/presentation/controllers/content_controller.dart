@@ -52,7 +52,7 @@ class ContentController extends GetxController {
   }
 
   bool isPictureUnlocked(PuzzlePicture picture) {
-    // 1. Explicitly unlocked via Ad or Coins (Only this specific puzzle!)
+    // 1. Explicitly unlocked via Ad or Coins (saved in storage)
     if (_storage.isPictureUnlocked(picture.id)) return true;
 
     // 2. Already completed by player
@@ -62,7 +62,7 @@ class ContentController extends GetxController {
     final lvl = getPictureLevelNumber(picture);
     if (lvl <= 1) return true;
 
-    // 4. Sequential progression: Unlocked ONLY if the immediately previous puzzle is completed!
+    // 4. Sequential progression: Unlocked if previous puzzle in the category is completed
     final catPics = allPictures
         .where((p) => p.category.toLowerCase() == picture.category.toLowerCase())
         .toList();

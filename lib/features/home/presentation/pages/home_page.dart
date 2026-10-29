@@ -68,29 +68,27 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         return ValueListenableBuilder(
           valueListenable: storage.sessionBoxListenable,
           builder: (context, _, __) {
-            return Obx(() {
-              final activeSession = storage.getActiveSession();
-              final highestSaga = storage.getHighestSagaLevel();
+            final activeSession = storage.getActiveSession();
+            final highestSaga = storage.getHighestSagaLevel();
 
-              return Scaffold(
-                backgroundColor: Colors.transparent,
-                bottomNavigationBar: const AppBottomNavBar(currentTab: AppTab.home),
-                body: CasualGameBackground(
-                  child: SafeArea(
-                    child: _buildHeroHomeView(
-                      context,
-                      storage,
-                      content,
-                      economy,
-                      settings,
-                      monetization,
-                      activeSession,
-                      highestSaga,
-                    ),
+            return Scaffold(
+              backgroundColor: Colors.transparent,
+              bottomNavigationBar: const AppBottomNavBar(currentTab: AppTab.home),
+              body: CasualGameBackground(
+                child: SafeArea(
+                  child: _buildHeroHomeView(
+                    context,
+                    storage,
+                    content,
+                    economy,
+                    settings,
+                    monetization,
+                    activeSession,
+                    highestSaga,
                   ),
                 ),
-              );
-            });
+              ),
+            );
           },
         );
       },
@@ -574,13 +572,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       ),
     );
   }
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   // --- Daily Puzzle Card (Claymorphic) ---
   Widget _buildDailyPuzzleCard(BuildContext context, ContentController content, HiveStorage storage) {
@@ -1023,18 +1014,20 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
       builder: (ctx) {
-        return DraggableScrollableSheet(
-          initialChildSize: 0.85,
-          maxChildSize: 0.95,
-          minChildSize: 0.50,
-          expand: false,
-          builder: (_, scrollController) {
-            final completedCount = storage.completedIds.length;
-            final highest = storage.getHighestSagaLevel();
-            int totalStars = 0;
-            for (var i = 1; i <= 25; i++) {
-              totalStars += storage.getSagaStars(i);
-            }
+        return StatefulBuilder(
+          builder: (modalCtx, setModalState) {
+            return DraggableScrollableSheet(
+              initialChildSize: 0.85,
+              maxChildSize: 0.95,
+              minChildSize: 0.50,
+              expand: false,
+              builder: (_, scrollController) {
+                final completedCount = storage.completedIds.length;
+                final highest = storage.getHighestSagaLevel();
+                int totalStars = 0;
+                for (var i = 1; i <= 25; i++) {
+                  totalStars += storage.getSagaStars(i);
+                }
 
             return ListView(
               controller: scrollController,
@@ -1147,12 +1140,32 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                             ),
                             onPressed: () {
+                              HapticFeedback.heavyImpact();
                               monetization.isRemoveAdsPurchased.value = true;
                               storage.setRemoveAds(true);
-                              Get.snackbar('Ad-Free Activated!', 'All advertisements removed!',
-                                  backgroundColor: const Color(0xDD000000), colorText: Colors.white);
+                              setModalState(() {});
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: const Text('🎉 Ad-Free VIP Activated! All ads removed forever!'),
+                                  backgroundColor: const Color(0xFF00C853),
+                                  behavior: SnackBarBehavior.floating,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                                ),
+                              );
                             },
                             child: const Text('Remove', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+                          )
+                        else
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF00E676),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Text(
+                              'ACTIVE',
+                              style: TextStyle(color: Color(0xFF0E2A47), fontWeight: FontWeight.w900, fontSize: 11),
+                            ),
                           ),
                       ],
                     ),
@@ -1296,7 +1309,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 const SizedBox(height: 18),
 
                 // Board Theme Selector
-                const Text('Puzzle Board Theme', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Puzzle Board Theme', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
+                    const Text('Active in Puzzles', style: TextStyle(color: AppTheme.accentAmber, fontSize: 11, fontWeight: FontWeight.w600)),
+                  ],
+                ),
                 const SizedBox(height: 8),
                 Obx(() {
                   final currentBg = settings.boardBackground.value;
@@ -1306,6 +1325,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     children: BoardBackgroundStyle.values.map((style) {
                       final isSelected = style == currentBg;
                       return ChoiceChip(
+                        avatar: Container(
+                          width: 14,
+                          height: 14,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: _getThemeColor(style),
+                            border: Border.all(color: Colors.white70, width: 1),
+                          ),
+                        ),
                         label: Text(style.label),
                         selected: isSelected,
                         selectedColor: AppTheme.accentAmber,
@@ -1316,7 +1344,88 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                           fontSize: 12,
                         ),
                         onSelected: (val) {
-                          if (val) settings.setBoardBackground(style);
+                          if (val) {
+                            HapticFeedback.lightImpact();
+                            settings.setBoardBackground(style);
+                            setModalState(() {});
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('🎨 Board theme set to "${style.label}"! Active in your puzzle games.'),
+                                backgroundColor: const Color(0xEE112238),
+                                duration: const Duration(seconds: 1),
+                                behavior: SnackBarBehavior.floating,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              ),
+                            );
+                          }
+                        },
+                      );
+                    }).toList(),
+                  );
+                }),
+                const SizedBox(height: 18),
+
+                // Full App Screen Background Theme Selector
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('App Screen Background', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
+                    const Text('Changes Whole App', style: TextStyle(color: AppTheme.accentAmber, fontSize: 11, fontWeight: FontWeight.w600)),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Obx(() {
+                  final currentTheme = settings.screenTheme.value;
+                  final screenThemes = [
+                    {'id': 'azureSky', 'label': 'Azure Sky', 'color': const Color(0xFF29B6F6)},
+                    {'id': 'midnightNavy', 'label': 'Midnight Navy', 'color': const Color(0xFF16263D)},
+                    {'id': 'sunsetPurple', 'label': 'Sunset Glow', 'color': const Color(0xFF7B1FA2)},
+                    {'id': 'emeraldForest', 'label': 'Emerald Forest', 'color': const Color(0xFF00695C)},
+                    {'id': 'goldenAmber', 'label': 'Warm Amber', 'color': const Color(0xFFFFB300)},
+                    {'id': 'amoledDark', 'label': 'AMOLED Dark', 'color': const Color(0xFF131922)},
+                  ];
+                  return Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: screenThemes.map((item) {
+                      final id = item['id'] as String;
+                      final label = item['label'] as String;
+                      final color = item['color'] as Color;
+                      final isSelected = id == currentTheme;
+                      return ChoiceChip(
+                        avatar: Container(
+                          width: 14,
+                          height: 14,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: color,
+                            border: Border.all(color: Colors.white70, width: 1),
+                          ),
+                        ),
+                        label: Text(label),
+                        selected: isSelected,
+                        selectedColor: AppTheme.accentAmber,
+                        backgroundColor: const Color(0xFF1E2838),
+                        labelStyle: TextStyle(
+                          color: isSelected ? Colors.black : Colors.white70,
+                          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                          fontSize: 12,
+                        ),
+                        onSelected: (val) {
+                          if (val) {
+                            HapticFeedback.lightImpact();
+                            settings.setScreenTheme(id);
+                            setModalState(() {});
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('🌈 Screen background set to "$label"!'),
+                                backgroundColor: const Color(0xEE112238),
+                                duration: const Duration(seconds: 1),
+                                behavior: SnackBarBehavior.floating,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              ),
+                            );
+                          }
                         },
                       );
                     }).toList(),
@@ -1324,14 +1433,70 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 }),
                 const SizedBox(height: 20),
 
-                // Achievements Section
-                const Text('Achievements', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
+                // Achievements Section (Interactive & Rewards Real Coins!)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Achievements', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
+                    const Text('Claim Free Coins', style: TextStyle(color: AppTheme.accentAmber, fontSize: 11, fontWeight: FontWeight.w600)),
+                  ],
+                ),
                 const SizedBox(height: 8),
-                _buildAchievementTile('First Victory', 'Solve your first jigsaw puzzle', completedCount >= 1),
-                _buildAchievementTile('Saga Explorer', 'Reach Level 5 in Campaign', highest >= 5),
-                _buildAchievementTile('Puzzle Pro', 'Reach Level 10 in Campaign', highest >= 10),
-                _buildAchievementTile('Star Master', 'Collect at least 15 stars', totalStars >= 15),
-                _buildAchievementTile('Saga Champion', 'Clear all 25 levels', highest >= 25),
+                _buildAchievementTile(
+                  context: context,
+                  id: 'first_win',
+                  title: 'First Victory',
+                  desc: 'Solve your first jigsaw puzzle',
+                  unlocked: completedCount >= 1,
+                  rewardCoins: 50,
+                  storage: storage,
+                  economy: economy,
+                  onUpdate: () => setModalState(() {}),
+                ),
+                _buildAchievementTile(
+                  context: context,
+                  id: 'saga_5',
+                  title: 'Saga Explorer',
+                  desc: 'Reach Level 5 in Campaign',
+                  unlocked: highest >= 5,
+                  rewardCoins: 75,
+                  storage: storage,
+                  economy: economy,
+                  onUpdate: () => setModalState(() {}),
+                ),
+                _buildAchievementTile(
+                  context: context,
+                  id: 'saga_10',
+                  title: 'Puzzle Pro',
+                  desc: 'Reach Level 10 in Campaign',
+                  unlocked: highest >= 10,
+                  rewardCoins: 100,
+                  storage: storage,
+                  economy: economy,
+                  onUpdate: () => setModalState(() {}),
+                ),
+                _buildAchievementTile(
+                  context: context,
+                  id: 'stars_15',
+                  title: 'Star Master',
+                  desc: 'Collect at least 15 stars',
+                  unlocked: totalStars >= 15,
+                  rewardCoins: 120,
+                  storage: storage,
+                  economy: economy,
+                  onUpdate: () => setModalState(() {}),
+                ),
+                _buildAchievementTile(
+                  context: context,
+                  id: 'saga_25',
+                  title: 'Saga Champion',
+                  desc: 'Clear all 25 levels',
+                  unlocked: highest >= 25,
+                  rewardCoins: 200,
+                  storage: storage,
+                  economy: economy,
+                  onUpdate: () => setModalState(() {}),
+                ),
                 const SizedBox(height: 20),
 
                 // Privacy Policy & About Buttons
@@ -1370,7 +1535,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         );
       },
     );
-  }
+  },
+);
+}
 
   Widget _buildStatBadge(IconData icon, String label, String value, {Color? color}) {
     return Column(
@@ -1384,37 +1551,110 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
-  Widget _buildAchievementTile(String title, String desc, bool unlocked) {
+  Widget _buildAchievementTile({
+    required BuildContext context,
+    required String id,
+    required String title,
+    required String desc,
+    required bool unlocked,
+    required int rewardCoins,
+    required HiveStorage storage,
+    required EconomyController economy,
+    required VoidCallback onUpdate,
+  }) {
+    final isClaimed = storage.isAchievementClaimed(id);
+
     return Container(
-      margin: const EdgeInsets.only(bottom: 6),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       decoration: BoxDecoration(
-        color: unlocked ? const Color(0xFF1B3828) : const Color(0xFF1E2838),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: unlocked ? Colors.green.withValues(alpha: 0.4) : Colors.white12),
+        color: unlocked ? (isClaimed ? const Color(0xFF1B3828) : const Color(0xFF1E3A2F)) : const Color(0xFF1E2838),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: unlocked ? const Color(0xFF00E676).withValues(alpha: isClaimed ? 0.3 : 0.7) : Colors.white12,
+          width: isClaimed ? 1.0 : 1.5,
+        ),
       ),
       child: Row(
         children: [
           Icon(
             unlocked ? Icons.emoji_events_rounded : Icons.lock_outline_rounded,
             color: unlocked ? const Color(0xFFFFD700) : Colors.white38,
-            size: 22,
+            size: 24,
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: TextStyle(color: unlocked ? Colors.white : Colors.white60, fontWeight: FontWeight.bold, fontSize: 12)),
-                Text(desc, style: const TextStyle(color: Colors.white54, fontSize: 10)),
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: unlocked ? Colors.white : Colors.white60,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
+                  ),
+                ),
+                Text(
+                  desc,
+                  style: const TextStyle(color: Colors.white54, fontSize: 11),
+                ),
               ],
             ),
           ),
-          if (unlocked)
-            const Icon(Icons.check_circle_rounded, color: Color(0xFF66BB6A), size: 18),
+          const SizedBox(width: 8),
+          if (unlocked && !isClaimed)
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFFFB300),
+                foregroundColor: const Color(0xFF0E2A47),
+                elevation: 3,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                minimumSize: Size.zero,
+              ),
+              onPressed: () async {
+                HapticFeedback.heavyImpact();
+                await storage.claimAchievement(id);
+                economy.addCoins(rewardCoins);
+                onUpdate();
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('🎉 Claimed +$rewardCoins coins for "$title"!'),
+                      backgroundColor: const Color(0xFF00C853),
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                    ),
+                  );
+                }
+              },
+              child: Text(
+                'CLAIM +$rewardCoins',
+                style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 11),
+              ),
+            )
+          else if (unlocked && isClaimed)
+            const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.check_circle_rounded, color: Color(0xFF00E676), size: 18),
+                SizedBox(width: 4),
+                Text(
+                  'Claimed',
+                  style: TextStyle(color: Color(0xFF00E676), fontSize: 11, fontWeight: FontWeight.bold),
+                ),
+              ],
+            )
+          else
+            const Icon(Icons.lock_rounded, color: Colors.white24, size: 18),
         ],
       ),
     );
+  }
+
+  Color _getThemeColor(BoardBackgroundStyle style) {
+    return style.primaryColor;
   }
 
   void _showPrivacyPolicy(BuildContext context) {

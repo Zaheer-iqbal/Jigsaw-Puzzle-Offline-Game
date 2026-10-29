@@ -133,6 +133,10 @@ class AudioService {
     }
   }
 
+  Future<void> playPop() async {
+    await playClick();
+  }
+
   void dispose() {
     _sfxPlayer.dispose();
     _bgmPlayer.dispose();

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -31,6 +32,10 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
   final ScrollController _trayScrollController = ScrollController();
   late final AnimationController _pulseController;
   Worker? _hintWorker;
+  Worker? _stateWorker;
+  Timer? _previewTimer;
+  bool _showInitialPreview = true;
+  double _previewOpacity = 1.0;
 
   @override
   void initState() {
@@ -49,10 +54,45 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
         );
       }
     });
+
+    _stateWorker = ever(widget.controller.state, (state) {
+      if (state == PuzzleState.playing && _showInitialPreview) {
+        _startInitialPreviewTimer();
+      }
+    });
+
+    if (widget.controller.state.value == PuzzleState.playing) {
+      _startInitialPreviewTimer();
+    }
+  }
+
+  void _startInitialPreviewTimer() {
+    _previewTimer?.cancel();
+    _previewTimer = Timer(const Duration(milliseconds: 2200), () {
+      _dismissInitialPreview();
+    });
+  }
+
+  void _dismissInitialPreview() {
+    if (!_showInitialPreview || _previewOpacity == 0.0) return;
+    _previewTimer?.cancel();
+    if (!mounted) return;
+    setState(() {
+      _previewOpacity = 0.0;
+    });
+    Future.delayed(const Duration(milliseconds: 350), () {
+      if (mounted) {
+        setState(() {
+          _showInitialPreview = false;
+        });
+      }
+    });
   }
 
   @override
   void dispose() {
+    _previewTimer?.cancel();
+    _stateWorker?.dispose();
     _hintWorker?.dispose();
     _trayScrollController.dispose();
     _pulseController.dispose();
@@ -66,7 +106,7 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
     return Obx(() {
       final state = widget.controller.state.value;
 
-      if (state == PuzzleState.preparing) {
+      if (state == PuzzleState.initial || state == PuzzleState.preparing) {
         return _buildLoadingScreen(widget.controller.prepareProgress.value);
       }
 
@@ -84,8 +124,13 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
             child: LayoutBuilder(
               builder: (context, constraints) {
                 // Calculate responsive board dimensions
+                final isDailyMode = widget.controller.isDaily;
+                final hasTrayPieces = widget.controller.trayPieceKeys.isNotEmpty;
+                final showTray = !isDailyMode && hasTrayPieces;
                 final maxW = constraints.maxWidth - 16; // 8px margin each side
-                final maxH = constraints.maxHeight - 245; // Reserve for top HUD and elevated bottom tray
+                final maxH = showTray
+                    ? (constraints.maxHeight - 165) // Reserve for top HUD (~60px) + slim bottom tray (~95px)
+                    : (constraints.maxHeight - 85); // Full vertical expansion when tray is empty or Daily!
                 final aspect = widget.controller.boardW / (widget.controller.boardH > 0 ? widget.controller.boardH : 1.0);
 
                 double renderW, renderH;
@@ -119,11 +164,14 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
                       ),
                     ),
 
-                    // 3. Bottom Scrollable Piece Tray (Elevated Floating Card)
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(14, 2, 14, 26),
-                      child: _buildBottomPieceTray(isLight, renderW),
-                    ),
+                    // 3. Bottom Scrollable Piece Tray (Only in Standard Mode when tray has pieces!)
+                    if (showTray)
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(14, 2, 14, 14),
+                        child: _buildBottomPieceTray(isLight, renderW),
+                      )
+                    else
+                      const SizedBox(height: 10),
                   ],
                 );
               },
@@ -199,6 +247,7 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
 
                 // 2. Unlocked pieces resting on the board (freely movable by user!)
                 Obx(() {
+                  final _ = widget.controller.boardPieceKeys.length;
                   final activeBoardKeys = widget.controller.boardPieceKeys.toList();
                   return Stack(
                     clipBehavior: Clip.none,
@@ -211,6 +260,9 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
                       final pieceScreenY = (piece.pos.dy - prePiece.margin) * screenScale;
                       final pieceW = (widget.controller.pieceW + 2 * prePiece.margin) * screenScale;
                       final pieceH = (widget.controller.pieceH + 2 * prePiece.margin) * screenScale;
+
+                      final isHint = key == widget.controller.hintPieceKey.value;
+                      final isSelected = widget.controller.isDaily && (key == widget.controller.selectedDailyPieceKey.value);
 
                       return Positioned(
                         left: pieceScreenX,
@@ -229,14 +281,90 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
                               painter: _PieceCardPainter(prePiece: prePiece),
                             ),
                           ),
-                          childWhenDragging: const SizedBox.shrink(),
+                          childWhenDragging: widget.controller.isDaily
+                              ? Opacity(
+                                  opacity: 0.35,
+                                  child: CustomPaint(
+                                    size: Size(pieceW, pieceH),
+                                    painter: _PieceCardPainter(prePiece: prePiece),
+                                  ),
+                                )
+                              : const SizedBox.shrink(),
                           child: GestureDetector(
-                            onDoubleTap: () {
-                              widget.controller.returnPieceToTray(key);
-                            },
-                            child: CustomPaint(
-                              size: Size(pieceW, pieceH),
-                              painter: _PieceCardPainter(prePiece: prePiece),
+                            onTap: widget.controller.isDaily
+                                ? () => widget.controller.onDailyPieceTapped(key)
+                                : null,
+                            onDoubleTap: widget.controller.isDaily
+                                ? null
+                                : () => widget.controller.returnPieceToTray(key),
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                Container(
+                                  width: pieceW,
+                                  height: pieceH,
+                                  decoration: isSelected
+                                      ? BoxDecoration(
+                                          border: Border.all(color: const Color(0xFF00E5FF), width: 3),
+                                          borderRadius: BorderRadius.circular(6),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              color: Color(0x9900E5FF),
+                                              blurRadius: 10,
+                                              spreadRadius: 2,
+                                            ),
+                                          ],
+                                        )
+                                      : (isHint
+                                          ? BoxDecoration(
+                                              border: Border.all(color: const Color(0xFFFF9100), width: 3),
+                                              borderRadius: BorderRadius.circular(6),
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                  color: Color(0x99FFA000),
+                                                  blurRadius: 12,
+                                                  spreadRadius: 2,
+                                                ),
+                                              ],
+                                            )
+                                          : null),
+                                  child: CustomPaint(
+                                    size: Size(pieceW, pieceH),
+                                    painter: _PieceCardPainter(prePiece: prePiece),
+                                  ),
+                                ),
+                                if (isHint)
+                                  Positioned(
+                                    top: -6,
+                                    left: 0,
+                                    right: 0,
+                                    child: Center(
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFFFF9100),
+                                          borderRadius: BorderRadius.circular(8),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              color: Colors.black26,
+                                              blurRadius: 4,
+                                              offset: Offset(0, 2),
+                                            ),
+                                          ],
+                                        ),
+                                        child: const Text(
+                                          'THIS PIECE 👆',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 9,
+                                            fontWeight: FontWeight.w900,
+                                            letterSpacing: 0.5,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                              ],
                             ),
                           ),
                         ),
@@ -244,6 +372,90 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
                     }).toList(),
                   );
                 }),
+
+                // 3. Pre-Game Picture Preview Overlay (Shows full image for ~2s before scattering into pieces)
+                if (_showInitialPreview)
+                  Positioned.fill(
+                    child: AnimatedOpacity(
+                      opacity: _previewOpacity,
+                      duration: const Duration(milliseconds: 350),
+                      curve: Curves.easeOut,
+                      child: GestureDetector(
+                        onTap: _dismissInitialPreview,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              Image.asset(
+                                widget.controller.picturePath,
+                                fit: BoxFit.cover,
+                                errorBuilder: (_, __, ___) => Container(
+                                  color: const Color(0xFF1E293B),
+                                  child: const Center(
+                                    child: Icon(Icons.image_rounded, size: 48, color: Colors.white54),
+                                  ),
+                                ),
+                              ),
+
+                              // Bottom gradient shadow for readable badge
+                              Positioned(
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                height: 68,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [Colors.transparent, Color(0xD9000000)],
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                              // Floating interactive pill: "Memorize Image • Tap to Start"
+                              Positioned(
+                                bottom: 12,
+                                left: 16,
+                                right: 16,
+                                child: Center(
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xEE0E2A47),
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: Border.all(color: const Color(0xFFFFB300), width: 1.5),
+                                      boxShadow: const [
+                                        BoxShadow(color: Color(0x40000000), blurRadius: 8, offset: Offset(0, 3)),
+                                      ],
+                                    ),
+                                    child: const Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(Icons.visibility_rounded, color: Color(0xFFFFB300), size: 16),
+                                        SizedBox(width: 6),
+                                        Text(
+                                          'Memorize Image • Tap to Start',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w900,
+                                            letterSpacing: 0.3,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),
@@ -262,46 +474,27 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
         widget.controller.returnPieceToTray(details.data);
       },
       builder: (context, candidateData, rejectedData) {
-        return ClayContainer(
-          height: 116,
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          color: Colors.white,
-          depth: 5.5,
-          bevelColor: candidateData.isNotEmpty ? const Color(0xFFFF8F00) : const Color(0xFFCBD5E1),
-          borderRadius: BorderRadius.circular(28),
-          border: Border.all(
-            color: candidateData.isNotEmpty ? const Color(0xFFFFB300) : Colors.white.withValues(alpha: 0.90),
-            width: candidateData.isNotEmpty ? 2.5 : 1.2,
-          ),
-          child: Obx(() {
-            final trayKeys = widget.controller.trayPieceKeys;
+        return Obx(() {
+          final trayKeys = widget.controller.trayPieceKeys;
+          if (trayKeys.isEmpty) return const SizedBox.shrink();
 
-            if (trayKeys.isEmpty) {
-              return const Center(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.check_circle_rounded, color: Color(0xFF00E676), size: 22),
-                    SizedBox(width: 8),
-                    Text(
-                      'All tray pieces placed!',
-                      style: TextStyle(
-                        color: Color(0xFF0E2A47),
-                        fontWeight: FontWeight.w800,
-                        fontSize: 13,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }
-
-            return ListView.separated(
+          return ClayContainer(
+            height: 92,
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            color: Colors.white,
+            depth: 4.5,
+            bevelColor: candidateData.isNotEmpty ? const Color(0xFFFF8F00) : const Color(0xFFCBD5E1),
+            borderRadius: BorderRadius.circular(22),
+            border: Border.all(
+              color: candidateData.isNotEmpty ? const Color(0xFFFFB300) : Colors.white.withValues(alpha: 0.90),
+              width: candidateData.isNotEmpty ? 2.5 : 1.2,
+            ),
+            child: ListView.separated(
               controller: _trayScrollController,
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-              separatorBuilder: (_, __) => const SizedBox(width: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+              separatorBuilder: (_, __) => const SizedBox(width: 8),
               itemCount: trayKeys.length,
               itemBuilder: (context, index) {
                 final key = trayKeys[index];
@@ -313,10 +506,10 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
                 final feedbackW = (widget.controller.pieceW + 2 * prePiece.margin) * screenScale;
                 final feedbackH = (widget.controller.pieceH + 2 * prePiece.margin) * screenScale;
 
-                const trayH = 76.0;
+                const trayH = 64.0;
                 final pieceAspect = (widget.controller.pieceW + 2 * prePiece.margin) /
                     (widget.controller.pieceH + 2 * prePiece.margin);
-                final trayW = (trayH * pieceAspect).clamp(52.0, 96.0);
+                final trayW = (trayH * pieceAspect).clamp(46.0, 84.0);
 
                 return Draggable<String>(
                   data: key,
@@ -400,9 +593,9 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
                   ),
                 );
               },
-            );
-          }),
-        );
+            )
+          );
+        });
       },
     );
   }
@@ -549,6 +742,18 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
             )),
             const SizedBox(width: 8),
 
+            // Preview Target Picture Button (Eye)
+            ClayButton(
+              onTap: _showPreviewDialog,
+              padding: const EdgeInsets.all(7),
+              borderRadius: BorderRadius.circular(14),
+              depth: 3.5,
+              color: Colors.white,
+              bevelColor: const Color(0xFFCBD5E1),
+              child: const Icon(Icons.visibility_rounded, color: Color(0xFF16355C), size: 16),
+            ),
+            const SizedBox(width: 8),
+
             // Free Hints Button (Claymorphic 3D press-down depth)
             Obx(() {
               final freeHints = settings.freeHints.value;
@@ -588,6 +793,79 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
     } else {
       _showOutOfHintsSheet();
     }
+  }
+
+  void _showPreviewDialog() {
+    HapticFeedback.lightImpact();
+    showDialog(
+      context: context,
+      builder: (ctx) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: const Color(0xFF111E2E),
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(color: const Color(0xFFFFB300), width: 1.5),
+            boxShadow: const [
+              BoxShadow(color: Color(0x66000000), blurRadius: 20, offset: Offset(0, 8)),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Row(
+                    children: [
+                      Icon(Icons.visibility_rounded, color: Color(0xFFFFB300), size: 18),
+                      SizedBox(width: 8),
+                      Text(
+                        'Target Picture',
+                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
+                      ),
+                    ],
+                  ),
+                  IconButton(
+                    onPressed: () => Navigator.pop(ctx),
+                    icon: const Icon(Icons.close_rounded, color: Colors.white70, size: 20),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Image.asset(
+                  widget.controller.picturePath,
+                  fit: BoxFit.contain,
+                  errorBuilder: (_, __, ___) => const SizedBox(
+                    height: 180,
+                    child: Center(
+                      child: Icon(Icons.image_not_supported_rounded, color: Colors.white38, size: 40),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 14),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFFFB300),
+                  foregroundColor: const Color(0xFF0E2A47),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                  minimumSize: const Size(double.infinity, 42),
+                ),
+                onPressed: () => Navigator.pop(ctx),
+                child: const Text('Back to Solving', style: TextStyle(fontWeight: FontWeight.w900)),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   void _showPauseMenuDialog(BuildContext context, SettingsController settings) {

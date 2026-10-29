@@ -59,9 +59,16 @@ class HiveStorage {
   String get boardBackground => _settingsBox.get('boardBg', defaultValue: 'cleanLight') as String;
   Future<void> setBoardBackground(String bg) => _settingsBox.put('boardBg', bg);
 
+  String get screenTheme => _settingsBox.get('screenTheme', defaultValue: 'azureSky') as String;
+  Future<void> setScreenTheme(String theme) => _settingsBox.put('screenTheme', theme);
+
   // --- Privacy & GDPR Consent ---
   bool get hasConsentedToPrivacy => _settingsBox.get('gdprConsent', defaultValue: false) as bool;
   Future<void> setPrivacyConsent(bool value) => _settingsBox.put('gdprConsent', value);
+
+  // --- Achievements Claim Tracking ---
+  bool isAchievementClaimed(String id) => _settingsBox.get('ach_$id', defaultValue: false) as bool;
+  Future<void> claimAchievement(String id) => _settingsBox.put('ach_$id', true);
 
   // --- Economy & Hints ---
   int get freeHints => _settingsBoxSafeInt(_economyBox.get('freeHints'), 3);

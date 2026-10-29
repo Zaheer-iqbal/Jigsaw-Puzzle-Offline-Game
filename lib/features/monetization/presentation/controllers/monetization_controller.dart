@@ -57,30 +57,43 @@ class MonetizationController extends GetxController {
     }
   }
 
-  String get _rewardedAdUnitId =>
-      kDebugMode ? AppConfig.testRewardedId : AppConfig.rewardedAdUnitId;
+  // Always use real AdMob production ad units for 100% authentic monetization
+  String get _rewardedAdUnitId => AppConfig.rewardedAdUnitId;
 
-  String get _interstitialAdUnitId =>
-      kDebugMode ? AppConfig.testInterstitialId : AppConfig.interstitialAdUnitId;
+  String get _interstitialAdUnitId => AppConfig.interstitialAdUnitId;
 
-  void loadRewardedAd() {
-    if (!isMobilePlatform) return;
-    debugPrint('Loading Rewarded Ad with unit ID: $_rewardedAdUnitId (debugMode: $kDebugMode)');
+  bool _isLoadingRewarded = false;
+
+  void loadRewardedAd({void Function(bool success)? onResult}) {
+    if (!isMobilePlatform) {
+      onResult?.call(false);
+      return;
+    }
+    if (_isLoadingRewarded) {
+      debugPrint('AdMob Rewarded ad is already downloading...');
+      return;
+    }
+    _isLoadingRewarded = true;
+    debugPrint('Loading Real AdMob Rewarded Ad: $_rewardedAdUnitId');
     RewardedAd.load(
       adUnitId: _rewardedAdUnitId,
       request: const AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (ad) {
+          _isLoadingRewarded = false;
           _rewardedAd = ad;
           isRewardedAdReady.value = true;
-          debugPrint('AdMob Rewarded Ad loaded successfully.');
+          debugPrint('AdMob Rewarded Ad successfully downloaded and ready!');
+          onResult?.call(true);
         },
         onAdFailedToLoad: (error) {
-          debugPrint('Rewarded ad failed to load: $error');
+          _isLoadingRewarded = false;
+          debugPrint('AdMob Rewarded Ad failed to load (code: ${error.code}): ${error.message}');
           _rewardedAd = null;
           isRewardedAdReady.value = false;
+          onResult?.call(false);
           // Retry loading after a delay
-          Future.delayed(const Duration(seconds: 20), () {
+          Future.delayed(const Duration(seconds: 15), () {
             if (_rewardedAd == null && isMobilePlatform) {
               loadRewardedAd();
             }
@@ -125,39 +138,95 @@ class MonetizationController extends GetxController {
 
     _pauseBgm();
 
-    // 1. If mobile and real ad is ready, show Google Mobile Ads
+    // 1. If mobile and real ad is already downloaded, show Google AdMob video directly
     if (isMobilePlatform && _rewardedAd != null) {
-      _rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
-        onAdDismissedFullScreenContent: (ad) {
-          ad.dispose();
-          _rewardedAd = null;
-          isRewardedAdReady.value = false;
-          _resumeBgm();
-          loadRewardedAd();
-        },
-        onAdFailedToShowFullScreenContent: (ad, error) {
-          ad.dispose();
-          _rewardedAd = null;
-          isRewardedAdReady.value = false;
-          _resumeBgm();
-          loadRewardedAd();
-          onRewardEarned();
-        },
-      );
-
-      _rewardedAd!.show(
-        onUserEarnedReward: (ad, reward) {
-          onRewardEarned();
-        },
-      );
+      _showLoadedRewardedAd(onRewardEarned);
       return;
     }
 
-    // 2. Otherwise (Desktop, Simulator, or Ad currently loading):
+    // 2. If mobile and ad is not yet downloaded, attempt immediate download from AdMob
+    final ctx = context ?? AppRouter.navigatorKey.currentContext;
+    if (isMobilePlatform && ctx != null) {
+      bool isDismissed = false;
+      showDialog(
+        context: ctx,
+        barrierDismissible: false,
+        builder: (dialogCtx) => PopScope(
+          canPop: false,
+          child: AlertDialog(
+            backgroundColor: const Color(0xFF111E2E),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
+            content: const Padding(
+              padding: EdgeInsets.symmetric(vertical: 12),
+              child: Row(
+                children: [
+                  CircularProgressIndicator(color: Color(0xFFFFB300)),
+                  SizedBox(width: 18),
+                  Expanded(
+                    child: Text(
+                      'Loading AdMob Video Ad...',
+                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+
+      loadRewardedAd(onResult: (success) {
+        if (!isDismissed && ctx.mounted) {
+          isDismissed = true;
+          Navigator.of(ctx, rootNavigator: true).pop();
+        }
+
+        if (success && _rewardedAd != null) {
+          _showLoadedRewardedAd(onRewardEarned);
+        } else {
+          // Google AdMob returned No Fill (e.g. app setup pending in AdMob console)
+          _showSimulatedRewardedAdDialog(context, () {
+            _resumeBgm();
+            onRewardEarned();
+          }, rewardTitle);
+        }
+      });
+      return;
+    }
+
+    // 3. Otherwise (Desktop or Web):
     _showSimulatedRewardedAdDialog(context, () {
       _resumeBgm();
       onRewardEarned();
     }, rewardTitle);
+  }
+
+  void _showLoadedRewardedAd(void Function() onRewardEarned) {
+    if (_rewardedAd == null) return;
+
+    _rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdDismissedFullScreenContent: (ad) {
+        ad.dispose();
+        _rewardedAd = null;
+        isRewardedAdReady.value = false;
+        _resumeBgm();
+        loadRewardedAd();
+      },
+      onAdFailedToShowFullScreenContent: (ad, error) {
+        ad.dispose();
+        _rewardedAd = null;
+        isRewardedAdReady.value = false;
+        _resumeBgm();
+        loadRewardedAd();
+        onRewardEarned();
+      },
+    );
+
+    _rewardedAd!.show(
+      onUserEarnedReward: (ad, reward) {
+        onRewardEarned();
+      },
+    );
   }
 
   void _showSimulatedRewardedAdDialog(

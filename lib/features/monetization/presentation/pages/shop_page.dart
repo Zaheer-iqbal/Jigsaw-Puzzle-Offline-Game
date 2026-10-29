@@ -356,9 +356,12 @@ class ShopPage extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          const Text(
-                            'Remove All Ads',
-                            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16, color: Color(0xFF0E2A47)),
+                          const Flexible(
+                            child: Text(
+                              'Remove All Ads',
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16, color: Color(0xFF0E2A47)),
+                            ),
                           ),
                           const SizedBox(width: 6),
                           Container(
@@ -442,9 +445,13 @@ class ShopPage extends StatelessWidget {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 ),
                 icon: const Icon(Icons.ondemand_video_rounded, size: 20),
-                label: Text(
-                  'Watch Video (${progress + 1}/3) to Unlock Ad-Free',
-                  style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13.5),
+                label: Flexible(
+                  child: Text(
+                    'Watch Video (${progress + 1}/3) to Unlock Ad-Free',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13),
+                  ),
                 ),
                 onPressed: () {
                   if (Get.isRegistered<HapticService>()) Get.find<HapticService>().click();
@@ -503,28 +510,28 @@ class ShopPage extends StatelessWidget {
                         style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16, color: Color(0xFF0E2A47)),
                       ),
                       const SizedBox(height: 2),
-                      Row(
+                      Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        spacing: 4,
                         children: [
-                          const Text('🪙', style: TextStyle(fontSize: 14)),
-                          const SizedBox(width: 4),
+                          const Text('🪙', style: TextStyle(fontSize: 13)),
                           Text(
-                            '+$coins Coins',
+                            '+$coins',
                             style: const TextStyle(
                               color: Color(0xFFF57C00),
                               fontWeight: FontWeight.w900,
-                              fontSize: 14,
+                              fontSize: 13,
                             ),
                           ),
-                          const SizedBox(width: 8),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
                             decoration: BoxDecoration(
                               color: const Color(0xFF00E676).withValues(alpha: 0.15),
-                              borderRadius: BorderRadius.circular(6),
+                              borderRadius: BorderRadius.circular(5),
                             ),
                             child: const Text(
                               'FREE',
-                              style: TextStyle(color: Color(0xFF00C853), fontSize: 10, fontWeight: FontWeight.w900),
+                              style: TextStyle(color: Color(0xFF00C853), fontSize: 9.5, fontWeight: FontWeight.w900),
                             ),
                           ),
                         ],
@@ -532,17 +539,23 @@ class ShopPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                ElevatedButton.icon(
+                ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: isPopular ? const Color(0xFFFFB300) : const Color(0xFF1E88E5),
                     foregroundColor: isPopular ? const Color(0xFF0E2A47) : Colors.white,
                     elevation: 3,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                   ),
-                  icon: const Icon(Icons.ondemand_video_rounded, size: 18),
-                  label: const Text('Watch Ad', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13)),
                   onPressed: onClaim,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Icon(Icons.ondemand_video_rounded, size: 16),
+                      SizedBox(width: 4),
+                      Text('Watch', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12.5)),
+                    ],
+                  ),
                 ),
               ],
             ),

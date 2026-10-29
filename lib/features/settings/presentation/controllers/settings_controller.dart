@@ -18,6 +18,7 @@ class SettingsController extends GetxController {
   late final RxBool keepScreenAwake;
   late final RxString themeModeString;
   late final Rx<BoardBackgroundStyle> boardBackground;
+  late final RxString screenTheme;
   late final RxInt freeHints;
 
   @override
@@ -28,6 +29,7 @@ class SettingsController extends GetxController {
     vibrationEnabled = _storage.vibrationEnabled.obs;
     keepScreenAwake = _storage.keepScreenAwake.obs;
     themeModeString = _storage.themeMode.obs;
+    screenTheme = _storage.screenTheme.obs;
     final initialHints = _storage.freeHints.clamp(0, 3);
     freeHints = initialHints.obs;
     _storage.setFreeHints(freeHints.value);
@@ -105,6 +107,11 @@ class SettingsController extends GetxController {
   void setBoardBackground(BoardBackgroundStyle style) {
     boardBackground.value = style;
     _storage.setBoardBackground(style.name);
+  }
+
+  void setScreenTheme(String theme) {
+    screenTheme.value = theme;
+    _storage.setScreenTheme(theme);
   }
 
   Future<void> resetAllGameData() async {

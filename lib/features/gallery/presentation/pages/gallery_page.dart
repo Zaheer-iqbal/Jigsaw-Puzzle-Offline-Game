@@ -265,7 +265,7 @@ class _GalleryPageState extends State<GalleryPage> {
           crossAxisCount: cols,
           crossAxisSpacing: 14,
           mainAxisSpacing: 14,
-          childAspectRatio: 0.82,
+          childAspectRatio: 0.64,
         ),
         itemBuilder: (context, index) {
           final pic = filteredPics[index];
@@ -338,7 +338,7 @@ class _GalleryPageState extends State<GalleryPage> {
                       borderRadius: const BorderRadius.vertical(top: Radius.circular(22)),
                       child: !isUnlocked
                           ? ImageFiltered(
-                              imageFilter: ui.ImageFilter.blur(sigmaX: 7, sigmaY: 7),
+                              imageFilter: ui.ImageFilter.blur(sigmaX: 1.8, sigmaY: 1.8),
                               child: Image.asset(
                                 pic.path,
                                 cacheWidth: 400,
@@ -368,39 +368,6 @@ class _GalleryPageState extends State<GalleryPage> {
                             ),
                     ),
 
-                    // Central 3D Lock Overlay if locked
-                    if (!isUnlocked)
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.32),
-                          borderRadius: const BorderRadius.vertical(top: Radius.circular(22)),
-                        ),
-                        child: Center(
-                          child: Container(
-                            width: 44,
-                            height: 44,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              gradient: const LinearGradient(
-                                colors: [Color(0xFFFFD54F), Color(0xFFFF8F00)],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withValues(alpha: 0.40),
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 3),
-                                ),
-                              ],
-                            ),
-                            child: const Center(
-                              child: Icon(Icons.lock_rounded, color: Color(0xFF3E2723), size: 24),
-                            ),
-                          ),
-                        ),
-                      ),
-
                     // Top Right Badges
                     if (isCompleted)
                       Positioned(
@@ -426,10 +393,10 @@ class _GalleryPageState extends State<GalleryPage> {
                         top: 8,
                         right: 8,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3.5),
                           decoration: BoxDecoration(
-                            color: const Color(0xEE112238),
-                            borderRadius: BorderRadius.circular(12),
+                            color: const Color(0xDD0E2A47),
+                            borderRadius: BorderRadius.circular(10),
                             border: Border.all(color: const Color(0xFFFFB300), width: 1.2),
                             boxShadow: const [
                               BoxShadow(color: Color(0x33000000), blurRadius: 4, offset: Offset(0, 2)),
@@ -438,13 +405,13 @@ class _GalleryPageState extends State<GalleryPage> {
                           child: const Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(Icons.ondemand_video_rounded, color: Color(0xFFFFB300), size: 12),
-                              SizedBox(width: 4),
+                              Icon(Icons.lock_rounded, color: Color(0xFFFFB300), size: 11),
+                              SizedBox(width: 3),
                               Text(
                                 'UNLOCK',
                                 style: TextStyle(
                                   color: Color(0xFFFFB300),
-                                  fontSize: 10,
+                                  fontSize: 9.5,
                                   fontWeight: FontWeight.w900,
                                 ),
                               ),
