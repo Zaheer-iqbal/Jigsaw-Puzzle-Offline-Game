@@ -32,8 +32,8 @@ android {
         applicationId = "com.alwaystech.jigsawpro"
         minSdk = flutter.minSdkVersion
         targetSdk = 36
-        versionCode = 4
-        versionName = "1.0.0"
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
     }
 
     signingConfigs {

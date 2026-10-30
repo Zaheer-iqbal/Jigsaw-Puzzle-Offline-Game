@@ -2,7 +2,7 @@ name: jigsaw_pro
 description: "A calm, offline jigsaw puzzle game for casual players."
 publish_to: 'none'
 
-version: 1.0.0+5
+version: 1.0.2+9
 
 environment:
   sdk: ^3.9.2

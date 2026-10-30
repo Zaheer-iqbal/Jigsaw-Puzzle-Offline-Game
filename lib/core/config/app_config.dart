@@ -25,8 +25,8 @@ class AppConfig {
   static const double tabHeightRatio = 0.95;
   static const int hintDurationMs = 2500;
 
-  // Monetization & Ads capping
-  static const bool enableAds = true;
+  // Monetization & Ads capping (Disabled for 100% clean experience and Play Store compliance)
+  static const bool enableAds = false;
 
   // Interstitial: at most once every 3 completed puzzles, never in session 1
   static const int interstitialPuzzleFrequency = 3;

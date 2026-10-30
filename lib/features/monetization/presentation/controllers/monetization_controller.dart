@@ -124,15 +124,60 @@ class MonetizationController extends GetxController {
   }) {
     if (!AppConfig.enableAds) {
       HapticFeedback.lightImpact();
-      onRewardEarned();
-      Get.snackbar(
-        'Reward Granted! 🎁',
-        '$rewardTitle claimed successfully.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: const Color(0xEE112238),
-        colorText: Colors.white,
-        duration: const Duration(seconds: 2),
-      );
+      final ctx = context ?? AppRouter.navigatorKey.currentContext;
+      if (ctx != null) {
+        showDialog(
+          context: ctx,
+          builder: (dialogCtx) => AlertDialog(
+            backgroundColor: const Color(0xFF111E2E),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
+            title: const Row(
+              children: [
+                Icon(Icons.card_giftcard_rounded, color: Color(0xFFFFB300), size: 28),
+                SizedBox(width: 12),
+                Text('Free Bonus 🎁', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+              ],
+            ),
+            content: Text(
+              'Enjoy your $rewardTitle bonus! No waiting required.',
+              style: const TextStyle(color: Colors.white70, fontSize: 14),
+            ),
+            actions: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFFFB300),
+                  foregroundColor: const Color(0xFF0E2A47),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                ),
+                onPressed: () {
+                  Navigator.of(dialogCtx).pop();
+                  onRewardEarned();
+                  Get.snackbar(
+                    'Reward Granted! 🎁',
+                    '$rewardTitle claimed successfully.',
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: const Color(0xEE112238),
+                    colorText: Colors.white,
+                    duration: const Duration(seconds: 2),
+                  );
+                },
+                child: const Text('Claim Reward', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+              ),
+            ],
+          ),
+        );
+      } else {
+        onRewardEarned();
+        Get.snackbar(
+          'Reward Granted! 🎁',
+          '$rewardTitle claimed successfully.',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: const Color(0xEE112238),
+          colorText: Colors.white,
+          duration: const Duration(seconds: 2),
+        );
+      }
       return;
     }
 
@@ -277,7 +322,7 @@ class MonetizationController extends GetxController {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: const Text(
-                        'AdMob Video Sponsor',
+                        'Bonus Reward 🎁',
                         style: TextStyle(color: Color(0xFF0E2A47), fontSize: 11, fontWeight: FontWeight.w900),
                       ),
                     ),
@@ -290,7 +335,7 @@ class MonetizationController extends GetxController {
                             borderRadius: BorderRadius.circular(14),
                           ),
                           child: Text(
-                            'Reward in ${rxCountdown.value}s',
+                            'Ready in ${rxCountdown.value}s',
                             style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
                           ),
                         );
@@ -333,15 +378,15 @@ class MonetizationController extends GetxController {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.ondemand_video_rounded, color: Colors.white, size: 54),
+                          const Icon(Icons.card_giftcard_rounded, color: Colors.white, size: 54),
                           const SizedBox(height: 10),
                           const Text(
-                            'High Earning Video Sponsor',
+                            'Special Gift Bonus',
                             style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900),
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Watch full video to claim $rewardTitle',
+                            'Claim your free $rewardTitle',
                             style: const TextStyle(color: Colors.white70, fontSize: 12),
                           ),
                         ],
@@ -369,7 +414,7 @@ class MonetizationController extends GetxController {
                 Obx(() {
                   if (!rxCanClose.value) {
                     return Text(
-                      'Watching sponsor video... (${rxCountdown.value}s)',
+                      'Preparing bonus gift... (${rxCountdown.value}s)',
                       style: const TextStyle(color: Colors.white60, fontSize: 13, fontWeight: FontWeight.w600),
                     );
                   }
