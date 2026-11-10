@@ -1,7 +1,7 @@
 /// Represents a progressive puzzle level.
 /// Supports both category progression and the 25-level Saga Campaign map.
 class PuzzleLevel {
-  final int levelNumber; // 1 to 25 (or 1 to 100)
+  final int levelNumber; // 1 to 25 (or 1 to 50)
   final String category; // 'nature', 'animals', 'flowers', 'landmarks', 'art'
   final String id; // picture id, e.g. 'n001.bpm', 'a001'
   final String title;
@@ -120,13 +120,13 @@ class PuzzleLevel {
     }
   }
 
-  /// General difficulty scaling for 100-level category grids
+  /// General difficulty scaling for 50-level category grids
   static int computeDefaultPieceCount(int level) {
     if (level <= 10) return 12;
-    if (level <= 25) return 24;
-    if (level <= 50) return 48;
-    if (level <= 75) return 100;
-    if (level <= 90) return 200;
+    if (level <= 20) return 24;
+    if (level <= 35) return 48;
+    if (level <= 45) return 100;
+    if (level <= 49) return 200;
     return 400;
   }
 

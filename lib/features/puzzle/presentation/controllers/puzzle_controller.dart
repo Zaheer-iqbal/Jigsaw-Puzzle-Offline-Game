@@ -108,12 +108,15 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused || state == AppLifecycleState.inactive) {
+      pauseTimer();
       _saveCurrentSessionImmediate();
       if (lockedPieceKeys.isNotEmpty && lockedPieceKeys.length < actualPieceCount) {
         if (Get.isRegistered<ReminderService>()) {
           Get.find<ReminderService>().schedulePuzzleReminder();
         }
       }
+    } else if (state == AppLifecycleState.resumed) {
+      resumeTimer();
     }
   }
 
@@ -137,6 +140,9 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
     int? sagaLevel,
     bool isDailyPuzzle = false,
   }) async {
+    // Dispose previous puzzle's textures to prevent GPU VRAM leaks across sessions
+    _disposeImages();
+
     state.value = PuzzleState.preparing;
     prepareProgress.value = 0.05;
 
@@ -203,8 +209,8 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
         moves.value = 0;
       }
 
-      // 3. Generate deterministic edges (flatEdges: true ensures clean straight tiles without side cuts)
-      final edgeGen = EdgeGenerator(rows: rows, cols: cols, seed: seed, flatEdges: true);
+      // 3. Generate deterministic edges with authentic interlocking tabs and blanks
+      final edgeGen = EdgeGenerator(rows: rows, cols: cols, seed: seed, flatEdges: false);
 
       // 4. Pre-render piece bitmaps with progress reporting
       preRenderedPieces = await PieceImagePreRenderer.preRenderAll(
@@ -398,20 +404,12 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
     final gridC = (boardLocalPos.dx / pieceW).floor().clamp(0, cols - 1);
     final gridR = (boardLocalPos.dy / pieceH).floor().clamp(0, rows - 1);
 
-    // 1. Correct slot hit: Lock permanently into place!
-    if (piece.row == gridR && piece.col == gridC) {
-      return autoSnapPiece(pieceKey);
-    }
-
-    // 2. Check if this target slot is already locked with its correct piece
+    // 1. Check if this target slot is already locked with its correct piece
     final targetSlotKey = '${gridR}_$gridC';
     if (lockedPieceKeys.contains(targetSlotKey)) {
       _haptics.light();
       return false;
     }
-
-    // 3. Grid-snapped placement: Piece snaps cleanly inside this grid cell/box!
-    final targetPos = Offset(gridC * pieceW, gridR * pieceH);
 
     // Check if another unlocked piece is currently resting in this grid box
     String? otherPieceKey;
@@ -431,6 +429,26 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
     final oldPos = piece.pos;
     final wasOnBoard = boardPieceKeys.contains(pieceKey);
 
+    // 2. Correct slot hit: Lock permanently into place and handle displacement/swap!
+    if (piece.row == gridR && piece.col == gridC) {
+      if (otherPieceKey != null) {
+        if (wasOnBoard) {
+          final otherPiece = pieces[otherPieceKey]!;
+          otherPiece.pos = oldPos;
+          final oldC = (oldPos.dx / pieceW).round();
+          final oldR = (oldPos.dy / pieceH).round();
+          if (otherPiece.row == oldR && otherPiece.col == oldC) {
+            autoSnapPiece(otherPieceKey);
+          }
+        } else {
+          returnPieceToTray(otherPieceKey);
+        }
+      }
+      return autoSnapPiece(pieceKey);
+    }
+
+    // 3. Grid-snapped placement in an incorrect slot:
+    final targetPos = Offset(gridC * pieceW, gridR * pieceH);
     piece.pos = targetPos;
     trayPieceKeys.remove(pieceKey);
     if (!boardPieceKeys.contains(pieceKey)) {
@@ -440,7 +458,13 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
     // If another piece was in this box, swap or return displaced piece to tray
     if (otherPieceKey != null) {
       if (wasOnBoard) {
-        pieces[otherPieceKey]!.pos = oldPos;
+        final otherPiece = pieces[otherPieceKey]!;
+        otherPiece.pos = oldPos;
+        final oldC = (oldPos.dx / pieceW).round();
+        final oldR = (oldPos.dy / pieceH).round();
+        if (otherPiece.row == oldR && otherPiece.col == oldC) {
+          autoSnapPiece(otherPieceKey);
+        }
       } else {
         returnPieceToTray(otherPieceKey);
       }
@@ -570,6 +594,19 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
     final piece = pieces[pieceKey]!;
     piece.groupId = SnapMergeEngine.boardGroupId;
     piece.pos = piece.correctPos(pieceW, pieceH);
+
+    // Evict any other unlocked piece resting in this exact grid slot
+    for (final k in List<String>.from(boardPieceKeys)) {
+      if (k == pieceKey) continue;
+      final p = pieces[k];
+      if (p != null) {
+        final c = (p.pos.dx / pieceW).round();
+        final r = (p.pos.dy / pieceH).round();
+        if (r == piece.row && c == piece.col) {
+          returnPieceToTray(k);
+        }
+      }
+    }
 
     boardPieceKeys.remove(pieceKey);
     lockedPieceKeys.add(pieceKey);
@@ -740,10 +777,6 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
       }
       await _storage.unlockNextSagaLevel(currentSagaLevel!);
       await _storage.setSagaStars(currentSagaLevel!, stars);
-    } else {
-      // Also advance saga on home screen so the hero card advances to the next level!
-      final currentSaga = _storage.getHighestSagaLevel();
-      await _storage.unlockNextSagaLevel(currentSaga);
     }
 
     // If pictureId is a progressive level (e.g. n001, a015, or numeric like 1, 2)
@@ -758,6 +791,7 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
         'a': 'animals',
         'f': 'flowers',
         'l': 'landmarks',
+        'r': 'art',
         'art': 'art',
       };
       cat = categoryMap[prefix] ?? prefix;

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -27,12 +28,15 @@ class PuzzleBoardView extends StatefulWidget {
   State<PuzzleBoardView> createState() => _PuzzleBoardViewState();
 }
 
-class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProviderStateMixin {
+class _PuzzleBoardViewState extends State<PuzzleBoardView> with TickerProviderStateMixin {
   final GlobalKey _boardKey = GlobalKey();
   final ScrollController _trayScrollController = ScrollController();
   late final AnimationController _pulseController;
+  late final AnimationController _snapFlashController;
+  String? _lastSnappedKey;
   Worker? _hintWorker;
   Worker? _stateWorker;
+  Worker? _lockedWorker;
   Timer? _previewTimer;
   bool _showInitialPreview = true;
   double _previewOpacity = 1.0;
@@ -44,6 +48,20 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
       vsync: this,
       duration: const Duration(milliseconds: 1100),
     )..repeat(reverse: true);
+
+    _snapFlashController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 450),
+    );
+
+    var prevLockedCount = widget.controller.lockedPieceKeys.length;
+    _lockedWorker = ever(widget.controller.lockedPieceKeys, (keys) {
+      if (keys.length > prevLockedCount && keys.isNotEmpty) {
+        _lastSnappedKey = keys.last;
+        _snapFlashController.forward(from: 0.0);
+      }
+      prevLockedCount = keys.length;
+    });
 
     _hintWorker = ever(widget.controller.hintPieceKey, (key) {
       if (key != null && _trayScrollController.hasClients) {
@@ -91,11 +109,13 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
 
   @override
   void dispose() {
+    _lockedWorker?.dispose();
     _previewTimer?.cancel();
     _stateWorker?.dispose();
     _hintWorker?.dispose();
     _trayScrollController.dispose();
     _pulseController.dispose();
+    _snapFlashController.dispose();
     super.dispose();
   }
 
@@ -127,10 +147,12 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
                 final isDailyMode = widget.controller.isDaily;
                 final hasTrayPieces = widget.controller.trayPieceKeys.isNotEmpty;
                 final showTray = !isDailyMode && hasTrayPieces;
-                final maxW = constraints.maxWidth - 16; // 8px margin each side
-                final maxH = showTray
-                    ? (constraints.maxHeight - 165) // Reserve for top HUD (~60px) + slim bottom tray (~95px)
-                    : (constraints.maxHeight - 85); // Full vertical expansion when tray is empty or Daily!
+
+                // Accurately reserve vertical space for Top HUD + Bottom Tray + margins
+                // to guarantee ZERO overflow even on phones with 3-button navigation bars!
+                final reservedV = showTray ? 190.0 : 90.0;
+                final maxW = (constraints.maxWidth - 20).clamp(100.0, double.infinity);
+                final maxH = (constraints.maxHeight - reservedV).clamp(100.0, double.infinity);
                 final aspect = widget.controller.boardW / (widget.controller.boardH > 0 ? widget.controller.boardH : 1.0);
 
                 double renderW, renderH;
@@ -146,19 +168,27 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
                   children: [
                     // 1. Floating Top HUD
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(14, 8, 14, 4),
+                      padding: const EdgeInsets.fromLTRB(14, 6, 14, 2),
                       child: _buildFloatingTopBar(isLight, settings),
                     ),
 
-                    // 2. Center Assembly Board (responsive for every mobile screen)
+                    // 2. Center Assembly Board with smooth pinch-to-zoom (responsive for every mobile screen)
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                         child: Center(
-                          child: SizedBox(
-                            width: renderW,
-                            height: renderH,
-                            child: _buildBoardDropZone(renderW, renderH, bgStyle),
+                          child: InteractiveViewer(
+                            minScale: 1.0,
+                            maxScale: 3.5,
+                            clipBehavior: Clip.none,
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: SizedBox(
+                                width: renderW,
+                                height: renderH,
+                                child: _buildBoardDropZone(renderW, renderH, bgStyle),
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -167,11 +197,11 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
                     // 3. Bottom Scrollable Piece Tray (Only in Standard Mode when tray has pieces!)
                     if (showTray)
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(14, 2, 14, 14),
+                        padding: const EdgeInsets.fromLTRB(14, 2, 14, 6),
                         child: _buildBottomPieceTray(isLight, renderW),
                       )
                     else
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 6),
                   ],
                 );
               },
@@ -263,6 +293,27 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
 
                       final isHint = key == widget.controller.hintPieceKey.value;
                       final isSelected = widget.controller.isDaily && (key == widget.controller.selectedDailyPieceKey.value);
+                      final curC = (piece.pos.dx / widget.controller.pieceW).round();
+                      final curR = (piece.pos.dy / widget.controller.pieceH).round();
+                      final isWrongSlot = piece.row != curR || piece.col != curC;
+
+                      Color? pieceBorderColor;
+                      double pieceBorderWidth = 2.0;
+                      bool pieceShowGlow = false;
+
+                      if (isSelected) {
+                        pieceBorderColor = const Color(0xFF00E5FF);
+                        pieceBorderWidth = 3.2;
+                        pieceShowGlow = true;
+                      } else if (isHint) {
+                        pieceBorderColor = const Color(0xFFFF9100);
+                        pieceBorderWidth = 3.2;
+                        pieceShowGlow = true;
+                      } else if (isWrongSlot) {
+                        pieceBorderColor = const Color(0xFFFF5252);
+                        pieceBorderWidth = 2.2;
+                        pieceShowGlow = true;
+                      }
 
                       return Positioned(
                         left: pieceScreenX,
@@ -278,7 +329,12 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
                             color: Colors.transparent,
                             child: CustomPaint(
                               size: Size(pieceW, pieceH),
-                              painter: _PieceCardPainter(prePiece: prePiece),
+                              painter: _PieceCardPainter(
+                                prePiece: prePiece,
+                                borderColor: pieceBorderColor,
+                                borderWidth: pieceBorderWidth,
+                                showGlow: pieceShowGlow,
+                              ),
                             ),
                           ),
                           childWhenDragging: widget.controller.isDaily
@@ -286,7 +342,12 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
                                   opacity: 0.35,
                                   child: CustomPaint(
                                     size: Size(pieceW, pieceH),
-                                    painter: _PieceCardPainter(prePiece: prePiece),
+                                    painter: _PieceCardPainter(
+                                      prePiece: prePiece,
+                                      borderColor: pieceBorderColor,
+                                      borderWidth: pieceBorderWidth,
+                                      showGlow: pieceShowGlow,
+                                    ),
                                   ),
                                 )
                               : const SizedBox.shrink(),
@@ -300,37 +361,17 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
                             child: Stack(
                               clipBehavior: Clip.none,
                               children: [
-                                Container(
+                                SizedBox(
                                   width: pieceW,
                                   height: pieceH,
-                                  decoration: isSelected
-                                      ? BoxDecoration(
-                                          border: Border.all(color: const Color(0xFF00E5FF), width: 3),
-                                          borderRadius: BorderRadius.circular(6),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              color: Color(0x9900E5FF),
-                                              blurRadius: 10,
-                                              spreadRadius: 2,
-                                            ),
-                                          ],
-                                        )
-                                      : (isHint
-                                          ? BoxDecoration(
-                                              border: Border.all(color: const Color(0xFFFF9100), width: 3),
-                                              borderRadius: BorderRadius.circular(6),
-                                              boxShadow: const [
-                                                BoxShadow(
-                                                  color: Color(0x99FFA000),
-                                                  blurRadius: 12,
-                                                  spreadRadius: 2,
-                                                ),
-                                              ],
-                                            )
-                                          : null),
                                   child: CustomPaint(
                                     size: Size(pieceW, pieceH),
-                                    painter: _PieceCardPainter(prePiece: prePiece),
+                                    painter: _PieceCardPainter(
+                                      prePiece: prePiece,
+                                      borderColor: pieceBorderColor,
+                                      borderWidth: pieceBorderWidth,
+                                      showGlow: pieceShowGlow,
+                                    ),
                                   ),
                                 ),
                                 if (isHint)
@@ -373,7 +414,53 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
                   );
                 }),
 
-                // 3. Pre-Game Picture Preview Overlay (Shows full image for ~2s before scattering into pieces)
+                // 3. Magnetic Snap Golden Sparkle Burst
+                AnimatedBuilder(
+                  animation: _snapFlashController,
+                  builder: (context, _) {
+                    final t = _snapFlashController.value;
+                    if (t <= 0.0 || t >= 1.0 || _lastSnappedKey == null) {
+                      return const SizedBox.shrink();
+                    }
+                    final p = widget.controller.pieces[_lastSnappedKey!];
+                    if (p == null) return const SizedBox.shrink();
+
+                    final cellW = widget.controller.pieceW * screenScale;
+                    final cellH = widget.controller.pieceH * screenScale;
+                    final centerX = p.col * cellW + cellW / 2;
+                    final centerY = p.row * cellH + cellH / 2;
+
+                    final burstSize = math.max(cellW, cellH) * (0.8 + 0.7 * t);
+                    final alpha = (1.0 - t).clamp(0.0, 1.0);
+
+                    return Positioned(
+                      left: centerX - burstSize / 2,
+                      top: centerY - burstSize / 2,
+                      width: burstSize,
+                      height: burstSize,
+                      child: IgnorePointer(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: const Color(0xFFFFD54F).withValues(alpha: alpha * 0.9),
+                              width: 3.0 * (1.0 - t * 0.5),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFFFFB300).withValues(alpha: alpha * 0.6),
+                                blurRadius: 16 * (1.0 - t * 0.3),
+                                spreadRadius: 3,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+
+                // 4. Pre-Game Picture Preview Overlay (Shows full image for ~2s before scattering into pieces)
                 if (_showInitialPreview)
                   Positioned.fill(
                     child: AnimatedOpacity(
@@ -479,7 +566,7 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
           if (trayKeys.isEmpty) return const SizedBox.shrink();
 
           return ClayContainer(
-            height: 92,
+            height: 86,
             padding: const EdgeInsets.symmetric(vertical: 4),
             color: Colors.white,
             depth: 4.5,
@@ -1493,8 +1580,16 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with SingleTickerProv
 
 class _PieceCardPainter extends CustomPainter {
   final PreRenderedPiece prePiece;
+  final Color? borderColor;
+  final double borderWidth;
+  final bool showGlow;
 
-  _PieceCardPainter({required this.prePiece});
+  _PieceCardPainter({
+    required this.prePiece,
+    this.borderColor,
+    this.borderWidth = 2.0,
+    this.showGlow = false,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -1502,8 +1597,36 @@ class _PieceCardPainter extends CustomPainter {
     final dstRect = Rect.fromLTWH(0, 0, size.width, size.height);
     final paint = Paint()..filterQuality = FilterQuality.high;
     canvas.drawImageRect(prePiece.image, srcRect, dstRect, paint);
+
+    if (borderColor != null && borderColor != Colors.transparent) {
+      canvas.save();
+      final scaleX = size.width / (prePiece.image.width / prePiece.scale);
+      final scaleY = size.height / (prePiece.image.height / prePiece.scale);
+      canvas.scale(scaleX, scaleY);
+
+      if (showGlow) {
+        final glowPaint = Paint()
+          ..color = borderColor!.withValues(alpha: 0.45)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = borderWidth * 2.2
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3.0);
+        canvas.drawPath(prePiece.path, glowPaint);
+      }
+
+      final strokePaint = Paint()
+        ..color = borderColor!
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = borderWidth;
+      canvas.drawPath(prePiece.path, strokePaint);
+
+      canvas.restore();
+    }
   }
 
   @override
-  bool shouldRepaint(covariant _PieceCardPainter oldDelegate) => false;
+  bool shouldRepaint(covariant _PieceCardPainter oldDelegate) =>
+      oldDelegate.prePiece != prePiece ||
+      oldDelegate.borderColor != borderColor ||
+      oldDelegate.borderWidth != borderWidth ||
+      oldDelegate.showGlow != showGlow;
 }

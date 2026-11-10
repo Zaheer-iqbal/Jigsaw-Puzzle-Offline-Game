@@ -17,17 +17,28 @@ class DailyPuzzlePage extends StatefulWidget {
   State<DailyPuzzlePage> createState() => _DailyPuzzlePageState();
 }
 
-class _DailyPuzzlePageState extends State<DailyPuzzlePage> {
+class _DailyPuzzlePageState extends State<DailyPuzzlePage> with SingleTickerProviderStateMixin {
   final HiveStorage _storage = Get.find<HiveStorage>();
   final ContentController _content = Get.find<ContentController>();
   final EconomyController _economy = Get.find<EconomyController>();
 
   late DateTime _today;
+  late final AnimationController _flameController;
 
   @override
   void initState() {
     super.initState();
     _today = DateTime.now();
+    _flameController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _flameController.dispose();
+    super.dispose();
   }
 
   @override
@@ -177,27 +188,36 @@ class _DailyPuzzlePageState extends State<DailyPuzzlePage> {
         children: [
           Row(
             children: [
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFFFF9100), Color(0xFFFF3D00)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFFFF3D00).withValues(alpha: 0.35),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
+              AnimatedBuilder(
+                animation: _flameController,
+                builder: (context, child) {
+                  final scale = 1.0 + 0.12 * _flameController.value;
+                  return Transform.scale(
+                    scale: scale,
+                    child: Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFFFF9100), Color(0xFFFF3D00)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFFFF3D00).withValues(alpha: 0.35 + 0.25 * _flameController.value),
+                            blurRadius: 10 + 6 * _flameController.value,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: const Center(
+                        child: Text('🔥', style: TextStyle(fontSize: 26)),
+                      ),
                     ),
-                  ],
-                ),
-                child: const Center(
-                  child: Text('🔥', style: TextStyle(fontSize: 26)),
-                ),
+                  );
+                },
               ),
               const SizedBox(width: 12),
               Expanded(

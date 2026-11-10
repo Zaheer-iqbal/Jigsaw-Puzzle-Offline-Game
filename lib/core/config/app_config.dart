@@ -4,7 +4,7 @@ class AppConfig {
   AppConfig._();
 
   static const String appName = 'Jigsaw Puzzle: Offline Game';
-  static const String appVersion = '1.0.0';
+  static const String appVersion = '1.0.2';
 
   // Economy tuning values
   static const int startingCoins = 50;

@@ -45,11 +45,33 @@ class EconomyController extends GetxController {
   bool claimDailyBonus() {
     if (!canClaimDaily.value) return false;
 
-    final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    _storage.setLastDailyClaim(today);
+    final now = DateTime.now();
+    final today = DateFormat('yyyy-MM-dd').format(now);
+    final lastClaim = _storage.lastDailyClaim;
 
-    // Increment streak
-    streak.value += 1;
+    if (lastClaim != null) {
+      try {
+        final lastDate = DateFormat('yyyy-MM-dd').parse(lastClaim);
+        final differenceInDays = DateTime(now.year, now.month, now.day)
+            .difference(DateTime(lastDate.year, lastDate.month, lastDate.day))
+            .inDays;
+
+        if (differenceInDays == 1) {
+          // Exactly consecutive day: increment streak
+          streak.value += 1;
+        } else if (differenceInDays > 1) {
+          // Missed one or more days: reset streak to 1
+          streak.value = 1;
+        }
+      } catch (_) {
+        streak.value = 1;
+      }
+    } else {
+      // First ever claim
+      streak.value = 1;
+    }
+
+    _storage.setLastDailyClaim(today);
     _storage.setStreak(streak.value);
 
     addCoins(AppConfig.coinsDailyBonus);

@@ -798,7 +798,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       {'id': 'animals', 'name': 'Animals', 'fallback': 'assets/puzzles/animals/a001.jpg'},
       {'id': 'flowers', 'name': 'Flowers', 'fallback': 'assets/puzzles/flowers/f001.jpg'},
       {'id': 'landmarks', 'name': 'Landmarks', 'fallback': 'assets/puzzles/landmarks/l001.jpg'},
-      {'id': 'art', 'name': 'Art', 'fallback': 'assets/puzzles/art/art001.jpg'},
+      {'id': 'art', 'name': 'Art', 'fallback': 'assets/puzzles/art/r001.jpg'},
     ];
 
     return Column(

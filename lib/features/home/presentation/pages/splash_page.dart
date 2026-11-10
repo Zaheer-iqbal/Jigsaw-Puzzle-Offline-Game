@@ -6,7 +6,6 @@ import 'package:jigsaw_pro/core/audio/audio_service.dart';
 import 'package:jigsaw_pro/core/config/app_config.dart';
 import 'package:jigsaw_pro/core/haptics/haptic_service.dart';
 import 'package:jigsaw_pro/core/widgets/casual_game_background.dart';
-import 'package:jigsaw_pro/core/widgets/clay_container.dart';
 import 'package:jigsaw_pro/features/content/presentation/controllers/content_controller.dart';
 
 class SplashPage extends StatefulWidget {
@@ -17,61 +16,64 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
-  late final AnimationController _assembleController;
-  late final AnimationController _breatheController;
+  late final AnimationController _entranceController;
+  late final AnimationController _pulseController;
   late final AnimationController _progressController;
-  late final AnimationController _driftController;
 
-  late final Animation<double> _assembleAnim;
+  late final Animation<double> _fadeAnim;
   late final Animation<double> _scaleAnim;
+  late final Animation<double> _slideAnim;
+
+  bool _hasNavigated = false;
 
   @override
   void initState() {
     super.initState();
 
-    // 1. Tactile Clay Snap Animation (Assemble & Lock)
-    _assembleController = AnimationController(
+    // 1. Smooth entrance animation (Fade + Gentle scale-up)
+    _entranceController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1100),
+      duration: const Duration(milliseconds: 900),
     );
 
-    _assembleAnim = CurvedAnimation(
-      parent: _assembleController,
-      curve: Curves.elasticOut,
+    _fadeAnim = CurvedAnimation(
+      parent: _entranceController,
+      curve: const Interval(0.0, 0.75, curve: Curves.easeOut),
     );
 
-    _scaleAnim = Tween<double>(begin: 0.65, end: 1.0).animate(
+    _scaleAnim = Tween<double>(begin: 0.88, end: 1.0).animate(
       CurvedAnimation(
-        parent: _assembleController,
-        curve: const Interval(0.0, 0.7, curve: Curves.easeOutBack),
+        parent: _entranceController,
+        curve: const Interval(0.0, 0.9, curve: Curves.easeOutCubic),
       ),
     );
 
-    // 2. Clay Squash & Stretch Breathing Animation (Organic Clay Physics)
-    _breatheController = AnimationController(
+    _slideAnim = Tween<double>(begin: 18.0, end: 0.0).animate(
+      CurvedAnimation(
+        parent: _entranceController,
+        curve: const Interval(0.1, 0.95, curve: Curves.easeOutCubic),
+      ),
+    );
+
+    // 2. Gentle ambient glow breathing (Calm & premium, subtle pulse)
+    _pulseController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 2200),
+      duration: const Duration(milliseconds: 2400),
     )..repeat(reverse: true);
 
-    // 3. Floating Ambient Clay Confetti / Little Puzzle Pieces
-    _driftController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 8),
-    )..repeat();
-
-    // 4. Smooth Puffy Progress Bar
+    // 3. Smooth progress bar animation
     _progressController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1200),
+      duration: const Duration(milliseconds: 1400),
     )..forward();
 
-    _assembleController.forward();
+    _entranceController.forward();
 
-    // Play subtle tactile snap sound & haptic when clay pieces lock together
-    Future.delayed(const Duration(milliseconds: 300), () {
+    // Play subtle tactile feedback on launch
+    Future.delayed(const Duration(milliseconds: 250), () {
       if (mounted) {
         if (Get.isRegistered<AudioService>()) Get.find<AudioService>().playSnap();
-        if (Get.isRegistered<HapticService>()) Get.find<HapticService>().snap();
+        if (Get.isRegistered<HapticService>()) Get.find<HapticService>().light();
       }
     });
 
@@ -80,8 +82,6 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     });
   }
 
-  bool _hasNavigated = false;
-
   void _navigateToHome() {
     if (_hasNavigated || !mounted) return;
     _hasNavigated = true;
@@ -89,8 +89,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   }
 
   Future<void> _bootstrap() async {
-    // Guaranteed failsafe timer: maximum 1.5 seconds on splash
-    Future.delayed(const Duration(milliseconds: 1500), () {
+    // Guaranteed failsafe timer: maximum 1.6 seconds on splash
+    Future.delayed(const Duration(milliseconds: 1600), () {
       if (mounted) _navigateToHome();
     });
 
@@ -99,10 +99,10 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
 
       await Future.any([
         Future.wait([
-          Future.delayed(const Duration(milliseconds: 900)),
+          Future.delayed(const Duration(milliseconds: 950)),
           _waitForContentLoaded(content),
         ]),
-        Future.delayed(const Duration(milliseconds: 1300)),
+        Future.delayed(const Duration(milliseconds: 1400)),
       ]);
     } catch (e) {
       debugPrint('Bootstrap notice: $e');
@@ -121,9 +121,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    _assembleController.dispose();
-    _breatheController.dispose();
-    _driftController.dispose();
+    _entranceController.dispose();
+    _pulseController.dispose();
     _progressController.dispose();
     super.dispose();
   }
@@ -141,72 +140,100 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
           child: SafeArea(
             child: Stack(
               children: [
-                // 1. Floating Ambient 3D Clay Mini Elements
-                _buildFloatingClayElements(),
+                // Soft cinematic radial background glow
+                Positioned.fill(
+                  child: Center(
+                    child: AnimatedBuilder(
+                      animation: _pulseController,
+                      builder: (context, child) {
+                        final pulse = _pulseController.value;
+                        return Container(
+                          width: 320 + (pulse * 30),
+                          height: 320 + (pulse * 30),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: RadialGradient(
+                              colors: [
+                                const Color(0xFF38BDF8).withValues(alpha: 0.12 + (pulse * 0.05)),
+                                const Color(0xFFFFB300).withValues(alpha: 0.05),
+                                Colors.transparent,
+                              ],
+                              stops: const [0.0, 0.55, 1.0],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
 
-                // 2. Main Content
+                // Main Content
                 Center(
                   child: Obx(() {
                     if (content.errorMessage.isNotEmpty) {
                       return _buildErrorView(content);
                     }
 
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Spacer(flex: 2),
+                    return AnimatedBuilder(
+                      animation: Listenable.merge([_entranceController, _pulseController]),
+                      builder: (context, child) {
+                        final pulse = _pulseController.value;
+                        final subtleGlowScale = 1.0 + (pulse * 0.015);
 
-                        // 3D Puffy Clay Puzzle Emblem (Squash & Stretch)
-                        AnimatedBuilder(
-                          animation: Listenable.merge([_assembleController, _breatheController]),
-                          builder: (context, child) {
-                            // Organic squash & stretch physics
-                            final breathe = math.sin(_breatheController.value * math.pi);
-                            final floatY = breathe * -8.0;
-                            final squashX = 1.0 + (breathe * 0.04);
-                            final squashY = 1.0 - (breathe * 0.035);
+                        return FadeTransition(
+                          opacity: _fadeAnim,
+                          child: Transform.translate(
+                            offset: Offset(0, _slideAnim.value),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Spacer(flex: 3),
 
-                            return Transform.translate(
-                              offset: Offset(0, floatY),
-                              child: Transform.scale(
-                                scaleX: _scaleAnim.value * squashX,
-                                scaleY: _scaleAnim.value * squashY,
-                                child: _buildTactileClayHeroEmblem(),
-                              ),
-                            );
-                          },
-                        ),
+                                // Premium Glowing Game Logo Emblem
+                                Transform.scale(
+                                  scale: _scaleAnim.value * subtleGlowScale,
+                                  child: _buildPremiumLogoEmblem(pulse),
+                                ),
 
-                        const SizedBox(height: 36),
+                                const SizedBox(height: 32),
 
-                        // 3D Clay Title Pill
-                        _buildClayTitle(),
+                                // Sleek Game Title
+                                _buildGameTitle(),
 
-                        const SizedBox(height: 10),
+                                const SizedBox(height: 12),
 
-                        // Clay Badge: "Offline Game • Relax & Play"
-                        _buildClaySubtitleBadge(),
+                                // Refined Tagline Pill
+                                _buildTaglinePill(),
 
-                        const Spacer(flex: 3),
+                                const Spacer(flex: 3),
 
-                        // Puffy Clay Loading Progress Track
-                        _buildClayProgressSection(),
+                                // Modern Sleek Progress Bar
+                                _buildModernProgressBar(),
 
-                        const SizedBox(height: 18),
+                                const SizedBox(height: 14),
 
-                        // Version Tag
-                        Text(
-                          'Version ${AppConfig.appVersion} • Calm & Offline',
-                          style: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.65),
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 0.5,
+                                // Loading Status Text
+                                _buildLoadingStatusText(),
+
+                                const Spacer(flex: 1),
+
+                                // App Version Footer
+                                Text(
+                                  'v${AppConfig.appVersion} • Calm & Offline',
+                                  style: TextStyle(
+                                    color: Colors.white.withValues(alpha: 0.5),
+                                    fontSize: 11.5,
+                                    fontWeight: FontWeight.w500,
+                                    letterSpacing: 0.8,
+                                  ),
+                                ),
+
+                                const SizedBox(height: 16),
+                              ],
+                            ),
                           ),
-                        ),
-
-                        const Spacer(flex: 1),
-                      ],
+                        );
+                      },
                     );
                   }),
                 ),
@@ -218,266 +245,201 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     );
   }
 
-  /// 3D Tactile Clay Puzzle Hero Emblem
-  /// 4 Puffy, colorful, extruded clay interlocking pieces with soft inner highlights and deep bottom bevels!
-  Widget _buildTactileClayHeroEmblem() {
-    final assembleProgress = _assembleAnim.value;
-    final explodeOffset = (1.0 - assembleProgress) * 45.0;
-
+  /// Premium Logo Emblem featuring the real `assets/jigsaw.logo.png`
+  Widget _buildPremiumLogoEmblem(double pulse) {
     return Container(
-      width: 190,
-      height: 190,
+      width: 175,
+      height: 175,
       decoration: BoxDecoration(
-        color: const Color(0xFF132A4A),
-        shape: BoxShape.circle,
-        border: Border.all(color: Colors.white.withValues(alpha: 0.15), width: 3),
-        boxShadow: const [
-          // Soft atmospheric deep shadow
-          BoxShadow(
-            color: Color(0x66081525),
-            offset: Offset(0, 16),
-            blurRadius: 32,
-          ),
-          // Top light rim
-          BoxShadow(
-            color: Color(0x33FFFFFF),
-            offset: Offset(0, -3),
-            blurRadius: 8,
-          ),
-        ],
-      ),
-      padding: const EdgeInsets.all(16),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          // Piece 1: Top-Left (Sunlit Gold Clay)
-          Transform.translate(
-            offset: Offset(-explodeOffset - 38, -explodeOffset - 38),
-            child: _buildClayPiece(
-              color: const Color(0xFFFFB300),
-              bevelColor: const Color(0xFFC67C00),
-              icon: Icons.wb_sunny_rounded,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(28),
-                topRight: Radius.circular(12),
-                bottomLeft: Radius.circular(12),
-                bottomRight: Radius.circular(20),
-              ),
-            ),
-          ),
-
-          // Piece 2: Top-Right (Sky Blue Clay)
-          Transform.translate(
-            offset: Offset(explodeOffset + 38, -explodeOffset - 38),
-            child: _buildClayPiece(
-              color: const Color(0xFF29B6F6),
-              bevelColor: const Color(0xFF0277BD),
-              icon: Icons.pets_rounded,
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(28),
-                topLeft: Radius.circular(12),
-                bottomRight: Radius.circular(12),
-                bottomLeft: Radius.circular(20),
-              ),
-            ),
-          ),
-
-          // Piece 3: Bottom-Left (Mint Emerald Clay)
-          Transform.translate(
-            offset: Offset(-explodeOffset - 38, explodeOffset + 38),
-            child: _buildClayPiece(
-              color: const Color(0xFF00E676),
-              bevelColor: const Color(0xFF00A152),
-              icon: Icons.eco_rounded,
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(28),
-                topLeft: Radius.circular(12),
-                bottomRight: Radius.circular(12),
-                topRight: Radius.circular(20),
-              ),
-            ),
-          ),
-
-          // Piece 4: Bottom-Right (Coral Rose Clay)
-          Transform.translate(
-            offset: Offset(explodeOffset + 38, explodeOffset + 38),
-            child: _buildClayPiece(
-              color: const Color(0xFFFF5252),
-              bevelColor: const Color(0xFFD32F2F),
-              icon: Icons.palette_rounded,
-              borderRadius: const BorderRadius.only(
-                bottomRight: Radius.circular(28),
-                topRight: Radius.circular(12),
-                bottomLeft: Radius.circular(12),
-                topLeft: Radius.circular(20),
-              ),
-            ),
-          ),
-
-          // Center Puffy Clay Locking Hub
-          Container(
-            width: 38,
-            height: 38,
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [Color(0xFFFFF9C4), Color(0xFFFFD54F)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.white, width: 2.2),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0xFFB28704),
-                  offset: Offset(0, 3.5),
-                  blurRadius: 0,
-                ),
-                BoxShadow(
-                  color: Color(0x55000000),
-                  offset: Offset(0, 6),
-                  blurRadius: 10,
-                ),
-              ],
-            ),
-            child: const Center(
-              child: Icon(Icons.extension_rounded, size: 20, color: Color(0xFF5D4037)),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// Single Puffy 3D Clay Puzzle Piece
-  Widget _buildClayPiece({
-    required Color color,
-    required Color bevelColor,
-    required IconData icon,
-    required BorderRadius borderRadius,
-  }) {
-    return Container(
-      width: 72,
-      height: 72,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: borderRadius,
-        gradient: LinearGradient(
+        borderRadius: BorderRadius.circular(38),
+        gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color.alphaBlend(Colors.white.withValues(alpha: 0.35), color),
-            color,
-            Color.alphaBlend(Colors.black.withValues(alpha: 0.12), color),
+            Color(0xFF1E3A5F),
+            Color(0xFF10233B),
+            Color(0xFF0A182A),
           ],
         ),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.4), width: 1.8),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.22 + (pulse * 0.12)),
+          width: 2.2,
+        ),
         boxShadow: [
-          // 3D bottom bevel edge
+          // Soft ambient outer glow
           BoxShadow(
-            color: bevelColor,
-            offset: const Offset(0, 6),
-            blurRadius: 0,
+            color: const Color(0xFF38BDF8).withValues(alpha: 0.25 + (pulse * 0.15)),
+            offset: const Offset(0, 8),
+            blurRadius: 28 + (pulse * 10),
+            spreadRadius: 2,
           ),
-          // Soft outer drop shadow
+          // Deep drop shadow
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.28),
-            offset: const Offset(0, 10),
-            blurRadius: 14,
+            color: Colors.black.withValues(alpha: 0.45),
+            offset: const Offset(0, 16),
+            blurRadius: 30,
           ),
-          // Top light reflection highlight
+          // Top light rim reflection
           BoxShadow(
-            color: Colors.white.withValues(alpha: 0.4),
-            offset: const Offset(0, -1.5),
-            blurRadius: 2,
+            color: Colors.white.withValues(alpha: 0.2),
+            offset: const Offset(0, -2),
+            blurRadius: 6,
           ),
         ],
       ),
-      child: Center(
-        child: Icon(
-          icon,
-          size: 30,
-          color: Colors.white.withValues(alpha: 0.95),
-          shadows: [
-            Shadow(
-              color: Colors.black.withValues(alpha: 0.25),
-              offset: const Offset(0, 2),
-              blurRadius: 3,
+      padding: const EdgeInsets.all(18),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          // Gentle radial glow under the logo image
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: RadialGradient(
+                colors: [
+                  const Color(0xFFFFD54F).withValues(alpha: 0.18),
+                  Colors.transparent,
+                ],
+              ),
             ),
-          ],
-        ),
+          ),
+
+          // Official Game Logo
+          ClipRRect(
+            borderRadius: BorderRadius.circular(24),
+            child: Image.asset(
+              'assets/jigsaw.logo.png',
+              width: 130,
+              height: 130,
+              fit: BoxFit.contain,
+              errorBuilder: (context, error, stackTrace) {
+                // Graceful fallback if image has issue
+                return const Icon(
+                  Icons.extension_rounded,
+                  size: 80,
+                  color: Color(0xFFFFB300),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  /// 3D Claymorphic Bubble Title
-  Widget _buildClayTitle() {
+  /// Clean, modern game title typography
+  Widget _buildGameTitle() {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        // "JIGSAW PUZZLE" in puffy 3D clay letters
-        const Text(
-          'Jigsaw Puzzle',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 36,
-            fontWeight: FontWeight.w900,
-            letterSpacing: 1.0,
-            shadows: [
-              // Bottom 3D clay extrusion shadow
-              Shadow(
-                color: Color(0xFF091C36),
-                offset: Offset(0, 4.5),
-                blurRadius: 0,
-              ),
-              // Soft atmospheric drop shadow
-              Shadow(
-                color: Color(0x66000000),
-                offset: Offset(0, 8),
-                blurRadius: 16,
-              ),
-            ],
+        ShaderMask(
+          shaderCallback: (bounds) => const LinearGradient(
+            colors: [Colors.white, Color(0xFFE2E8F0)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ).createShader(bounds),
+          child: const Text(
+            'Jigsaw Puzzle',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 34,
+              fontWeight: FontWeight.w900,
+              letterSpacing: 0.8,
+              color: Colors.white,
+              shadows: [
+                Shadow(
+                  offset: Offset(0, 4),
+                  blurRadius: 12,
+                  color: Color(0x99000000),
+                ),
+              ],
+            ),
           ),
         ),
-        const SizedBox(height: 2),
-        // "PRO EDITION" with warm golden clay glow
-        Text(
-          'PRO EDITION',
-          style: TextStyle(
-            color: const Color(0xFFFFB300),
-            fontSize: 18,
-            fontWeight: FontWeight.w900,
-            letterSpacing: 3.5,
-            shadows: [
-              Shadow(
-                color: const Color(0xFF7F4B00).withValues(alpha: 0.8),
-                offset: const Offset(0, 2.5),
-                blurRadius: 0,
+        const SizedBox(height: 6),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 22,
+              height: 1.5,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.transparent, const Color(0xFFFFB300).withValues(alpha: 0.7)],
+                ),
               ),
-            ],
-          ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Text(
+                'PRO EDITION',
+                style: TextStyle(
+                  color: Color(0xFFFFB300),
+                  fontSize: 13.5,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 4.0,
+                  shadows: [
+                    Shadow(
+                      offset: Offset(0, 2),
+                      blurRadius: 8,
+                      color: Color(0x66FFB300),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              width: 22,
+              height: 1.5,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [const Color(0xFFFFB300).withValues(alpha: 0.7), Colors.transparent],
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
   }
 
-  /// Clay Subtitle Badge
-  Widget _buildClaySubtitleBadge() {
-    return ClayContainer(
-      color: const Color(0xFF163259),
-      bevelColor: const Color(0xFF0B1B33),
-      depth: 3.5,
-      borderRadius: BorderRadius.circular(20),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
+  /// Refined calm & offline tagline
+  Widget _buildTaglinePill() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.12),
+          width: 1,
+        ),
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        children: const [
-          Icon(Icons.wifi_off_rounded, color: Color(0xFF00E676), size: 16),
-          SizedBox(width: 8),
+        children: [
+          Container(
+            width: 6,
+            height: 6,
+            decoration: const BoxDecoration(
+              color: Color(0xFF10B981),
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Color(0xFF10B981),
+                  blurRadius: 6,
+                  spreadRadius: 1,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
           Text(
-            '100% Offline • Calm & Relaxing',
+            'Calm & Offline Puzzle Experience',
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 12.5,
-              fontWeight: FontWeight.bold,
+              color: Colors.white.withValues(alpha: 0.85),
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
               letterSpacing: 0.3,
             ),
           ),
@@ -486,201 +448,145 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     );
   }
 
-  /// Puffy Clay Progress Bar Section
-  Widget _buildClayProgressSection() {
-    return Column(
-      children: [
-        const Text(
-          'Sculpting your puzzles...',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 13.5,
-            fontWeight: FontWeight.w800,
-            letterSpacing: 0.4,
-            shadows: [
-              Shadow(color: Color(0xFF091C36), offset: Offset(0, 2), blurRadius: 0),
-            ],
+  /// Modern sleek progress bar
+  Widget _buildModernProgressBar() {
+    return Container(
+      width: 210,
+      height: 5.5,
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x44000000),
+            offset: Offset(0, 2),
+            blurRadius: 4,
           ),
-        ),
-        const SizedBox(height: 12),
-
-        // Indented 3D Clay Track
-        Container(
-          width: 230,
-          height: 18,
-          decoration: BoxDecoration(
-            color: const Color(0xFF0B192C),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.12), width: 1.5),
-            boxShadow: const [
-              // Inset sunken shadow feeling
-              BoxShadow(
-                color: Color(0x66000000),
-                offset: Offset(0, 3),
-                blurRadius: 4,
-              ),
-            ],
-          ),
-          padding: const EdgeInsets.all(2.5),
-          child: AnimatedBuilder(
-            animation: _progressController,
-            builder: (context, child) {
-              return FractionallySizedBox(
-                alignment: Alignment.centerLeft,
-                widthFactor: _progressController.value.clamp(0.05, 1.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFFFFD54F), Color(0xFFFFB300), Color(0xFFFF8F00)],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                    borderRadius: BorderRadius.circular(9),
-                    border: Border.all(color: Colors.white.withValues(alpha: 0.5), width: 1),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color(0xFFB26A00),
-                        offset: Offset(0, 2),
-                        blurRadius: 0,
-                      ),
-                      BoxShadow(
-                        color: Color(0x44FFB300),
-                        offset: Offset(0, 1),
-                        blurRadius: 6,
-                      ),
+        ],
+      ),
+      child: AnimatedBuilder(
+        animation: _progressController,
+        builder: (context, child) {
+          final progress = _progressController.value.clamp(0.04, 1.0);
+          return Align(
+            alignment: Alignment.centerLeft,
+            child: FractionallySizedBox(
+              widthFactor: progress,
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [
+                      Color(0xFFFFD54F),
+                      Color(0xFFFFB300),
+                      Color(0xFFFF8F00),
                     ],
                   ),
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFFFFB300).withValues(alpha: 0.6),
+                      blurRadius: 8,
+                      offset: const Offset(0, 1),
+                    ),
+                  ],
                 ),
-              );
-            },
-          ),
-        ),
-      ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 
-  /// Floating 3D Mini Clay Shapes in the Background
-  Widget _buildFloatingClayElements() {
+  /// Loading status text
+  Widget _buildLoadingStatusText() {
     return AnimatedBuilder(
-      animation: _driftController,
+      animation: _progressController,
       builder: (context, child) {
-        final t = _driftController.value;
+        final progress = _progressController.value;
+        String label = 'Loading puzzles...';
+        if (progress > 0.7) {
+          label = 'Starting journey...';
+        } else if (progress > 0.4) {
+          label = 'Preparing gallery...';
+        }
 
-        return IgnorePointer(
-          child: Stack(
-            children: [
-              // Element 1: Yellow clay sphere top-left
-              Positioned(
-                left: 30 + math.sin(t * 2 * math.pi) * 12,
-                top: 70 + math.cos(t * 2 * math.pi) * 14,
-                child: _buildMiniClayBubble(26, const Color(0xFFFFB300), const Color(0xFFC67C00)),
-              ),
-
-              // Element 2: Cyan clay sphere top-right
-              Positioned(
-                right: 36 + math.cos(t * 2 * math.pi) * 14,
-                top: 110 + math.sin(t * 2 * math.pi) * 12,
-                child: _buildMiniClayBubble(34, const Color(0xFF29B6F6), const Color(0xFF0277BD)),
-              ),
-
-              // Element 3: Mint clay star bottom-left
-              Positioned(
-                left: 45 + math.cos(t * 2 * math.pi) * 10,
-                bottom: 120 + math.sin(t * 2 * math.pi) * 16,
-                child: _buildMiniClayBubble(28, const Color(0xFF00E676), const Color(0xFF00A152)),
-              ),
-
-              // Element 4: Rose clay pill bottom-right
-              Positioned(
-                right: 40 + math.sin(t * 2 * math.pi) * 12,
-                bottom: 95 + math.cos(t * 2 * math.pi) * 14,
-                child: _buildMiniClayBubble(24, const Color(0xFFFF5252), const Color(0xFFD32F2F)),
-              ),
-            ],
+        return Text(
+          label,
+          style: TextStyle(
+            color: Colors.white.withValues(alpha: 0.65),
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            letterSpacing: 0.4,
           ),
         );
       },
     );
   }
 
-  Widget _buildMiniClayBubble(double size, Color color, Color bevel) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color.alphaBlend(Colors.white.withValues(alpha: 0.4), color),
-            color,
-            Color.alphaBlend(Colors.black.withValues(alpha: 0.15), color),
-          ],
-        ),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.4), width: 1.2),
-        boxShadow: [
-          BoxShadow(
-            color: bevel,
-            offset: const Offset(0, 3),
-            blurRadius: 0,
+  /// Clean error state with retry and skip
+  Widget _buildErrorView(ContentController content) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.redAccent.withValues(alpha: 0.15),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.info_outline_rounded,
+              size: 44,
+              color: Color(0xFFFF6B6B),
+            ),
           ),
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
-            offset: const Offset(0, 6),
-            blurRadius: 10,
+          const SizedBox(height: 18),
+          Text(
+            content.errorMessage.value,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 24),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFFFB300),
+                  foregroundColor: const Color(0xFF0E2A47),
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                ),
+                onPressed: () {
+                  content.loadContent();
+                  _bootstrap();
+                },
+                icon: const Icon(Icons.refresh_rounded, size: 18),
+                label: const Text('Retry', style: TextStyle(fontWeight: FontWeight.bold)),
+              ),
+              const SizedBox(width: 12),
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  side: BorderSide(color: Colors.white.withValues(alpha: 0.4)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                ),
+                onPressed: _navigateToHome,
+                child: const Text('Continue', style: TextStyle(fontWeight: FontWeight.w600)),
+              ),
+            ],
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildErrorView(ContentController content) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Icon(Icons.error_outline_rounded, size: 64, color: Colors.redAccent),
-        const SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          child: Text(
-            content.errorMessage.value,
-            textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.white, fontSize: 16),
-          ),
-        ),
-        const SizedBox(height: 24),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFFFB300),
-                foregroundColor: const Color(0xFF0E2A47),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-              ),
-              onPressed: () {
-                content.loadContent();
-                _bootstrap();
-              },
-              child: const Text('Retry Loading', style: TextStyle(fontWeight: FontWeight.bold)),
-            ),
-            const SizedBox(width: 12),
-            OutlinedButton(
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.white,
-                side: const BorderSide(color: Colors.white54),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-              ),
-              onPressed: _navigateToHome,
-              child: const Text('Continue to Game', style: TextStyle(fontWeight: FontWeight.bold)),
-            ),
-          ],
-        ),
-      ],
     );
   }
 }

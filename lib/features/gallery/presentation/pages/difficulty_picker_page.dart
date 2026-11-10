@@ -117,7 +117,7 @@ class _DifficultyPickerPageState extends State<DifficultyPickerPage> {
     if (pic == null && content.allPictures.isNotEmpty) {
       final lower = widget.pictureId.toLowerCase();
       String cat = 'nature';
-      if (lower.startsWith('art')) {
+      if (lower.startsWith('art') || lower.startsWith('r')) {
         cat = 'art';
       } else if (lower.startsWith('n')) {
         cat = 'nature';
@@ -308,7 +308,7 @@ class _DifficultyPickerPageState extends State<DifficultyPickerPage> {
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
             child: AspectRatio(
-              aspectRatio: 1.55,
+              aspectRatio: 3 / 2,
               child: Image.asset(
                 pic.path,
                 fit: BoxFit.cover,

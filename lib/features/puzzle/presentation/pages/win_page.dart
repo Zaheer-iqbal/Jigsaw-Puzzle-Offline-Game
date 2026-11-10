@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -10,8 +11,55 @@ import 'package:jigsaw_pro/features/content/presentation/controllers/content_con
 import 'package:jigsaw_pro/features/economy/presentation/controllers/economy_controller.dart';
 import 'package:jigsaw_pro/features/puzzle/presentation/controllers/puzzle_controller.dart';
 
-class WinPage extends StatelessWidget {
+class WinPage extends StatefulWidget {
   const WinPage({super.key});
+
+  @override
+  State<WinPage> createState() => _WinPageState();
+}
+
+class _WinPageState extends State<WinPage> with SingleTickerProviderStateMixin {
+  late final AnimationController _confettiController;
+  late final List<_ConfettiParticle> _particles;
+
+  @override
+  void initState() {
+    super.initState();
+    HapticFeedback.heavyImpact();
+
+    _confettiController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 3500),
+    )..repeat();
+
+    final rnd = math.Random();
+    const colors = [
+      Color(0xFFFFB300), // Gold
+      Color(0xFF00E5FF), // Cyan
+      Color(0xFFFF4081), // Pink
+      Color(0xFF7C4DFF), // Purple
+      Color(0xFF00E676), // Green
+      Color(0xFFFF6E40), // Coral
+    ];
+
+    _particles = List.generate(45, (i) {
+      return _ConfettiParticle(
+        x: rnd.nextDouble(),
+        y: -0.2 - rnd.nextDouble() * 0.8,
+        speed: 0.25 + rnd.nextDouble() * 0.45,
+        size: 7.0 + rnd.nextDouble() * 6.0,
+        color: colors[i % colors.length],
+        wobbleSpeed: 2.0 + rnd.nextDouble() * 4.0,
+        rotation: rnd.nextDouble() * math.pi * 2,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _confettiController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,20 +84,41 @@ class WinPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: CasualGameBackground(
-        child: SafeArea(
-          child: Column(
-            children: [
-              const SizedBox(height: 8),
-              _buildTopBar(context, economy),
-              const SizedBox(height: 8),
-              Expanded(
-                child: Responsive(
-                  portrait: (context, constraints) => _buildPortrait(context, puzzle, time, moves, coinsEarned),
-                  landscape: (context, constraints) => _buildLandscape(context, puzzle, time, moves, coinsEarned),
+        child: Stack(
+          children: [
+            // Celebratory Confetti Particle Shower Layer
+            Positioned.fill(
+              child: IgnorePointer(
+                child: AnimatedBuilder(
+                  animation: _confettiController,
+                  builder: (context, _) {
+                    return CustomPaint(
+                      painter: _ConfettiPainter(
+                        progress: _confettiController.value,
+                        particles: _particles,
+                      ),
+                    );
+                  },
                 ),
               ),
-            ],
-          ),
+            ),
+
+            SafeArea(
+              child: Column(
+                children: [
+                  const SizedBox(height: 8),
+                  _buildTopBar(context, economy),
+                  const SizedBox(height: 8),
+                  Expanded(
+                    child: Responsive(
+                      portrait: (context, constraints) => _buildPortrait(context, puzzle, time, moves, coinsEarned),
+                      landscape: (context, constraints) => _buildLandscape(context, puzzle, time, moves, coinsEarned),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -475,7 +544,7 @@ class WinPage extends StatelessWidget {
     );
   }
 
-  // --- Big 3D Tactile Golden NEXT PUZZLE & Home Buttons (Claymorphic) ---
+  // --- Big 3D Tactile Golden NEXT PUZZLE, Share Story, & Home Buttons (Claymorphic) ---
   Widget _buildActionButtons(BuildContext context, PuzzleController puzzle) {
     return Column(
       children: [
@@ -516,7 +585,46 @@ class WinPage extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 14),
+        const SizedBox(height: 12),
+
+        // Vibrant Gen Z "SHARE TO STORY" Button
+        ClayButton(
+          onTap: () => _showStoryShareModal(context, puzzle),
+          width: double.infinity,
+          height: 50,
+          depth: 5.0,
+          color: const Color(0xFFFF4081),
+          bevelColor: const Color(0xFFC2185B),
+          borderRadius: BorderRadius.circular(25),
+          gradient: const LinearGradient(
+            colors: [
+              Color(0xFFFF5252),
+              Color(0xFFFF4081),
+              Color(0xFF7C4DFF),
+            ],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+          child: const Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.camera_alt_rounded, color: Colors.white, size: 22),
+                SizedBox(width: 8),
+                Text(
+                  'SHARE TO STORY 📸',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 1.0,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
 
         // Back to Home ClayButton
         ClayButton(
@@ -550,6 +658,186 @@ class WinPage extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  // --- Instagram / TikTok Aesthetic Story Share Modal ---
+  void _showStoryShareModal(BuildContext context, PuzzleController puzzle) {
+    HapticFeedback.mediumImpact();
+    final timeStr = _formatTime(puzzle.elapsedSeconds.value);
+    final title = _cleanTitle(puzzle);
+    final moves = puzzle.moves.value;
+    final pieces = puzzle.actualPieceCount;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) {
+        return Container(
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+          decoration: const BoxDecoration(
+            color: Color(0xFF0B1424),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Handle pill
+              Container(
+                width: 44,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.white24,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              const Text(
+                '✨ Instagram / TikTok Story Card',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // The 9:16 Viral Story Card preview
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF162544), Color(0xFF0E1A33)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(color: const Color(0xFFFFB300), width: 1.5),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x66FFB300),
+                      blurRadius: 18,
+                      spreadRadius: 1,
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text('🏆', style: TextStyle(fontSize: 22)),
+                        SizedBox(width: 8),
+                        Text(
+                          'JIGSAW PRO CHAMPION',
+                          style: TextStyle(
+                            color: Color(0xFFFFD54F),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 1.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+
+                    // Puzzle picture thumbnail
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: Container(
+                        width: 170,
+                        height: 120,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white30, width: 2),
+                        ),
+                        child: _buildPictureThumbnail(puzzle),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+
+                    // Stats chips
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.08),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Colors.white12),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('⏱️ $timeStr', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 13)),
+                          const SizedBox(width: 12),
+                          Text('🎯 $moves Moves', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 13)),
+                          const SizedBox(width: 12),
+                          Text('🧩 $pieces Pcs', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 13)),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+
+                    const Text(
+                      'I solved this puzzle in record time! 🔥\nCan you beat my score? #JigsawPro',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFF81D4FA),
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 18),
+
+              // Copy & Share Button
+              ElevatedButton.icon(
+                onPressed: () {
+                  HapticFeedback.lightImpact();
+                  final shareText = '🧩 I mastered "$title" in $timeStr with $moves moves in Jigsaw Pro! Can you beat me? 🔥 Download on Play Store!';
+                  Clipboard.setData(ClipboardData(text: shareText));
+                  Navigator.pop(ctx);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      backgroundColor: Color(0xFF00E5FF),
+                      content: Text(
+                        '✨ Challenge text copied to clipboard! Paste directly on your Instagram Story or TikTok! 🔥',
+                        style: TextStyle(color: Color(0xFF0E2A47), fontWeight: FontWeight.w900),
+                      ),
+                      duration: Duration(seconds: 3),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFFFB300),
+                  foregroundColor: const Color(0xFF261900),
+                  minimumSize: const Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                  elevation: 4,
+                ),
+                icon: const Icon(Icons.copy_rounded, size: 20),
+                label: const Text(
+                  'COPY STORY CHALLENGE 📋',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900, letterSpacing: 0.8),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -637,4 +925,59 @@ class WinPage extends StatelessWidget {
     final s = totalSeconds % 60;
     return '${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}';
   }
+}
+
+class _ConfettiParticle {
+  double x;
+  double y;
+  final double speed;
+  final double size;
+  final Color color;
+  final double wobbleSpeed;
+  final double rotation;
+
+  _ConfettiParticle({
+    required this.x,
+    required this.y,
+    required this.speed,
+    required this.size,
+    required this.color,
+    required this.wobbleSpeed,
+    required this.rotation,
+  });
+}
+
+class _ConfettiPainter extends CustomPainter {
+  final double progress;
+  final List<_ConfettiParticle> particles;
+
+  _ConfettiPainter({required this.progress, required this.particles});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (size.width <= 0 || size.height <= 0) return;
+
+    for (final p in particles) {
+      final currentY = ((p.y + progress * p.speed) % 1.25) * size.height;
+      final wobble = math.sin(progress * math.pi * p.wobbleSpeed) * 16.0;
+      final currentX = (p.x * size.width + wobble) % size.width;
+
+      final paint = Paint()
+        ..color = p.color.withValues(alpha: 0.85)
+        ..style = PaintingStyle.fill;
+
+      canvas.save();
+      canvas.translate(currentX, currentY);
+      canvas.rotate(p.rotation + progress * math.pi * 2);
+      final rrect = RRect.fromRectAndRadius(
+        Rect.fromCenter(center: Offset.zero, width: p.size, height: p.size * 0.55),
+        const Radius.circular(2),
+      );
+      canvas.drawRRect(rrect, paint);
+      canvas.restore();
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _ConfettiPainter oldDelegate) => true;
 }

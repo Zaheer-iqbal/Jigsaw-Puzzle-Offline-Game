@@ -137,14 +137,14 @@ class HiveStorage {
     return completedDailyDates.contains(key);
   }
 
-  // --- Category Level Progression (1 to 100) ---
+  // --- Category Level Progression (1 to 50) ---
   int getHighestUnlockedLevel(String category) {
     return _progressBox.get('unlocked_lvl_${category.toLowerCase()}', defaultValue: 1) as int;
   }
 
   Future<void> unlockNextLevel(String category, int completedLevel) async {
     final current = getHighestUnlockedLevel(category);
-    if (completedLevel >= current && current < 100) {
+    if (completedLevel >= current && current < 50) {
       await _progressBox.put('unlocked_lvl_${category.toLowerCase()}', completedLevel + 1);
     }
   }

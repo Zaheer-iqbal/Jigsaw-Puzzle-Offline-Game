@@ -58,6 +58,9 @@ class ContentController extends GetxController {
     // 2. Already completed by player
     if (_storage.isPictureCompleted(picture.id)) return true;
 
+    // Premium pictures must be explicitly unlocked or completed
+    if (picture.premium) return false;
+
     // 3. Level 1 of any category is always free & unlocked
     final lvl = getPictureLevelNumber(picture);
     if (lvl <= 1) return true;
@@ -88,7 +91,7 @@ class ContentController extends GetxController {
     return true;
   }
 
-  // --- 100 Levels Per Category Progression ---
+  // --- 50 Levels Per Category Progression ---
   Future<List<PuzzleLevel>> getLevels(String category) async {
     return _repository.getLevelsByCategory(category);
   }

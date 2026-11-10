@@ -38,11 +38,11 @@ android {
 
     signingConfigs {
         create("release") {
-            keyAlias = keystoreProperties.getProperty("keyAlias", "upload")
-            keyPassword = keystoreProperties.getProperty("keyPassword", "J1g5aw#Pr0_99xK7qL2026M9zXwVkQ4")
-            val storeFilePath = keystoreProperties.getProperty("storeFile", "upload-keystore.jks")
+            keyAlias = keystoreProperties.getProperty("keyAlias") ?: ""
+            keyPassword = keystoreProperties.getProperty("keyPassword") ?: ""
+            val storeFilePath = keystoreProperties.getProperty("storeFile") ?: "upload-keystore.jks"
             storeFile = file(storeFilePath)
-            storePassword = keystoreProperties.getProperty("storePassword", "J1g5aw#Pr0_99xK7qL2026M9zXwVkQ4")
+            storePassword = keystoreProperties.getProperty("storePassword") ?: ""
         }
     }
 

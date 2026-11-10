@@ -187,7 +187,7 @@ class _GalleryPageState extends State<GalleryPage> {
         itemBuilder: (context, index) {
           final cat = _categories[index];
           final isSelected = cat.toLowerCase() == _selectedCategory.toLowerCase();
-          final displayName = cat[0].toUpperCase() + cat.substring(1);
+          final displayName = _getCategoryDisplayName(cat);
 
           return GestureDetector(
             onTap: () {
@@ -232,6 +232,25 @@ class _GalleryPageState extends State<GalleryPage> {
     );
   }
 
+  String _getCategoryDisplayName(String cat) {
+    switch (cat.toLowerCase()) {
+      case 'all':
+        return '🌟 All Puzzles';
+      case 'animals':
+        return '🐾 Animals';
+      case 'nature':
+        return '🌿 Nature';
+      case 'flowers':
+        return '🌸 Flowers';
+      case 'landmarks':
+        return '🏛️ Landmarks';
+      case 'art':
+        return '🎨 Art';
+      default:
+        return '🧩 ${cat[0].toUpperCase()}${cat.substring(1)}';
+    }
+  }
+
   Widget _buildGalleryGrid(BuildContext context) {
     return Obx(() {
       final allPics = _content.allPictures;
@@ -265,7 +284,7 @@ class _GalleryPageState extends State<GalleryPage> {
           crossAxisCount: cols,
           crossAxisSpacing: 14,
           mainAxisSpacing: 14,
-          childAspectRatio: 0.64,
+          childAspectRatio: 1.03,
         ),
         itemBuilder: (context, index) {
           final pic = filteredPics[index];
@@ -327,9 +346,9 @@ class _GalleryPageState extends State<GalleryPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Photo Thumbnail with Rounded Top & Badges
-              Expanded(
-                flex: 12,
+              // 3:2 Landscape Photo Thumbnail with Rounded Top & Badges
+              AspectRatio(
+                aspectRatio: 3 / 2,
                 child: Stack(
                   fit: StackFit.expand,
                   children: [

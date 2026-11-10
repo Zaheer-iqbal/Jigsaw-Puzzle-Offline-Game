@@ -1,0 +1,776 @@
+<USER_REQUEST>
+# 250 prompts for puzzle images
+
+Paste one prompt per image. Aspect ratio 3:2 (Midjourney: add `--ar 3:2`). File name must be the id (a001, n001, f001, l001, r001).
+
+## Animals
+
+**a001 - Kitten Cozy**
+a fluffy kitten wearing a pink gaming headset on a cozy keyboard desk with neon LED shelves, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a002 - Kitten Adventure**
+a sleepy kitten napping in a yarn basket by a snowy window, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a003 - Puppy Cozy**
+a happy puppy reading a storybook inside a blanket fort with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a004 - Puppy Adventure**
+a puppy in a tiny scarf playing in golden autumn leaves, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a005 - Bunny Cozy**
+a bunny baking cupcakes in a tiny warm kitchen, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a006 - Bunny Adventure**
+a bunny sleeping in a flower meadow at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a007 - Fox Cozy**
+a fox in a knitted scarf holding a glowing lantern in a snowy forest, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a008 - Fox Adventure**
+a fox writing in a journal inside a cozy treehouse, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a009 - Panda Cozy**
+a panda drinking tea in a bamboo cafe, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a010 - Panda Adventure**
+a panda painting on a canvas in a sunny art studio, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a011 - Hedgehog Cozy**
+a hedgehog hosting a tiny tea party among mushrooms, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a012 - Hedgehog Adventure**
+a hedgehog carrying a basket of apples in an autumn orchard, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a013 - Owl Cozy**
+an owl librarian in a grand old library with floating candles, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a014 - Owl Adventure**
+an owl on a branch under a starry sky full of fireflies, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a015 - Bear Cub Cozy**
+a bear cub eating honey in a log cabin kitchen, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a016 - Bear Cub Adventure**
+a bear cub fishing at a calm mountain lake at dawn, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a017 - Red Panda Cozy**
+a red panda relaxing in a snowy hot spring, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a018 - Red Panda Adventure**
+a red panda climbing a cherry blossom tree, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a019 - Hamster Cozy**
+a hamster in a tiny workshop of gears and cheese, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a020 - Hamster Adventure**
+a hamster driving a toy car through a miniature town, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a021 - Duckling Cozy**
+a duckling with a yellow umbrella splashing in rain puddles, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a022 - Duckling Adventure**
+a duckling following flower petals on a quiet pond, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a023 - Penguin Cozy**
+a penguin knitting a scarf in a warm ice cottage, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a024 - Penguin Adventure**
+a penguin sliding down a glittering iceberg under the aurora, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a025 - Koala Cozy**
+a koala hugging a eucalyptus branch in a treetop hammock, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a026 - Koala Adventure**
+a koala with a tiny backpack on a sunny hike, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a027 - Fawn Cozy**
+a fawn in a magical glowing forest with butterflies, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a028 - Fawn Adventure**
+a fawn sitting in mossy ruins among glowing mushrooms, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a029 - Raccoon Cozy**
+a raccoon sorting treasures in a cozy attic, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a030 - Raccoon Adventure**
+a raccoon eating cotton candy at a lantern night festival, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a031 - Lion Cub Cozy**
+a lion cub wearing a paper crown at golden savanna sunset, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a032 - Lion Cub Adventure**
+a lion cub playing with yarn in a cozy den, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a033 - Baby Elephant Cozy**
+a baby elephant spraying water near a rainbow waterfall, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a034 - Baby Elephant Adventure**
+a baby elephant reading under a giant umbrella in the rain, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a035 - Giraffe Cozy**
+a giraffe peeking over a garden fence full of flowers, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a036 - Giraffe Adventure**
+a giraffe in a scarf in a candy-colored village, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a037 - Sloth Cozy**
+a sloth with a book and tea in a jungle cafe, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a038 - Sloth Adventure**
+a sloth napping in a hammock among orchids, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a039 - Frog Cozy**
+a frog on a lily pad holding a tiny umbrella, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a040 - Frog Adventure**
+a frog playing a little violin among fireflies, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a041 - Parrot Cozy**
+a colorful parrot in a tropical greenhouse of blooms, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a042 - Parrot Adventure**
+a parrot in tiny sunglasses at a beach cafe, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a043 - Squirrel Cozy**
+a squirrel collecting acorns inside a tiny library tree, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a044 - Squirrel Adventure**
+a squirrel making small gifts in a winter workshop, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a045 - Otters Cozy**
+two otters holding hands floating on a calm lake at sunset, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a046 - Otters Adventure**
+an otter juggling pebbles in a seaside cottage, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a047 - Dolphin Cozy**
+a dolphin leaping through a rainbow over a sparkling sea, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a048 - Dolphin Adventure**
+a dolphin swimming among glowing jellyfish and coral at night, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a049 - Baby Tiger Cozy**
+a baby tiger playing in a bamboo forest with butterflies, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**a050 - Baby Tiger Adventure**
+a baby tiger sleeping on a lotus at a lantern festival, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+
+## Nature
+
+**n001 - Misty Cottage Sunrise**
+a cozy cottage in a misty pine forest at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n002 - Misty Cottage Golden Hour**
+a cozy cottage in a misty pine forest at golden hour, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n003 - Misty Cottage Blue Hour**
+a cozy cottage in a misty pine forest at blue hour with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n004 - Misty Cottage Starry Night**
+a cozy cottage in a misty pine forest under a starry night with a huge moon, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n005 - Misty Cottage Rainbow Rain**
+a cozy cottage in a misty pine forest in gentle rain with a rainbow, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n006 - Snow Village Sunrise**
+a snowy mountain village with glowing windows at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n007 - Snow Village Golden Hour**
+a snowy mountain village with glowing windows at golden hour, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n008 - Snow Village Blue Hour**
+a snowy mountain village with glowing windows at blue hour with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n009 - Snow Village Starry Night**
+a snowy mountain village with glowing windows under a starry night with a huge moon, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n010 - Snow Village Rainbow Rain**
+a snowy mountain village with glowing windows in gentle rain with a rainbow, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n011 - Hammock Beach Sunrise**
+a tropical beach with a hammock and palm trees at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n012 - Hammock Beach Golden Hour**
+a tropical beach with a hammock and palm trees at golden hour, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n013 - Hammock Beach Blue Hour**
+a tropical beach with a hammock and palm trees at blue hour with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n014 - Hammock Beach Starry Night**
+a tropical beach with a hammock and palm trees under a starry night with a huge moon, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n015 - Hammock Beach Rainbow Rain**
+a tropical beach with a hammock and palm trees in gentle rain with a rainbow, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n016 - Boat Lake Sunrise**
+a calm mountain lake with a small wooden boat at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n017 - Boat Lake Golden Hour**
+a calm mountain lake with a small wooden boat at golden hour, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n018 - Boat Lake Blue Hour**
+a calm mountain lake with a small wooden boat at blue hour with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n019 - Boat Lake Starry Night**
+a calm mountain lake with a small wooden boat under a starry night with a huge moon, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n020 - Boat Lake Rainbow Rain**
+a calm mountain lake with a small wooden boat in gentle rain with a rainbow, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n021 - Rice Terraces Sunrise**
+terraced green rice fields in the hills at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n022 - Rice Terraces Golden Hour**
+terraced green rice fields in the hills at golden hour, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n023 - Rice Terraces Blue Hour**
+terraced green rice fields in the hills at blue hour with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n024 - Rice Terraces Starry Night**
+terraced green rice fields in the hills under a starry night with a huge moon, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n025 - Rice Terraces Rainbow Rain**
+terraced green rice fields in the hills in gentle rain with a rainbow, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n026 - Hidden Waterfall Sunrise**
+a waterfall hidden in a lush jungle at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n027 - Hidden Waterfall Golden Hour**
+a waterfall hidden in a lush jungle at golden hour, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n028 - Hidden Waterfall Blue Hour**
+a waterfall hidden in a lush jungle at blue hour with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n029 - Hidden Waterfall Starry Night**
+a waterfall hidden in a lush jungle under a starry night with a huge moon, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n030 - Hidden Waterfall Rainbow Rain**
+a waterfall hidden in a lush jungle in gentle rain with a rainbow, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n031 - Lantern Path Sunrise**
+an autumn forest path lined with lanterns at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n032 - Lantern Path Golden Hour**
+an autumn forest path lined with lanterns at golden hour, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n033 - Lantern Path Blue Hour**
+an autumn forest path lined with lanterns at blue hour with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n034 - Lantern Path Starry Night**
+an autumn forest path lined with lanterns under a starry night with a huge moon, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n035 - Lantern Path Rainbow Rain**
+an autumn forest path lined with lanterns in gentle rain with a rainbow, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n036 - Desert Oasis Sunrise**
+a desert oasis with a tiny village at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n037 - Desert Oasis Golden Hour**
+a desert oasis with a tiny village at golden hour, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n038 - Desert Oasis Blue Hour**
+a desert oasis with a tiny village at blue hour with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n039 - Desert Oasis Starry Night**
+a desert oasis with a tiny village under a starry night with a huge moon, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n040 - Desert Oasis Rainbow Rain**
+a desert oasis with a tiny village in gentle rain with a rainbow, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n041 - Lavender Windmill Sunrise**
+lavender hills with an old windmill at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n042 - Lavender Windmill Golden Hour**
+lavender hills with an old windmill at golden hour, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n043 - Lavender Windmill Blue Hour**
+lavender hills with an old windmill at blue hour with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n044 - Lavender Windmill Starry Night**
+lavender hills with an old windmill under a starry night with a huge moon, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n045 - Lavender Windmill Rainbow Rain**
+lavender hills with an old windmill in gentle rain with a rainbow, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n046 - Floating Isles Sunrise**
+floating islands with waterfalls and tiny houses at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n047 - Floating Isles Golden Hour**
+floating islands with waterfalls and tiny houses at golden hour, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n048 - Floating Isles Blue Hour**
+floating islands with waterfalls and tiny houses at blue hour with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n049 - Floating Isles Starry Night**
+floating islands with waterfalls and tiny houses under a starry night with a huge moon, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**n050 - Floating Isles Rainbow Rain**
+floating islands with waterfalls and tiny houses in gentle rain with a rainbow, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+
+## Flowers
+
+**f001 - Flower Shop Pastel**
+an overflowing flower shop window in pastel pink and lilac, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f002 - Flower Shop Sunset**
+an overflowing flower shop window in warm sunset orange and gold, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f003 - Flower Shop Blue**
+an overflowing flower shop window in blue and white, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f004 - Flower Shop Rainbow**
+an overflowing flower shop window in bright rainbow colors, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f005 - Flower Shop Magenta Night**
+an overflowing flower shop window in deep red and magenta with night lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f006 - Greenhouse Pastel**
+a glass greenhouse full of blooms in pastel pink and lilac, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f007 - Greenhouse Sunset**
+a glass greenhouse full of blooms in warm sunset orange and gold, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f008 - Greenhouse Blue**
+a glass greenhouse full of blooms in blue and white, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f009 - Greenhouse Rainbow**
+a glass greenhouse full of blooms in bright rainbow colors, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f010 - Greenhouse Magenta Night**
+a glass greenhouse full of blooms in deep red and magenta with night lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f011 - Blossom Path Pastel**
+a cherry blossom path with paper lanterns in pastel pink and lilac, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f012 - Blossom Path Sunset**
+a cherry blossom path with paper lanterns in warm sunset orange and gold, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f013 - Blossom Path Blue**
+a cherry blossom path with paper lanterns in blue and white, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f014 - Blossom Path Rainbow**
+a cherry blossom path with paper lanterns in bright rainbow colors, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f015 - Blossom Path Magenta Night**
+a cherry blossom path with paper lanterns in deep red and magenta with night lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f016 - Tulip Farm Pastel**
+a tulip field with a small farmhouse in pastel pink and lilac, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f017 - Tulip Farm Sunset**
+a tulip field with a small farmhouse in warm sunset orange and gold, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f018 - Tulip Farm Blue**
+a tulip field with a small farmhouse in blue and white, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f019 - Tulip Farm Rainbow**
+a tulip field with a small farmhouse in bright rainbow colors, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f020 - Tulip Farm Magenta Night**
+a tulip field with a small farmhouse in deep red and magenta with night lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f021 - Sunflower Field Pastel**
+a sunflower field with a friendly scarecrow in pastel pink and lilac, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f022 - Sunflower Field Sunset**
+a sunflower field with a friendly scarecrow in warm sunset orange and gold, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f023 - Sunflower Field Blue**
+a sunflower field with a friendly scarecrow in blue and white, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f024 - Sunflower Field Rainbow**
+a sunflower field with a friendly scarecrow in bright rainbow colors, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f025 - Sunflower Field Magenta Night**
+a sunflower field with a friendly scarecrow in deep red and magenta with night lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f026 - Rose Gazebo Pastel**
+a rose garden with a white gazebo in pastel pink and lilac, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f027 - Rose Gazebo Sunset**
+a rose garden with a white gazebo in warm sunset orange and gold, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f028 - Rose Gazebo Blue**
+a rose garden with a white gazebo in blue and white, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f029 - Rose Gazebo Rainbow**
+a rose garden with a white gazebo in bright rainbow colors, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f030 - Rose Gazebo Magenta Night**
+a rose garden with a white gazebo in deep red and magenta with night lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f031 - Lotus Pond Pastel**
+a lotus pond with floating lanterns in pastel pink and lilac, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f032 - Lotus Pond Sunset**
+a lotus pond with floating lanterns in warm sunset orange and gold, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f033 - Lotus Pond Blue**
+a lotus pond with floating lanterns in blue and white, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f034 - Lotus Pond Rainbow**
+a lotus pond with floating lanterns in bright rainbow colors, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f035 - Lotus Pond Magenta Night**
+a lotus pond with floating lanterns in deep red and magenta with night lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f036 - Wild Meadow Pastel**
+a wildflower meadow full of butterflies in pastel pink and lilac, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f037 - Wild Meadow Sunset**
+a wildflower meadow full of butterflies in warm sunset orange and gold, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f038 - Wild Meadow Blue**
+a wildflower meadow full of butterflies in blue and white, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f039 - Wild Meadow Rainbow**
+a wildflower meadow full of butterflies in bright rainbow colors, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f040 - Wild Meadow Magenta Night**
+a wildflower meadow full of butterflies in deep red and magenta with night lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f041 - Balcony Garden Pastel**
+a cozy balcony garden with a watering can in pastel pink and lilac, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f042 - Balcony Garden Sunset**
+a cozy balcony garden with a watering can in warm sunset orange and gold, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f043 - Balcony Garden Blue**
+a cozy balcony garden with a watering can in blue and white, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f044 - Balcony Garden Rainbow**
+a cozy balcony garden with a watering can in bright rainbow colors, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f045 - Balcony Garden Magenta Night**
+a cozy balcony garden with a watering can in deep red and magenta with night lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f046 - Bouquet Table Pastel**
+a big bouquet in a vase on a cozy table in pastel pink and lilac, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f047 - Bouquet Table Sunset**
+a big bouquet in a vase on a cozy table in warm sunset orange and gold, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f048 - Bouquet Table Blue**
+a big bouquet in a vase on a cozy table in blue and white, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f049 - Bouquet Table Rainbow**
+a big bouquet in a vase on a cozy table in bright rainbow colors, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**f050 - Bouquet Table Magenta Night**
+a big bouquet in a vase on a cozy table in deep red and magenta with night lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+
+## Landmarks
+
+**l001 - Eiffel Tower**
+a charming illustrated view of Eiffel Tower in Paris, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l002 - Colosseum**
+a charming illustrated view of Colosseum in Rome, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l003 - Taj Mahal**
+a charming illustrated view of Taj Mahal at the river, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l004 - Santorini white village**
+a charming illustrated view of Santorini white village, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l005 - Big Ben and Tower Bridge**
+a charming illustrated view of Big Ben and Tower Bridge in London, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l006 - Statue of Liberty**
+a charming illustrated view of Statue of Liberty in New York harbor, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l007 - Machu Picchu**
+a charming illustrated view of Machu Picchu in the clouds, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l008 - Pyramids of Giza**
+a charming illustrated view of Pyramids of Giza, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l009 - Sydney Opera House**
+a charming illustrated view of Sydney Opera House, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l010 - Mount Fuji**
+a charming illustrated view of Mount Fuji with a pagoda, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l011 - Fushimi Inari red gates**
+a charming illustrated view of Fushimi Inari red gates in Kyoto, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l012 - Venice canals**
+a charming illustrated view of Venice canals with gondolas, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l013 - Burj Khalifa skyline**
+a charming illustrated view of Burj Khalifa skyline in Dubai, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l014 - Petra rose-red canyon**
+a charming illustrated view of Petra rose-red canyon, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l015 - Great Wall of China**
+a charming illustrated view of Great Wall of China in autumn, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l016 - Angkor Wat**
+a charming illustrated view of Angkor Wat at sunrise, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l017 - Neuschwanstein castle**
+a charming illustrated view of Neuschwanstein castle in the Alps, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l018 - Golden Gate Bridge**
+a charming illustrated view of Golden Gate Bridge in fog, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l019 - Blue Mosque**
+a charming illustrated view of Blue Mosque in Istanbul, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l020 - Amsterdam canal houses**
+a charming illustrated view of Amsterdam canal houses, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l021 - Cappadocia hot air balloons**
+a charming illustrated view of Cappadocia hot air balloons, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l022 - Bali rice terrace temple**
+a charming illustrated view of Bali rice terrace temple, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l023 - Hagia Sophia**
+a charming illustrated view of Hagia Sophia at sunset, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l024 - Big Ben clock tower**
+a charming illustrated view of Big Ben clock tower at night, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l025 - Cairo old city rooftops**
+a charming illustrated view of Cairo old city rooftops, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l026 - Badshahi Mosque**
+a charming illustrated view of Badshahi Mosque in Lahore, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l027 - Faisal Mosque**
+a charming illustrated view of Faisal Mosque in Islamabad, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l028 - Lahore Fort Alamgiri Gate**
+a charming illustrated view of Lahore Fort Alamgiri Gate, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l029 - Minar-e-Pakistan**
+a charming illustrated view of Minar-e-Pakistan with gardens, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l030 - Wazir Khan Mosque**
+a charming illustrated view of Wazir Khan Mosque with tiled walls, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l031 - Shalimar Gardens**
+a charming illustrated view of Shalimar Gardens with fountains, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l032 - Mohatta Palace**
+a charming illustrated view of Mohatta Palace in Karachi, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l033 - Quaid-e-Azam Mausoleum**
+a charming illustrated view of Quaid-e-Azam Mausoleum, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l034 - Hunza Valley and Attabad Lake**
+a charming illustrated view of Hunza Valley and Attabad Lake, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l035 - Fairy Meadows**
+a charming illustrated view of Fairy Meadows with Nanga Parbat, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l036 - K2 base camp trek**
+a charming illustrated view of K2 base camp trek, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l037 - Skardu Shangrila Lake**
+a charming illustrated view of Skardu Shangrila Lake, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l038 - Deosai Plains**
+a charming illustrated view of Deosai Plains with wildflowers, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l039 - Swat Valley river village**
+a charming illustrated view of Swat Valley river village, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l040 - Kalash Valley traditional houses**
+a charming illustrated view of Kalash Valley traditional houses, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l041 - Naltar blue lakes**
+a charming illustrated view of Naltar blue lakes, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l042 - Mohenjo-daro ancient ruins**
+a charming illustrated view of Mohenjo-daro ancient ruins, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l043 - Taxila Buddhist stupa**
+a charming illustrated view of Taxila Buddhist stupa, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l044 - Rohtas Fort walls**
+a charming illustrated view of Rohtas Fort walls, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l045 - Derawar Fort**
+a charming illustrated view of Derawar Fort in Cholistan, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l046 - Hingol coastal rock formations**
+a charming illustrated view of Hingol coastal rock formations, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l047 - Neelum Valley**
+a charming illustrated view of Neelum Valley in Kashmir, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l048 - Murree pine hills**
+a charming illustrated view of Murree pine hills, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l049 - Thandiani pine hills near Abbottabad**
+a charming illustrated view of Thandiani pine hills near Abbottabad, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**l050 - Nathia Gali misty forest**
+a charming illustrated view of Nathia Gali misty forest, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+
+## Art
+
+**r001 - Ukiyo-e Cat and Flowers**
+a cat among flowers, Japanese ukiyo-e woodblock print, flat color areas, bold ink outlines, textured paper, indigo, vermilion and cream palette, decorative wave and cloud patterns, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r002 - Ukiyo-e Mountain Village**
+a mountain village at dusk, Japanese ukiyo-e woodblock print, flat color areas, bold ink outlines, textured paper, indigo, vermilion and cream palette, decorative wave and cloud patterns, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r003 - Ukiyo-e Garden of Birds**
+a garden full of birds, Japanese ukiyo-e woodblock print, flat color areas, bold ink outlines, textured paper, indigo, vermilion and cream palette, decorative wave and cloud patterns, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r004 - Ukiyo-e Moonlit Lanterns**
+a moonlit night with lanterns, Japanese ukiyo-e woodblock print, flat color areas, bold ink outlines, textured paper, indigo, vermilion and cream palette, decorative wave and cloud patterns, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r005 - Ukiyo-e River Boat**
+a boat on a calm river, Japanese ukiyo-e woodblock print, flat color areas, bold ink outlines, textured paper, indigo, vermilion and cream palette, decorative wave and cloud patterns, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r006 - Stained Glass Cat and Flowers**
+a cat among flowers, colorful stained glass window, thick black lead lines, jewel-toned glowing glass with light shining through, ornate border, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r007 - Stained Glass Mountain Village**
+a mountain village at dusk, colorful stained glass window, thick black lead lines, jewel-toned glowing glass with light shining through, ornate border, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r008 - Stained Glass Garden of Birds**
+a garden full of birds, colorful stained glass window, thick black lead lines, jewel-toned glowing glass with light shining through, ornate border, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r009 - Stained Glass Moonlit Lanterns**
+a moonlit night with lanterns, colorful stained glass window, thick black lead lines, jewel-toned glowing glass with light shining through, ornate border, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r010 - Stained Glass River Boat**
+a boat on a calm river, colorful stained glass window, thick black lead lines, jewel-toned glowing glass with light shining through, ornate border, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r011 - Paper Cut Cat and Flowers**
+a cat among flowers, layered paper-cut art with six to eight stacked paper layers, soft shadows between layers, rich color gradient from layer to layer, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r012 - Paper Cut Mountain Village**
+a mountain village at dusk, layered paper-cut art with six to eight stacked paper layers, soft shadows between layers, rich color gradient from layer to layer, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r013 - Paper Cut Garden of Birds**
+a garden full of birds, layered paper-cut art with six to eight stacked paper layers, soft shadows between layers, rich color gradient from layer to layer, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r014 - Paper Cut Moonlit Lanterns**
+a moonlit night with lanterns, layered paper-cut art with six to eight stacked paper layers, soft shadows between layers, rich color gradient from layer to layer, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r015 - Paper Cut River Boat**
+a boat on a calm river, layered paper-cut art with six to eight stacked paper layers, soft shadows between layers, rich color gradient from layer to layer, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r016 - Watercolor Cat and Flowers**
+a cat among flowers, delicate watercolor painting with fine ink linework, soft color bleeds, visible paper texture, light and airy mood, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r017 - Watercolor Mountain Village**
+a mountain village at dusk, delicate watercolor painting with fine ink linework, soft color bleeds, visible paper texture, light and airy mood, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r018 - Watercolor Garden of Birds**
+a garden full of birds, delicate watercolor painting with fine ink linework, soft color bleeds, visible paper texture, light and airy mood, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r019 - Watercolor Moonlit Lanterns**
+a moonlit night with lanterns, delicate watercolor painting with fine ink linework, soft color bleeds, visible paper texture, light and airy mood, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r020 - Watercolor River Boat**
+a boat on a calm river, delicate watercolor painting with fine ink linework, soft color bleeds, visible paper texture, light and airy mood, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r021 - Truck Art Peacock**
+a large peacock with fanned feathers, Pakistani truck art, bold symmetrical floral patterns, tinsel and chain borders, glossy saturated red, yellow, green, turquoise and pink, decorative frame, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r022 - Truck Art Mosque**
+a decorated mosque with domes and minarets, Pakistani truck art, bold symmetrical floral patterns, tinsel and chain borders, glossy saturated red, yellow, green, turquoise and pink, decorative frame, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r023 - Truck Art Tiger and Flowers**
+a tiger surrounded by flowers, Pakistani truck art, bold symmetrical floral patterns, tinsel and chain borders, glossy saturated red, yellow, green, turquoise and pink, decorative frame, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r024 - Truck Art Horses**
+a pair of galloping horses, Pakistani truck art, bold symmetrical floral patterns, tinsel and chain borders, glossy saturated red, yellow, green, turquoise and pink, decorative frame, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r025 - Truck Art Bird and Blossoms**
+a colorful bird among blossoms, Pakistani truck art, bold symmetrical floral patterns, tinsel and chain borders, glossy saturated red, yellow, green, turquoise and pink, decorative frame, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r026 - Geometric Tiles Star Medallion**
+a large star medallion at the center, Islamic geometric tile pattern, interlacing stars and polygons, glazed tiles in gold, turquoise and deep blue, perfectly symmetrical, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r027 - Geometric Tiles Arched Doorway**
+an arched doorway made of tile mosaic, Islamic geometric tile pattern, interlacing stars and polygons, glazed tiles in gold, turquoise and deep blue, perfectly symmetrical, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r028 - Geometric Tiles Lantern**
+a lantern shape, Islamic geometric tile pattern, interlacing stars and polygons, glazed tiles in gold, turquoise and deep blue, perfectly symmetrical, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r029 - Geometric Tiles Floral Vine**
+a floral vine border pattern, Islamic geometric tile pattern, interlacing stars and polygons, glazed tiles in gold, turquoise and deep blue, perfectly symmetrical, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r030 - Geometric Tiles Dome and Minarets**
+a dome and two minarets in tile mosaic, Islamic geometric tile pattern, interlacing stars and polygons, glazed tiles in gold, turquoise and deep blue, perfectly symmetrical, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r031 - Mughal Miniature Royal Garden**
+a royal garden with a pavilion, Mughal miniature painting, flat perspective, fine brushwork, gold leaf details, ornate floral border, rich jewel colors, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r032 - Mughal Miniature Hunting Scene**
+a hunting scene with elephants, Mughal miniature painting, flat perspective, fine brushwork, gold leaf details, ornate floral border, rich jewel colors, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r033 - Mughal Miniature Fountain Courtyard**
+a courtyard with fountains, Mughal miniature painting, flat perspective, fine brushwork, gold leaf details, ornate floral border, rich jewel colors, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r034 - Mughal Miniature Throne Room**
+a throne room with a golden peacock throne, Mughal miniature painting, flat perspective, fine brushwork, gold leaf details, ornate floral border, rich jewel colors, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r035 - Mughal Miniature Bird Garden**
+a garden full of birds and flowering trees, Mughal miniature painting, flat perspective, fine brushwork, gold leaf details, ornate floral border, rich jewel colors, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r036 - Art Nouveau Lady and Flowers**
+a lady with long flowing hair among flowers, art nouveau poster, flowing organic lines, ornamental floral frame, muted gold, sage green and rose palette, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r037 - Art Nouveau Swan Pond**
+a swan on a pond with water lilies, art nouveau poster, flowing organic lines, ornamental floral frame, muted gold, sage green and rose palette, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r038 - Art Nouveau Peacock Feathers**
+a design of peacock feathers, art nouveau poster, flowing organic lines, ornamental floral frame, muted gold, sage green and rose palette, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r039 - Art Nouveau Moon and Stars**
+a crescent moon and stars with flowers, art nouveau poster, flowing organic lines, ornamental floral frame, muted gold, sage green and rose palette, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r040 - Art Nouveau Garden Gate**
+a garden gate covered with vines, art nouveau poster, flowing organic lines, ornamental floral frame, muted gold, sage green and rose palette, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r041 - Pixel Art Cozy Room**
+a cozy room with a cat on a sofa, detailed 16-bit pixel art, crisp square pixels, limited warm palette, tiny details, cozy lighting, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r042 - Pixel Art Night Village**
+a village at night with glowing windows, detailed 16-bit pixel art, crisp square pixels, limited warm palette, tiny details, cozy lighting, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r043 - Pixel Art Forest Cabin**
+a forest cabin with smoke from the chimney, detailed 16-bit pixel art, crisp square pixels, limited warm palette, tiny details, cozy lighting, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r044 - Pixel Art Seaside Town**
+a seaside town with boats, detailed 16-bit pixel art, crisp square pixels, limited warm palette, tiny details, cozy lighting, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r045 - Pixel Art Flower Market**
+a flower market with colorful stalls, detailed 16-bit pixel art, crisp square pixels, limited warm palette, tiny details, cozy lighting, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r046 - Isometric Room Study**
+a cozy study full of books, isometric tiny room diorama, miniature furniture and plants, soft warm lighting, clean render, glowing windows, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r047 - Isometric Room Bakery**
+a bakery kitchen with bread and cakes, isometric tiny room diorama, miniature furniture and plants, soft warm lighting, clean render, glowing windows, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r048 - Isometric Room Bedroom**
+a plant-filled bedroom, isometric tiny room diorama, miniature furniture and plants, soft warm lighting, clean render, glowing windows, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r049 - Isometric Room Music Studio**
+a music studio with instruments, isometric tiny room diorama, miniature furniture and plants, soft warm lighting, clean render, glowing windows, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+
+**r050 - Isometric Room Tea Shop**
+a tea shop with lanterns, isometric tiny room diorama, miniature furniture and plants, soft warm lighting, clean render, glowing windows, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters
+ye 50 aiamges hai is ko lagao shai sa sirf yahi  50 sahi sa laao or isko fix kro apni jaga per sahi sa 
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-11-10T15:44:01+05:00.
+</ADDITIONAL_METADATA>
+<USER_SETTINGS_CHANGE>
+The user changed setting `Model Selection` from None to Gemini 3.8 Flash (Medium). No need to comment on this change if the user doesn't ask about it. If reporting what model you are, please use a human readable name instead of the exact string.
+</USER_SETTINGS_CHANGE>

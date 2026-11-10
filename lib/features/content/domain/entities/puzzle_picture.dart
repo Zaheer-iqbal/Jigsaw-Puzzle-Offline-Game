@@ -4,6 +4,7 @@ class PuzzlePicture {
   final String path;
   final String title;
   final bool premium;
+  final String? prompt;
 
   const PuzzlePicture({
     required this.id,
@@ -11,6 +12,7 @@ class PuzzlePicture {
     required this.path,
     required this.title,
     required this.premium,
+    this.prompt,
   });
 
   factory PuzzlePicture.fromJson(Map<String, dynamic> json) {
@@ -24,6 +26,7 @@ class PuzzlePicture {
       path: json['path'] as String,
       title: cleanTitle,
       premium: json['premium'] as bool? ?? false,
+      prompt: json['prompt'] as String?,
     );
   }
 
@@ -44,6 +47,7 @@ class PuzzlePicture {
       'path': path,
       'title': title,
       'premium': premium,
+      if (prompt != null) 'prompt': prompt,
     };
   }
 }

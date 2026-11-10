@@ -66,13 +66,16 @@ class PuzzleRepositoryImpl implements PuzzleRepository {
   Future<List<PuzzleLevel>> getLevelsByCategory(String category) async {
     final catPics = await getByCategory(category);
     final levels = <PuzzleLevel>[];
+    final totalLevels = catPics.isNotEmpty ? catPics.length : 50;
 
-    for (var i = 1; i <= 100; i++) {
+    for (var i = 1; i <= totalLevels; i++) {
       final defaultCount = PuzzleLevel.computeDefaultPieceCount(i);
-      final prefix = category.isNotEmpty ? category.substring(0, 1).toLowerCase() : 'p';
+      final prefix = category.toLowerCase() == 'art'
+          ? 'r'
+          : (category.isNotEmpty ? category.substring(0, 1).toLowerCase() : 'p');
       final id = '$prefix${i.toString().padLeft(3, '0')}';
 
-      // Check if user has uploaded a file specifically for this level ID
+      // Find matching picture in manifest for this level
       PuzzlePicture? matchingPic;
       for (final p in catPics) {
         if (p.id.toLowerCase() == id.toLowerCase()) {
@@ -80,17 +83,18 @@ class PuzzleRepositoryImpl implements PuzzleRepository {
           break;
         }
       }
+      if (matchingPic == null && i - 1 < catPics.length) {
+        matchingPic = catPics[i - 1];
+      }
 
-      final imagePath = matchingPic?.path ??
-          (catPics.isNotEmpty ? catPics[(i - 1) % catPics.length].path : 'assets/puzzles/nature/n001.jpg');
-      final title = matchingPic?.title ??
-          '${category[0].toUpperCase()}${category.substring(1)} Level $i';
-      final isPremium = (i % 10 == 0); // Every 10th level is a special premium unlock
+      final imagePath = matchingPic?.path ?? 'assets/puzzles/${category.toLowerCase()}/$id.jpg';
+      final title = matchingPic?.title ?? '${category[0].toUpperCase()}${category.substring(1)} Level $i';
+      final isPremium = matchingPic?.premium ?? (i > 3 && i % 5 == 0);
 
       levels.add(PuzzleLevel(
         levelNumber: i,
         category: category,
-        id: id,
+        id: matchingPic?.id ?? id,
         title: title,
         imagePath: imagePath,
         defaultPieceCount: defaultCount,

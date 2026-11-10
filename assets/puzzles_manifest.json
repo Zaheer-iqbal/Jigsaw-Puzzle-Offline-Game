@@ -1,261 +1,2002 @@
 [
   {
-    "id": "n001",
-    "category": "nature",
-    "path": "assets/puzzles/nature/n001.jpg",
-    "title": "Peaceful Lake",
-    "premium": false
-  },
-  {
-    "id": "n002",
-    "category": "nature",
-    "path": "assets/puzzles/nature/n002.jpg",
-    "title": "Forest Stream",
-    "premium": false
-  },
-  {
-    "id": "n003",
-    "category": "nature",
-    "path": "assets/puzzles/nature/n003.jpg",
-    "title": "Misty Mountain",
-    "premium": false
-  },
-  {
-    "id": "n004",
-    "category": "nature",
-    "path": "assets/puzzles/nature/n004.jpg",
-    "title": "Autumn Creek",
-    "premium": false
-  },
-  {
-    "id": "n005",
-    "category": "nature",
-    "path": "assets/puzzles/nature/n005.jpg",
-    "title": "Sunset Valley",
-    "premium": false
-  },
-  {
     "id": "a001",
     "category": "animals",
     "path": "assets/puzzles/animals/a001.jpg",
-    "title": "Playful Puppy",
+    "title": "Kitten Cozy",
+    "prompt": "a fluffy kitten wearing a pink gaming headset on a cozy keyboard desk with neon LED shelves, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
     "id": "a002",
     "category": "animals",
     "path": "assets/puzzles/animals/a002.jpg",
-    "title": "Majestic Cat",
+    "title": "Kitten Adventure",
+    "prompt": "a sleepy kitten napping in a yarn basket by a snowy window, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
     "id": "a003",
     "category": "animals",
     "path": "assets/puzzles/animals/a003.jpg",
-    "title": "Forest Deer",
+    "title": "Puppy Cozy",
+    "prompt": "a happy puppy reading a storybook inside a blanket fort with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
     "id": "a004",
     "category": "animals",
     "path": "assets/puzzles/animals/a004.jpg",
-    "title": "Wild Leopard",
+    "title": "Puppy Adventure",
+    "prompt": "a puppy in a tiny scarf playing in golden autumn leaves, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
     "id": "a005",
     "category": "animals",
     "path": "assets/puzzles/animals/a005.jpg",
-    "title": "Golden Eagle",
+    "title": "Bunny Cozy",
+    "prompt": "a bunny baking cupcakes in a tiny warm kitchen, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": true
   },
   {
     "id": "a006",
     "category": "animals",
     "path": "assets/puzzles/animals/a006.jpg",
-    "title": "Cute Bunny",
+    "title": "Bunny Adventure",
+    "prompt": "a bunny sleeping in a flower meadow at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
     "id": "a007",
     "category": "animals",
     "path": "assets/puzzles/animals/a007.jpg",
-    "title": "Red Fox",
+    "title": "Fox Cozy",
+    "prompt": "a fox in a knitted scarf holding a glowing lantern in a snowy forest, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
     "id": "a008",
     "category": "animals",
     "path": "assets/puzzles/animals/a008.jpg",
-    "title": "Gentle Panda",
+    "title": "Fox Adventure",
+    "prompt": "a fox writing in a journal inside a cozy treehouse, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
     "id": "a009",
     "category": "animals",
     "path": "assets/puzzles/animals/a009.jpg",
-    "title": "Curious Squirrel",
+    "title": "Panda Cozy",
+    "prompt": "a panda drinking tea in a bamboo cafe, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
     "id": "a010",
     "category": "animals",
     "path": "assets/puzzles/animals/a010.jpg",
-    "title": "African Lion",
+    "title": "Panda Adventure",
+    "prompt": "a panda painting on a canvas in a sunny art studio, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": true
   },
   {
     "id": "a011",
     "category": "animals",
     "path": "assets/puzzles/animals/a011.jpg",
-    "title": "Striped Zebra",
+    "title": "Hedgehog Cozy",
+    "prompt": "a hedgehog hosting a tiny tea party among mushrooms, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
     "id": "a012",
     "category": "animals",
     "path": "assets/puzzles/animals/a012.jpg",
-    "title": "Towering Giraffe",
+    "title": "Hedgehog Adventure",
+    "prompt": "a hedgehog carrying a basket of apples in an autumn orchard, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
     "id": "a013",
     "category": "animals",
     "path": "assets/puzzles/animals/a013.jpg",
-    "title": "Wise Owl",
+    "title": "Owl Cozy",
+    "prompt": "an owl librarian in a grand old library with floating candles, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
     "id": "a014",
     "category": "animals",
     "path": "assets/puzzles/animals/a014.jpg",
-    "title": "Polar Bear",
+    "title": "Owl Adventure",
+    "prompt": "an owl on a branch under a starry sky full of fireflies, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
     "id": "a015",
     "category": "animals",
     "path": "assets/puzzles/animals/a015.jpg",
-    "title": "Colorful Parrot",
+    "title": "Bear Cub Cozy",
+    "prompt": "a bear cub eating honey in a log cabin kitchen, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": true
   },
   {
     "id": "a016",
     "category": "animals",
     "path": "assets/puzzles/animals/a016.jpg",
-    "title": "Graceful Horse",
+    "title": "Bear Cub Adventure",
+    "prompt": "a bear cub fishing at a calm mountain lake at dawn, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
     "id": "a017",
     "category": "animals",
     "path": "assets/puzzles/animals/a017.jpg",
-    "title": "Dolphin Splash",
+    "title": "Red Panda Cozy",
+    "prompt": "a red panda relaxing in a snowy hot spring, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
+  },
+  {
+    "id": "a018",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a018.jpg",
+    "title": "Red Panda Adventure",
+    "prompt": "a red panda climbing a cherry blossom tree, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a019",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a019.jpg",
+    "title": "Hamster Cozy",
+    "prompt": "a hamster in a tiny workshop of gears and cheese, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a020",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a020.jpg",
+    "title": "Hamster Adventure",
+    "prompt": "a hamster driving a toy car through a miniature town, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "a021",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a021.jpg",
+    "title": "Duckling Cozy",
+    "prompt": "a duckling with a yellow umbrella splashing in rain puddles, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a022",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a022.jpg",
+    "title": "Duckling Adventure",
+    "prompt": "a duckling following flower petals on a quiet pond, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a023",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a023.jpg",
+    "title": "Penguin Cozy",
+    "prompt": "a penguin knitting a scarf in a warm ice cottage, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a024",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a024.jpg",
+    "title": "Penguin Adventure",
+    "prompt": "a penguin sliding down a glittering iceberg under the aurora, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a025",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a025.jpg",
+    "title": "Koala Cozy",
+    "prompt": "a koala hugging a eucalyptus branch in a treetop hammock, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "a026",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a026.jpg",
+    "title": "Koala Adventure",
+    "prompt": "a koala with a tiny backpack on a sunny hike, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a027",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a027.jpg",
+    "title": "Fawn Cozy",
+    "prompt": "a fawn in a magical glowing forest with butterflies, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a028",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a028.jpg",
+    "title": "Fawn Adventure",
+    "prompt": "a fawn sitting in mossy ruins among glowing mushrooms, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a029",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a029.jpg",
+    "title": "Raccoon Cozy",
+    "prompt": "a raccoon sorting treasures in a cozy attic, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a030",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a030.jpg",
+    "title": "Raccoon Adventure",
+    "prompt": "a raccoon eating cotton candy at a lantern night festival, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "a031",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a031.jpg",
+    "title": "Lion Cub Cozy",
+    "prompt": "a lion cub wearing a paper crown at golden savanna sunset, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a032",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a032.jpg",
+    "title": "Lion Cub Adventure",
+    "prompt": "a lion cub playing with yarn in a cozy den, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a033",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a033.jpg",
+    "title": "Baby Elephant Cozy",
+    "prompt": "a baby elephant spraying water near a rainbow waterfall, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a034",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a034.jpg",
+    "title": "Baby Elephant Adventure",
+    "prompt": "a baby elephant reading under a giant umbrella in the rain, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a035",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a035.jpg",
+    "title": "Giraffe Cozy",
+    "prompt": "a giraffe peeking over a garden fence full of flowers, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "a036",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a036.jpg",
+    "title": "Giraffe Adventure",
+    "prompt": "a giraffe in a scarf in a candy-colored village, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a037",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a037.jpg",
+    "title": "Sloth Cozy",
+    "prompt": "a sloth with a book and tea in a jungle cafe, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a038",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a038.jpg",
+    "title": "Sloth Adventure",
+    "prompt": "a sloth napping in a hammock among orchids, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a039",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a039.jpg",
+    "title": "Frog Cozy",
+    "prompt": "a frog on a lily pad holding a tiny umbrella, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a040",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a040.jpg",
+    "title": "Frog Adventure",
+    "prompt": "a frog playing a little violin among fireflies, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "a041",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a041.jpg",
+    "title": "Parrot Cozy",
+    "prompt": "a colorful parrot in a tropical greenhouse of blooms, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a042",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a042.jpg",
+    "title": "Parrot Adventure",
+    "prompt": "a parrot in tiny sunglasses at a beach cafe, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a043",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a043.jpg",
+    "title": "Squirrel Cozy",
+    "prompt": "a squirrel collecting acorns inside a tiny library tree, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a044",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a044.jpg",
+    "title": "Squirrel Adventure",
+    "prompt": "a squirrel making small gifts in a winter workshop, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a045",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a045.jpg",
+    "title": "Otters Cozy",
+    "prompt": "two otters holding hands floating on a calm lake at sunset, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "a046",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a046.jpg",
+    "title": "Otters Adventure",
+    "prompt": "an otter juggling pebbles in a seaside cottage, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a047",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a047.jpg",
+    "title": "Dolphin Cozy",
+    "prompt": "a dolphin leaping through a rainbow over a sparkling sea, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a048",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a048.jpg",
+    "title": "Dolphin Adventure",
+    "prompt": "a dolphin swimming among glowing jellyfish and coral at night, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a049",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a049.jpg",
+    "title": "Baby Tiger Cozy",
+    "prompt": "a baby tiger playing in a bamboo forest with butterflies, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "a050",
+    "category": "animals",
+    "path": "assets/puzzles/animals/a050.jpg",
+    "title": "Baby Tiger Adventure",
+    "prompt": "a baby tiger sleeping on a lotus at a lantern festival, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "n001",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n001.jpg",
+    "title": "Misty Cottage Sunrise",
+    "prompt": "a cozy cottage in a misty pine forest at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n002",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n002.jpg",
+    "title": "Misty Cottage Golden Hour",
+    "prompt": "a cozy cottage in a misty pine forest at golden hour, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n003",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n003.jpg",
+    "title": "Misty Cottage Blue Hour",
+    "prompt": "a cozy cottage in a misty pine forest at blue hour with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n004",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n004.jpg",
+    "title": "Misty Cottage Starry Night",
+    "prompt": "a cozy cottage in a misty pine forest under a starry night with a huge moon, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n005",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n005.jpg",
+    "title": "Misty Cottage Rainbow Rain",
+    "prompt": "a cozy cottage in a misty pine forest in gentle rain with a rainbow, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "n006",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n006.jpg",
+    "title": "Snow Village Sunrise",
+    "prompt": "a snowy mountain village with glowing windows at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n007",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n007.jpg",
+    "title": "Snow Village Golden Hour",
+    "prompt": "a snowy mountain village with glowing windows at golden hour, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n008",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n008.jpg",
+    "title": "Snow Village Blue Hour",
+    "prompt": "a snowy mountain village with glowing windows at blue hour with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n009",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n009.jpg",
+    "title": "Snow Village Starry Night",
+    "prompt": "a snowy mountain village with glowing windows under a starry night with a huge moon, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n010",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n010.jpg",
+    "title": "Snow Village Rainbow Rain",
+    "prompt": "a snowy mountain village with glowing windows in gentle rain with a rainbow, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "n011",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n011.jpg",
+    "title": "Hammock Beach Sunrise",
+    "prompt": "a tropical beach with a hammock and palm trees at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n012",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n012.jpg",
+    "title": "Hammock Beach Golden Hour",
+    "prompt": "a tropical beach with a hammock and palm trees at golden hour, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n013",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n013.jpg",
+    "title": "Hammock Beach Blue Hour",
+    "prompt": "a tropical beach with a hammock and palm trees at blue hour with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n014",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n014.jpg",
+    "title": "Hammock Beach Starry Night",
+    "prompt": "a tropical beach with a hammock and palm trees under a starry night with a huge moon, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n015",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n015.jpg",
+    "title": "Hammock Beach Rainbow Rain",
+    "prompt": "a tropical beach with a hammock and palm trees in gentle rain with a rainbow, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "n016",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n016.jpg",
+    "title": "Boat Lake Sunrise",
+    "prompt": "a calm mountain lake with a small wooden boat at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n017",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n017.jpg",
+    "title": "Boat Lake Golden Hour",
+    "prompt": "a calm mountain lake with a small wooden boat at golden hour, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n018",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n018.jpg",
+    "title": "Boat Lake Blue Hour",
+    "prompt": "a calm mountain lake with a small wooden boat at blue hour with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n019",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n019.jpg",
+    "title": "Boat Lake Starry Night",
+    "prompt": "a calm mountain lake with a small wooden boat under a starry night with a huge moon, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n020",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n020.jpg",
+    "title": "Boat Lake Rainbow Rain",
+    "prompt": "a calm mountain lake with a small wooden boat in gentle rain with a rainbow, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "n021",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n021.jpg",
+    "title": "Rice Terraces Sunrise",
+    "prompt": "terraced green rice fields in the hills at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n022",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n022.jpg",
+    "title": "Rice Terraces Golden Hour",
+    "prompt": "terraced green rice fields in the hills at golden hour, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n023",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n023.jpg",
+    "title": "Rice Terraces Blue Hour",
+    "prompt": "terraced green rice fields in the hills at blue hour with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n024",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n024.jpg",
+    "title": "Rice Terraces Starry Night",
+    "prompt": "terraced green rice fields in the hills under a starry night with a huge moon, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n025",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n025.jpg",
+    "title": "Rice Terraces Rainbow Rain",
+    "prompt": "terraced green rice fields in the hills in gentle rain with a rainbow, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "n026",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n026.jpg",
+    "title": "Hidden Waterfall Sunrise",
+    "prompt": "a waterfall hidden in a lush jungle at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n027",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n027.jpg",
+    "title": "Hidden Waterfall Golden Hour",
+    "prompt": "a waterfall hidden in a lush jungle at golden hour, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n028",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n028.jpg",
+    "title": "Hidden Waterfall Blue Hour",
+    "prompt": "a waterfall hidden in a lush jungle at blue hour with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n029",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n029.jpg",
+    "title": "Hidden Waterfall Starry Night",
+    "prompt": "a waterfall hidden in a lush jungle under a starry night with a huge moon, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n030",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n030.jpg",
+    "title": "Hidden Waterfall Rainbow Rain",
+    "prompt": "a waterfall hidden in a lush jungle in gentle rain with a rainbow, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "n031",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n031.jpg",
+    "title": "Lantern Path Sunrise",
+    "prompt": "an autumn forest path lined with lanterns at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n032",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n032.jpg",
+    "title": "Lantern Path Golden Hour",
+    "prompt": "an autumn forest path lined with lanterns at golden hour, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n033",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n033.jpg",
+    "title": "Lantern Path Blue Hour",
+    "prompt": "an autumn forest path lined with lanterns at blue hour with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n034",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n034.jpg",
+    "title": "Lantern Path Starry Night",
+    "prompt": "an autumn forest path lined with lanterns under a starry night with a huge moon, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n035",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n035.jpg",
+    "title": "Lantern Path Rainbow Rain",
+    "prompt": "an autumn forest path lined with lanterns in gentle rain with a rainbow, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "n036",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n036.jpg",
+    "title": "Desert Oasis Sunrise",
+    "prompt": "a desert oasis with a tiny village at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n037",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n037.jpg",
+    "title": "Desert Oasis Golden Hour",
+    "prompt": "a desert oasis with a tiny village at golden hour, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n038",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n038.jpg",
+    "title": "Desert Oasis Blue Hour",
+    "prompt": "a desert oasis with a tiny village at blue hour with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n039",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n039.jpg",
+    "title": "Desert Oasis Starry Night",
+    "prompt": "a desert oasis with a tiny village under a starry night with a huge moon, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n040",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n040.jpg",
+    "title": "Desert Oasis Rainbow Rain",
+    "prompt": "a desert oasis with a tiny village in gentle rain with a rainbow, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "n041",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n041.jpg",
+    "title": "Lavender Windmill Sunrise",
+    "prompt": "lavender hills with an old windmill at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n042",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n042.jpg",
+    "title": "Lavender Windmill Golden Hour",
+    "prompt": "lavender hills with an old windmill at golden hour, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n043",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n043.jpg",
+    "title": "Lavender Windmill Blue Hour",
+    "prompt": "lavender hills with an old windmill at blue hour with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n044",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n044.jpg",
+    "title": "Lavender Windmill Starry Night",
+    "prompt": "lavender hills with an old windmill under a starry night with a huge moon, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n045",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n045.jpg",
+    "title": "Lavender Windmill Rainbow Rain",
+    "prompt": "lavender hills with an old windmill in gentle rain with a rainbow, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "n046",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n046.jpg",
+    "title": "Floating Isles Sunrise",
+    "prompt": "floating islands with waterfalls and tiny houses at sunrise, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n047",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n047.jpg",
+    "title": "Floating Isles Golden Hour",
+    "prompt": "floating islands with waterfalls and tiny houses at golden hour, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n048",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n048.jpg",
+    "title": "Floating Isles Blue Hour",
+    "prompt": "floating islands with waterfalls and tiny houses at blue hour with fairy lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n049",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n049.jpg",
+    "title": "Floating Isles Starry Night",
+    "prompt": "floating islands with waterfalls and tiny houses under a starry night with a huge moon, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "n050",
+    "category": "nature",
+    "path": "assets/puzzles/nature/n050.jpg",
+    "title": "Floating Isles Rainbow Rain",
+    "prompt": "floating islands with waterfalls and tiny houses in gentle rain with a rainbow, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
   },
   {
     "id": "f001",
     "category": "flowers",
     "path": "assets/puzzles/flowers/f001.jpg",
-    "title": "Spring Blossom",
+    "title": "Flower Shop Pastel",
+    "prompt": "an overflowing flower shop window in pastel pink and lilac, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
     "id": "f002",
     "category": "flowers",
     "path": "assets/puzzles/flowers/f002.jpg",
-    "title": "Red Roses",
+    "title": "Flower Shop Sunset",
+    "prompt": "an overflowing flower shop window in warm sunset orange and gold, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
     "id": "f003",
     "category": "flowers",
     "path": "assets/puzzles/flowers/f003.jpg",
-    "title": "Wild Daisies",
+    "title": "Flower Shop Blue",
+    "prompt": "an overflowing flower shop window in blue and white, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
     "id": "f004",
     "category": "flowers",
     "path": "assets/puzzles/flowers/f004.jpg",
-    "title": "Purple Tulips",
+    "title": "Flower Shop Rainbow",
+    "prompt": "an overflowing flower shop window in bright rainbow colors, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
     "id": "f005",
     "category": "flowers",
     "path": "assets/puzzles/flowers/f005.jpg",
-    "title": "Sunflowers",
+    "title": "Flower Shop Magenta Night",
+    "prompt": "an overflowing flower shop window in deep red and magenta with night lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "f006",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f006.jpg",
+    "title": "Greenhouse Pastel",
+    "prompt": "a glass greenhouse full of blooms in pastel pink and lilac, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
+  },
+  {
+    "id": "f007",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f007.jpg",
+    "title": "Greenhouse Sunset",
+    "prompt": "a glass greenhouse full of blooms in warm sunset orange and gold, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f008",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f008.jpg",
+    "title": "Greenhouse Blue",
+    "prompt": "a glass greenhouse full of blooms in blue and white, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f009",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f009.jpg",
+    "title": "Greenhouse Rainbow",
+    "prompt": "a glass greenhouse full of blooms in bright rainbow colors, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f010",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f010.jpg",
+    "title": "Greenhouse Magenta Night",
+    "prompt": "a glass greenhouse full of blooms in deep red and magenta with night lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "f011",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f011.jpg",
+    "title": "Blossom Path Pastel",
+    "prompt": "a cherry blossom path with paper lanterns in pastel pink and lilac, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f012",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f012.jpg",
+    "title": "Blossom Path Sunset",
+    "prompt": "a cherry blossom path with paper lanterns in warm sunset orange and gold, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f013",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f013.jpg",
+    "title": "Blossom Path Blue",
+    "prompt": "a cherry blossom path with paper lanterns in blue and white, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f014",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f014.jpg",
+    "title": "Blossom Path Rainbow",
+    "prompt": "a cherry blossom path with paper lanterns in bright rainbow colors, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f015",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f015.jpg",
+    "title": "Blossom Path Magenta Night",
+    "prompt": "a cherry blossom path with paper lanterns in deep red and magenta with night lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "f016",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f016.jpg",
+    "title": "Tulip Farm Pastel",
+    "prompt": "a tulip field with a small farmhouse in pastel pink and lilac, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f017",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f017.jpg",
+    "title": "Tulip Farm Sunset",
+    "prompt": "a tulip field with a small farmhouse in warm sunset orange and gold, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f018",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f018.jpg",
+    "title": "Tulip Farm Blue",
+    "prompt": "a tulip field with a small farmhouse in blue and white, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f019",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f019.jpg",
+    "title": "Tulip Farm Rainbow",
+    "prompt": "a tulip field with a small farmhouse in bright rainbow colors, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f020",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f020.jpg",
+    "title": "Tulip Farm Magenta Night",
+    "prompt": "a tulip field with a small farmhouse in deep red and magenta with night lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "f021",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f021.jpg",
+    "title": "Sunflower Field Pastel",
+    "prompt": "a sunflower field with a friendly scarecrow in pastel pink and lilac, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f022",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f022.jpg",
+    "title": "Sunflower Field Sunset",
+    "prompt": "a sunflower field with a friendly scarecrow in warm sunset orange and gold, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f023",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f023.jpg",
+    "title": "Sunflower Field Blue",
+    "prompt": "a sunflower field with a friendly scarecrow in blue and white, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f024",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f024.jpg",
+    "title": "Sunflower Field Rainbow",
+    "prompt": "a sunflower field with a friendly scarecrow in bright rainbow colors, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f025",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f025.jpg",
+    "title": "Sunflower Field Magenta Night",
+    "prompt": "a sunflower field with a friendly scarecrow in deep red and magenta with night lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "f026",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f026.jpg",
+    "title": "Rose Gazebo Pastel",
+    "prompt": "a rose garden with a white gazebo in pastel pink and lilac, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f027",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f027.jpg",
+    "title": "Rose Gazebo Sunset",
+    "prompt": "a rose garden with a white gazebo in warm sunset orange and gold, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f028",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f028.jpg",
+    "title": "Rose Gazebo Blue",
+    "prompt": "a rose garden with a white gazebo in blue and white, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f029",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f029.jpg",
+    "title": "Rose Gazebo Rainbow",
+    "prompt": "a rose garden with a white gazebo in bright rainbow colors, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f030",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f030.jpg",
+    "title": "Rose Gazebo Magenta Night",
+    "prompt": "a rose garden with a white gazebo in deep red and magenta with night lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "f031",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f031.jpg",
+    "title": "Lotus Pond Pastel",
+    "prompt": "a lotus pond with floating lanterns in pastel pink and lilac, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f032",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f032.jpg",
+    "title": "Lotus Pond Sunset",
+    "prompt": "a lotus pond with floating lanterns in warm sunset orange and gold, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f033",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f033.jpg",
+    "title": "Lotus Pond Blue",
+    "prompt": "a lotus pond with floating lanterns in blue and white, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f034",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f034.jpg",
+    "title": "Lotus Pond Rainbow",
+    "prompt": "a lotus pond with floating lanterns in bright rainbow colors, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f035",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f035.jpg",
+    "title": "Lotus Pond Magenta Night",
+    "prompt": "a lotus pond with floating lanterns in deep red and magenta with night lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "f036",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f036.jpg",
+    "title": "Wild Meadow Pastel",
+    "prompt": "a wildflower meadow full of butterflies in pastel pink and lilac, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f037",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f037.jpg",
+    "title": "Wild Meadow Sunset",
+    "prompt": "a wildflower meadow full of butterflies in warm sunset orange and gold, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f038",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f038.jpg",
+    "title": "Wild Meadow Blue",
+    "prompt": "a wildflower meadow full of butterflies in blue and white, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f039",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f039.jpg",
+    "title": "Wild Meadow Rainbow",
+    "prompt": "a wildflower meadow full of butterflies in bright rainbow colors, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f040",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f040.jpg",
+    "title": "Wild Meadow Magenta Night",
+    "prompt": "a wildflower meadow full of butterflies in deep red and magenta with night lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "f041",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f041.jpg",
+    "title": "Balcony Garden Pastel",
+    "prompt": "a cozy balcony garden with a watering can in pastel pink and lilac, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f042",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f042.jpg",
+    "title": "Balcony Garden Sunset",
+    "prompt": "a cozy balcony garden with a watering can in warm sunset orange and gold, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f043",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f043.jpg",
+    "title": "Balcony Garden Blue",
+    "prompt": "a cozy balcony garden with a watering can in blue and white, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f044",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f044.jpg",
+    "title": "Balcony Garden Rainbow",
+    "prompt": "a cozy balcony garden with a watering can in bright rainbow colors, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f045",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f045.jpg",
+    "title": "Balcony Garden Magenta Night",
+    "prompt": "a cozy balcony garden with a watering can in deep red and magenta with night lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "f046",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f046.jpg",
+    "title": "Bouquet Table Pastel",
+    "prompt": "a big bouquet in a vase on a cozy table in pastel pink and lilac, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f047",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f047.jpg",
+    "title": "Bouquet Table Sunset",
+    "prompt": "a big bouquet in a vase on a cozy table in warm sunset orange and gold, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f048",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f048.jpg",
+    "title": "Bouquet Table Blue",
+    "prompt": "a big bouquet in a vase on a cozy table in blue and white, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f049",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f049.jpg",
+    "title": "Bouquet Table Rainbow",
+    "prompt": "a big bouquet in a vase on a cozy table in bright rainbow colors, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "f050",
+    "category": "flowers",
+    "path": "assets/puzzles/flowers/f050.jpg",
+    "title": "Bouquet Table Magenta Night",
+    "prompt": "a big bouquet in a vase on a cozy table in deep red and magenta with night lights, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
   },
   {
     "id": "l001",
     "category": "landmarks",
     "path": "assets/puzzles/landmarks/l001.jpg",
-    "title": "Historic Bridge",
+    "title": "Eiffel Tower",
+    "prompt": "a charming illustrated view of Eiffel Tower in Paris, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
     "id": "l002",
     "category": "landmarks",
     "path": "assets/puzzles/landmarks/l002.jpg",
-    "title": "Coastal Lighthouse",
+    "title": "Colosseum",
+    "prompt": "a charming illustrated view of Colosseum in Rome, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
     "id": "l003",
     "category": "landmarks",
     "path": "assets/puzzles/landmarks/l003.jpg",
-    "title": "Mountain Fortress",
+    "title": "Taj Mahal",
+    "prompt": "a charming illustrated view of Taj Mahal at the river, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
     "id": "l004",
     "category": "landmarks",
     "path": "assets/puzzles/landmarks/l004.jpg",
-    "title": "City Skyline",
+    "title": "Santorini white village",
+    "prompt": "a charming illustrated view of Santorini white village, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
     "id": "l005",
     "category": "landmarks",
     "path": "assets/puzzles/landmarks/l005.jpg",
-    "title": "Sunset Pier",
+    "title": "Big Ben and Tower Bridge",
+    "prompt": "a charming illustrated view of Big Ben and Tower Bridge in London, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": true
   },
   {
-    "id": "art001",
-    "category": "art",
-    "path": "assets/puzzles/art/art001.jpg",
-    "title": "Oil Painting",
+    "id": "l006",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l006.jpg",
+    "title": "Statue of Liberty",
+    "prompt": "a charming illustrated view of Statue of Liberty in New York harbor, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
-    "id": "art002",
-    "category": "art",
-    "path": "assets/puzzles/art/art002.jpg",
-    "title": "Watercolor Sunset",
+    "id": "l007",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l007.jpg",
+    "title": "Machu Picchu",
+    "prompt": "a charming illustrated view of Machu Picchu in the clouds, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
-    "id": "art003",
-    "category": "art",
-    "path": "assets/puzzles/art/art003.jpg",
-    "title": "Classic Canvas",
+    "id": "l008",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l008.jpg",
+    "title": "Pyramids of Giza",
+    "prompt": "a charming illustrated view of Pyramids of Giza, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
-    "id": "art004",
-    "category": "art",
-    "path": "assets/puzzles/art/art004.jpg",
-    "title": "Modern Color",
+    "id": "l009",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l009.jpg",
+    "title": "Sydney Opera House",
+    "prompt": "a charming illustrated view of Sydney Opera House, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": false
   },
   {
-    "id": "art005",
+    "id": "l010",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l010.jpg",
+    "title": "Mount Fuji",
+    "prompt": "a charming illustrated view of Mount Fuji with a pagoda, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "l011",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l011.jpg",
+    "title": "Fushimi Inari red gates",
+    "prompt": "a charming illustrated view of Fushimi Inari red gates in Kyoto, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l012",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l012.jpg",
+    "title": "Venice canals",
+    "prompt": "a charming illustrated view of Venice canals with gondolas, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l013",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l013.jpg",
+    "title": "Burj Khalifa skyline",
+    "prompt": "a charming illustrated view of Burj Khalifa skyline in Dubai, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l014",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l014.jpg",
+    "title": "Petra rose-red canyon",
+    "prompt": "a charming illustrated view of Petra rose-red canyon, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l015",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l015.jpg",
+    "title": "Great Wall of China",
+    "prompt": "a charming illustrated view of Great Wall of China in autumn, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "l016",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l016.jpg",
+    "title": "Angkor Wat",
+    "prompt": "a charming illustrated view of Angkor Wat at sunrise, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l017",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l017.jpg",
+    "title": "Neuschwanstein castle",
+    "prompt": "a charming illustrated view of Neuschwanstein castle in the Alps, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l018",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l018.jpg",
+    "title": "Golden Gate Bridge",
+    "prompt": "a charming illustrated view of Golden Gate Bridge in fog, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l019",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l019.jpg",
+    "title": "Blue Mosque",
+    "prompt": "a charming illustrated view of Blue Mosque in Istanbul, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l020",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l020.jpg",
+    "title": "Amsterdam canal houses",
+    "prompt": "a charming illustrated view of Amsterdam canal houses, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "l021",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l021.jpg",
+    "title": "Cappadocia hot air balloons",
+    "prompt": "a charming illustrated view of Cappadocia hot air balloons, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l022",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l022.jpg",
+    "title": "Bali rice terrace temple",
+    "prompt": "a charming illustrated view of Bali rice terrace temple, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l023",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l023.jpg",
+    "title": "Hagia Sophia",
+    "prompt": "a charming illustrated view of Hagia Sophia at sunset, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l024",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l024.jpg",
+    "title": "Big Ben clock tower",
+    "prompt": "a charming illustrated view of Big Ben clock tower at night, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l025",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l025.jpg",
+    "title": "Cairo old city rooftops",
+    "prompt": "a charming illustrated view of Cairo old city rooftops, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "l026",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l026.jpg",
+    "title": "Badshahi Mosque",
+    "prompt": "a charming illustrated view of Badshahi Mosque in Lahore, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l027",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l027.jpg",
+    "title": "Faisal Mosque",
+    "prompt": "a charming illustrated view of Faisal Mosque in Islamabad, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l028",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l028.jpg",
+    "title": "Lahore Fort Alamgiri Gate",
+    "prompt": "a charming illustrated view of Lahore Fort Alamgiri Gate, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l029",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l029.jpg",
+    "title": "Minar-e-Pakistan",
+    "prompt": "a charming illustrated view of Minar-e-Pakistan with gardens, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l030",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l030.jpg",
+    "title": "Wazir Khan Mosque",
+    "prompt": "a charming illustrated view of Wazir Khan Mosque with tiled walls, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "l031",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l031.jpg",
+    "title": "Shalimar Gardens",
+    "prompt": "a charming illustrated view of Shalimar Gardens with fountains, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l032",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l032.jpg",
+    "title": "Mohatta Palace",
+    "prompt": "a charming illustrated view of Mohatta Palace in Karachi, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l033",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l033.jpg",
+    "title": "Quaid-e-Azam Mausoleum",
+    "prompt": "a charming illustrated view of Quaid-e-Azam Mausoleum, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l034",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l034.jpg",
+    "title": "Hunza Valley and Attabad Lake",
+    "prompt": "a charming illustrated view of Hunza Valley and Attabad Lake, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l035",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l035.jpg",
+    "title": "Fairy Meadows",
+    "prompt": "a charming illustrated view of Fairy Meadows with Nanga Parbat, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "l036",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l036.jpg",
+    "title": "K2 base camp trek",
+    "prompt": "a charming illustrated view of K2 base camp trek, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l037",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l037.jpg",
+    "title": "Skardu Shangrila Lake",
+    "prompt": "a charming illustrated view of Skardu Shangrila Lake, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l038",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l038.jpg",
+    "title": "Deosai Plains",
+    "prompt": "a charming illustrated view of Deosai Plains with wildflowers, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l039",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l039.jpg",
+    "title": "Swat Valley river village",
+    "prompt": "a charming illustrated view of Swat Valley river village, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l040",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l040.jpg",
+    "title": "Kalash Valley traditional houses",
+    "prompt": "a charming illustrated view of Kalash Valley traditional houses, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "l041",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l041.jpg",
+    "title": "Naltar blue lakes",
+    "prompt": "a charming illustrated view of Naltar blue lakes, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l042",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l042.jpg",
+    "title": "Mohenjo-daro ancient ruins",
+    "prompt": "a charming illustrated view of Mohenjo-daro ancient ruins, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l043",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l043.jpg",
+    "title": "Taxila Buddhist stupa",
+    "prompt": "a charming illustrated view of Taxila Buddhist stupa, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l044",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l044.jpg",
+    "title": "Rohtas Fort walls",
+    "prompt": "a charming illustrated view of Rohtas Fort walls, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l045",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l045.jpg",
+    "title": "Derawar Fort",
+    "prompt": "a charming illustrated view of Derawar Fort in Cholistan, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "l046",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l046.jpg",
+    "title": "Hingol coastal rock formations",
+    "prompt": "a charming illustrated view of Hingol coastal rock formations, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l047",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l047.jpg",
+    "title": "Neelum Valley",
+    "prompt": "a charming illustrated view of Neelum Valley in Kashmir, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l048",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l048.jpg",
+    "title": "Murree pine hills",
+    "prompt": "a charming illustrated view of Murree pine hills, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l049",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l049.jpg",
+    "title": "Thandiani pine hills near Abbottabad",
+    "prompt": "a charming illustrated view of Thandiani pine hills near Abbottabad, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "l050",
+    "category": "landmarks",
+    "path": "assets/puzzles/landmarks/l050.jpg",
+    "title": "Nathia Gali misty forest",
+    "prompt": "a charming illustrated view of Nathia Gali misty forest, warm glowing lights, tiny people and details, cute kawaii digital illustration, highly detailed cozy scene full of small props and textures, soft pastel colors with warm fairy lights and gentle glowing accents, shallow depth of field, soft volumetric light, clean sharp details everywhere (good for a jigsaw puzzle), landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "r001",
     "category": "art",
-    "path": "assets/puzzles/art/art005.jpg",
-    "title": "Abstract Horizon",
+    "path": "assets/puzzles/art/r001.jpg",
+    "title": "Ukiyo-e Cat and Flowers",
+    "prompt": "a cat among flowers, Japanese ukiyo-e woodblock print, flat color areas, bold ink outlines, textured paper, indigo, vermilion and cream palette, decorative wave and cloud patterns, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r002",
+    "category": "art",
+    "path": "assets/puzzles/art/r002.jpg",
+    "title": "Ukiyo-e Mountain Village",
+    "prompt": "a mountain village at dusk, Japanese ukiyo-e woodblock print, flat color areas, bold ink outlines, textured paper, indigo, vermilion and cream palette, decorative wave and cloud patterns, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r003",
+    "category": "art",
+    "path": "assets/puzzles/art/r003.jpg",
+    "title": "Ukiyo-e Garden of Birds",
+    "prompt": "a garden full of birds, Japanese ukiyo-e woodblock print, flat color areas, bold ink outlines, textured paper, indigo, vermilion and cream palette, decorative wave and cloud patterns, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r004",
+    "category": "art",
+    "path": "assets/puzzles/art/r004.jpg",
+    "title": "Ukiyo-e Moonlit Lanterns",
+    "prompt": "a moonlit night with lanterns, Japanese ukiyo-e woodblock print, flat color areas, bold ink outlines, textured paper, indigo, vermilion and cream palette, decorative wave and cloud patterns, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r005",
+    "category": "art",
+    "path": "assets/puzzles/art/r005.jpg",
+    "title": "Ukiyo-e River Boat",
+    "prompt": "a boat on a calm river, Japanese ukiyo-e woodblock print, flat color areas, bold ink outlines, textured paper, indigo, vermilion and cream palette, decorative wave and cloud patterns, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "r006",
+    "category": "art",
+    "path": "assets/puzzles/art/r006.jpg",
+    "title": "Stained Glass Cat and Flowers",
+    "prompt": "a cat among flowers, colorful stained glass window, thick black lead lines, jewel-toned glowing glass with light shining through, ornate border, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r007",
+    "category": "art",
+    "path": "assets/puzzles/art/r007.jpg",
+    "title": "Stained Glass Mountain Village",
+    "prompt": "a mountain village at dusk, colorful stained glass window, thick black lead lines, jewel-toned glowing glass with light shining through, ornate border, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r008",
+    "category": "art",
+    "path": "assets/puzzles/art/r008.jpg",
+    "title": "Stained Glass Garden of Birds",
+    "prompt": "a garden full of birds, colorful stained glass window, thick black lead lines, jewel-toned glowing glass with light shining through, ornate border, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r009",
+    "category": "art",
+    "path": "assets/puzzles/art/r009.jpg",
+    "title": "Stained Glass Moonlit Lanterns",
+    "prompt": "a moonlit night with lanterns, colorful stained glass window, thick black lead lines, jewel-toned glowing glass with light shining through, ornate border, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r010",
+    "category": "art",
+    "path": "assets/puzzles/art/r010.jpg",
+    "title": "Stained Glass River Boat",
+    "prompt": "a boat on a calm river, colorful stained glass window, thick black lead lines, jewel-toned glowing glass with light shining through, ornate border, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "r011",
+    "category": "art",
+    "path": "assets/puzzles/art/r011.jpg",
+    "title": "Paper Cut Cat and Flowers",
+    "prompt": "a cat among flowers, layered paper-cut art with six to eight stacked paper layers, soft shadows between layers, rich color gradient from layer to layer, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r012",
+    "category": "art",
+    "path": "assets/puzzles/art/r012.jpg",
+    "title": "Paper Cut Mountain Village",
+    "prompt": "a mountain village at dusk, layered paper-cut art with six to eight stacked paper layers, soft shadows between layers, rich color gradient from layer to layer, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r013",
+    "category": "art",
+    "path": "assets/puzzles/art/r013.jpg",
+    "title": "Paper Cut Garden of Birds",
+    "prompt": "a garden full of birds, layered paper-cut art with six to eight stacked paper layers, soft shadows between layers, rich color gradient from layer to layer, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r014",
+    "category": "art",
+    "path": "assets/puzzles/art/r014.jpg",
+    "title": "Paper Cut Moonlit Lanterns",
+    "prompt": "a moonlit night with lanterns, layered paper-cut art with six to eight stacked paper layers, soft shadows between layers, rich color gradient from layer to layer, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r015",
+    "category": "art",
+    "path": "assets/puzzles/art/r015.jpg",
+    "title": "Paper Cut River Boat",
+    "prompt": "a boat on a calm river, layered paper-cut art with six to eight stacked paper layers, soft shadows between layers, rich color gradient from layer to layer, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "r016",
+    "category": "art",
+    "path": "assets/puzzles/art/r016.jpg",
+    "title": "Watercolor Cat and Flowers",
+    "prompt": "a cat among flowers, delicate watercolor painting with fine ink linework, soft color bleeds, visible paper texture, light and airy mood, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r017",
+    "category": "art",
+    "path": "assets/puzzles/art/r017.jpg",
+    "title": "Watercolor Mountain Village",
+    "prompt": "a mountain village at dusk, delicate watercolor painting with fine ink linework, soft color bleeds, visible paper texture, light and airy mood, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r018",
+    "category": "art",
+    "path": "assets/puzzles/art/r018.jpg",
+    "title": "Watercolor Garden of Birds",
+    "prompt": "a garden full of birds, delicate watercolor painting with fine ink linework, soft color bleeds, visible paper texture, light and airy mood, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r019",
+    "category": "art",
+    "path": "assets/puzzles/art/r019.jpg",
+    "title": "Watercolor Moonlit Lanterns",
+    "prompt": "a moonlit night with lanterns, delicate watercolor painting with fine ink linework, soft color bleeds, visible paper texture, light and airy mood, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r020",
+    "category": "art",
+    "path": "assets/puzzles/art/r020.jpg",
+    "title": "Watercolor River Boat",
+    "prompt": "a boat on a calm river, delicate watercolor painting with fine ink linework, soft color bleeds, visible paper texture, light and airy mood, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "r021",
+    "category": "art",
+    "path": "assets/puzzles/art/r021.jpg",
+    "title": "Truck Art Peacock",
+    "prompt": "a large peacock with fanned feathers, Pakistani truck art, bold symmetrical floral patterns, tinsel and chain borders, glossy saturated red, yellow, green, turquoise and pink, decorative frame, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r022",
+    "category": "art",
+    "path": "assets/puzzles/art/r022.jpg",
+    "title": "Truck Art Mosque",
+    "prompt": "a decorated mosque with domes and minarets, Pakistani truck art, bold symmetrical floral patterns, tinsel and chain borders, glossy saturated red, yellow, green, turquoise and pink, decorative frame, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r023",
+    "category": "art",
+    "path": "assets/puzzles/art/r023.jpg",
+    "title": "Truck Art Tiger and Flowers",
+    "prompt": "a tiger surrounded by flowers, Pakistani truck art, bold symmetrical floral patterns, tinsel and chain borders, glossy saturated red, yellow, green, turquoise and pink, decorative frame, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r024",
+    "category": "art",
+    "path": "assets/puzzles/art/r024.jpg",
+    "title": "Truck Art Horses",
+    "prompt": "a pair of galloping horses, Pakistani truck art, bold symmetrical floral patterns, tinsel and chain borders, glossy saturated red, yellow, green, turquoise and pink, decorative frame, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r025",
+    "category": "art",
+    "path": "assets/puzzles/art/r025.jpg",
+    "title": "Truck Art Bird and Blossoms",
+    "prompt": "a colorful bird among blossoms, Pakistani truck art, bold symmetrical floral patterns, tinsel and chain borders, glossy saturated red, yellow, green, turquoise and pink, decorative frame, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "r026",
+    "category": "art",
+    "path": "assets/puzzles/art/r026.jpg",
+    "title": "Geometric Tiles Star Medallion",
+    "prompt": "a large star medallion at the center, Islamic geometric tile pattern, interlacing stars and polygons, glazed tiles in gold, turquoise and deep blue, perfectly symmetrical, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r027",
+    "category": "art",
+    "path": "assets/puzzles/art/r027.jpg",
+    "title": "Geometric Tiles Arched Doorway",
+    "prompt": "an arched doorway made of tile mosaic, Islamic geometric tile pattern, interlacing stars and polygons, glazed tiles in gold, turquoise and deep blue, perfectly symmetrical, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r028",
+    "category": "art",
+    "path": "assets/puzzles/art/r028.jpg",
+    "title": "Geometric Tiles Lantern",
+    "prompt": "a lantern shape, Islamic geometric tile pattern, interlacing stars and polygons, glazed tiles in gold, turquoise and deep blue, perfectly symmetrical, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r029",
+    "category": "art",
+    "path": "assets/puzzles/art/r029.jpg",
+    "title": "Geometric Tiles Floral Vine",
+    "prompt": "a floral vine border pattern, Islamic geometric tile pattern, interlacing stars and polygons, glazed tiles in gold, turquoise and deep blue, perfectly symmetrical, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r030",
+    "category": "art",
+    "path": "assets/puzzles/art/r030.jpg",
+    "title": "Geometric Tiles Dome and Minarets",
+    "prompt": "a dome and two minarets in tile mosaic, Islamic geometric tile pattern, interlacing stars and polygons, glazed tiles in gold, turquoise and deep blue, perfectly symmetrical, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "r031",
+    "category": "art",
+    "path": "assets/puzzles/art/r031.jpg",
+    "title": "Mughal Miniature Royal Garden",
+    "prompt": "a royal garden with a pavilion, Mughal miniature painting, flat perspective, fine brushwork, gold leaf details, ornate floral border, rich jewel colors, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r032",
+    "category": "art",
+    "path": "assets/puzzles/art/r032.jpg",
+    "title": "Mughal Miniature Hunting Scene",
+    "prompt": "a hunting scene with elephants, Mughal miniature painting, flat perspective, fine brushwork, gold leaf details, ornate floral border, rich jewel colors, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r033",
+    "category": "art",
+    "path": "assets/puzzles/art/r033.jpg",
+    "title": "Mughal Miniature Fountain Courtyard",
+    "prompt": "a courtyard with fountains, Mughal miniature painting, flat perspective, fine brushwork, gold leaf details, ornate floral border, rich jewel colors, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r034",
+    "category": "art",
+    "path": "assets/puzzles/art/r034.jpg",
+    "title": "Mughal Miniature Throne Room",
+    "prompt": "a throne room with a golden peacock throne, Mughal miniature painting, flat perspective, fine brushwork, gold leaf details, ornate floral border, rich jewel colors, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r035",
+    "category": "art",
+    "path": "assets/puzzles/art/r035.jpg",
+    "title": "Mughal Miniature Bird Garden",
+    "prompt": "a garden full of birds and flowering trees, Mughal miniature painting, flat perspective, fine brushwork, gold leaf details, ornate floral border, rich jewel colors, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "r036",
+    "category": "art",
+    "path": "assets/puzzles/art/r036.jpg",
+    "title": "Art Nouveau Lady and Flowers",
+    "prompt": "a lady with long flowing hair among flowers, art nouveau poster, flowing organic lines, ornamental floral frame, muted gold, sage green and rose palette, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r037",
+    "category": "art",
+    "path": "assets/puzzles/art/r037.jpg",
+    "title": "Art Nouveau Swan Pond",
+    "prompt": "a swan on a pond with water lilies, art nouveau poster, flowing organic lines, ornamental floral frame, muted gold, sage green and rose palette, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r038",
+    "category": "art",
+    "path": "assets/puzzles/art/r038.jpg",
+    "title": "Art Nouveau Peacock Feathers",
+    "prompt": "a design of peacock feathers, art nouveau poster, flowing organic lines, ornamental floral frame, muted gold, sage green and rose palette, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r039",
+    "category": "art",
+    "path": "assets/puzzles/art/r039.jpg",
+    "title": "Art Nouveau Moon and Stars",
+    "prompt": "a crescent moon and stars with flowers, art nouveau poster, flowing organic lines, ornamental floral frame, muted gold, sage green and rose palette, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r040",
+    "category": "art",
+    "path": "assets/puzzles/art/r040.jpg",
+    "title": "Art Nouveau Garden Gate",
+    "prompt": "a garden gate covered with vines, art nouveau poster, flowing organic lines, ornamental floral frame, muted gold, sage green and rose palette, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "r041",
+    "category": "art",
+    "path": "assets/puzzles/art/r041.jpg",
+    "title": "Pixel Art Cozy Room",
+    "prompt": "a cozy room with a cat on a sofa, detailed 16-bit pixel art, crisp square pixels, limited warm palette, tiny details, cozy lighting, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r042",
+    "category": "art",
+    "path": "assets/puzzles/art/r042.jpg",
+    "title": "Pixel Art Night Village",
+    "prompt": "a village at night with glowing windows, detailed 16-bit pixel art, crisp square pixels, limited warm palette, tiny details, cozy lighting, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r043",
+    "category": "art",
+    "path": "assets/puzzles/art/r043.jpg",
+    "title": "Pixel Art Forest Cabin",
+    "prompt": "a forest cabin with smoke from the chimney, detailed 16-bit pixel art, crisp square pixels, limited warm palette, tiny details, cozy lighting, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r044",
+    "category": "art",
+    "path": "assets/puzzles/art/r044.jpg",
+    "title": "Pixel Art Seaside Town",
+    "prompt": "a seaside town with boats, detailed 16-bit pixel art, crisp square pixels, limited warm palette, tiny details, cozy lighting, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r045",
+    "category": "art",
+    "path": "assets/puzzles/art/r045.jpg",
+    "title": "Pixel Art Flower Market",
+    "prompt": "a flower market with colorful stalls, detailed 16-bit pixel art, crisp square pixels, limited warm palette, tiny details, cozy lighting, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": true
+  },
+  {
+    "id": "r046",
+    "category": "art",
+    "path": "assets/puzzles/art/r046.jpg",
+    "title": "Isometric Room Study",
+    "prompt": "a cozy study full of books, isometric tiny room diorama, miniature furniture and plants, soft warm lighting, clean render, glowing windows, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r047",
+    "category": "art",
+    "path": "assets/puzzles/art/r047.jpg",
+    "title": "Isometric Room Bakery",
+    "prompt": "a bakery kitchen with bread and cakes, isometric tiny room diorama, miniature furniture and plants, soft warm lighting, clean render, glowing windows, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r048",
+    "category": "art",
+    "path": "assets/puzzles/art/r048.jpg",
+    "title": "Isometric Room Bedroom",
+    "prompt": "a plant-filled bedroom, isometric tiny room diorama, miniature furniture and plants, soft warm lighting, clean render, glowing windows, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r049",
+    "category": "art",
+    "path": "assets/puzzles/art/r049.jpg",
+    "title": "Isometric Room Music Studio",
+    "prompt": "a music studio with instruments, isometric tiny room diorama, miniature furniture and plants, soft warm lighting, clean render, glowing windows, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
+    "premium": false
+  },
+  {
+    "id": "r050",
+    "category": "art",
+    "path": "assets/puzzles/art/r050.jpg",
+    "title": "Isometric Room Tea Shop",
+    "prompt": "a tea shop with lanterns, isometric tiny room diorama, miniature furniture and plants, soft warm lighting, clean render, glowing windows, highly detailed with rich small details everywhere (good for a jigsaw puzzle), balanced composition that fills the whole frame, landscape 3:2, ultra high resolution, no text, no logos, no watermark, no copyrighted characters",
     "premium": true
   }
 ]
