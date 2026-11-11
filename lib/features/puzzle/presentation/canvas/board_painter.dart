@@ -138,7 +138,18 @@ class BoardPainter extends CustomPainter {
       final ghostPaint = Paint()
         ..color = const Color.fromRGBO(255, 255, 255, 0.75)
         ..filterQuality = FilterQuality.high;
-      final srcRect = Rect.fromLTWH(0, 0, fullImage!.width.toDouble(), fullImage!.height.toDouble());
+      final srcAspect = fullImage!.width / fullImage!.height;
+      final boardAspect = boardSize.width / boardSize.height;
+      Rect srcRect;
+      if (srcAspect > boardAspect) {
+        final cropW = fullImage!.height * boardAspect;
+        final cropX = (fullImage!.width - cropW) / 2;
+        srcRect = Rect.fromLTWH(cropX, 0, cropW, fullImage!.height.toDouble());
+      } else {
+        final cropH = fullImage!.width / boardAspect;
+        final cropY = (fullImage!.height - cropH) / 2;
+        srcRect = Rect.fromLTWH(0, cropY, fullImage!.width.toDouble(), cropH);
+      }
       canvas.drawImageRect(fullImage!, srcRect, boardRect, ghostPaint);
       canvas.restore();
     }

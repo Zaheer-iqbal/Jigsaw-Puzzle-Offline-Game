@@ -59,25 +59,6 @@ class _DifficultyPickerPageState extends State<DifficultyPickerPage> {
     }
   }
 
-  String _getEstimatedTime(int count) {
-    switch (count) {
-      case 12:
-        return 'About 2 min';
-      case 24:
-        return 'About 5 min';
-      case 48:
-        return 'About 8 min';
-      case 100:
-        return 'About 15 min';
-      case 200:
-        return 'About 30 min';
-      case 400:
-        return 'About 60 min';
-      default:
-        return 'About 15 min';
-    }
-  }
-
   int _getRewardCoins(int count) {
     if (widget.isDaily) {
       return AppConfig.coinsDailyBonus; // +20
@@ -207,19 +188,14 @@ class _DifficultyPickerPageState extends State<DifficultyPickerPage> {
                       // 3. 2x3 Grid of 6 Pieces Cards (12, 24, 48, 100, 200, 400)
                       _buildPiecesGrid(),
 
-                      const SizedBox(height: 14),
+                      const SizedBox(height: 16),
 
-                      // 4. Time Estimate & Reward Pill
-                      _buildEstimateAndRewardPill(),
+                      // 4. Reward Pill
+                      _buildRewardPill(),
 
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 22),
 
-                      // 5. Mystery Mode Pill
-                      _buildMysteryModePill(),
-
-                      const SizedBox(height: 20),
-
-                      // 6. Big Golden 3D START Button
+                      // 5. Big Golden 3D START Button
                       _buildStartButton(context, targetPic),
 
                       const SizedBox(height: 24),
@@ -424,8 +400,7 @@ class _DifficultyPickerPageState extends State<DifficultyPickerPage> {
     );
   }
 
-  Widget _buildEstimateAndRewardPill() {
-    final estTime = _getEstimatedTime(_selectedCount);
+  Widget _buildRewardPill() {
     final reward = _getRewardCoins(_selectedCount);
 
     return Container(
@@ -442,81 +417,24 @@ class _DifficultyPickerPageState extends State<DifficultyPickerPage> {
         ],
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            estTime,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-          Row(
-            children: [
-              const Text(
-                'Reward ',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              const Text('🪙', style: TextStyle(fontSize: 15)),
-              const SizedBox(width: 4),
-              Text(
-                '+$reward',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildMysteryModePill() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 11),
-      decoration: BoxDecoration(
-        color: const Color(0xFF16355C),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x25000000),
-            blurRadius: 8,
-            offset: Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text(
-            'Mystery mode',
+            'Reward: ',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 14,
+              fontSize: 15,
               fontWeight: FontWeight.w800,
             ),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: const Text(
-              'Coming soon',
-              style: TextStyle(
-                color: Color(0xFF16355C),
-                fontWeight: FontWeight.w900,
-                fontSize: 11,
-              ),
+          const Text('🪙', style: TextStyle(fontSize: 16)),
+          const SizedBox(width: 5),
+          Text(
+            '+$reward Coins',
+            style: const TextStyle(
+              color: Color(0xFFFFD54F),
+              fontSize: 15,
+              fontWeight: FontWeight.w900,
             ),
           ),
         ],

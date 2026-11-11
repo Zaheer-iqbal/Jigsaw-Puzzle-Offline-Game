@@ -362,49 +362,49 @@ class _DailyPuzzlePageState extends State<DailyPuzzlePage> with SingleTickerProv
     final dateLabel = isYesterday ? 'Yesterday' : DateFormat('EEEE, MMM d').format(date);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.only(bottom: 14),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(22),
         boxShadow: const [
           BoxShadow(color: Color(0x200D2544), blurRadius: 10, offset: Offset(0, 4)),
         ],
       ),
       child: Row(
         children: [
-          // Thumbnail with checkmark overlay if done
+          // Large 3:2 Thumbnail with checkmark overlay if done
           ClipRRect(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(16),
             child: Stack(
               children: [
                 Image.asset(
                   pic.path,
-                  width: 56,
-                  height: 56,
+                  width: 96,
+                  height: 72,
                   fit: BoxFit.cover,
                   errorBuilder: (_, __, ___) => Container(
-                    width: 56,
-                    height: 56,
+                    width: 96,
+                    height: 72,
                     color: const Color(0xFF90CAF9),
-                    child: const Icon(Icons.image_rounded, color: Colors.white, size: 28),
+                    child: const Icon(Icons.image_rounded, color: Colors.white, size: 32),
                   ),
                 ),
                 if (isDone)
                   Container(
-                    width: 56,
-                    height: 56,
+                    width: 96,
+                    height: 72,
                     color: Colors.black.withValues(alpha: 0.35),
                     child: const Center(
-                      child: Icon(Icons.check_circle_rounded, color: Color(0xFF00E676), size: 24),
+                      child: Icon(Icons.check_circle_rounded, color: Color(0xFF00E676), size: 28),
                     ),
                   ),
               ],
             ),
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: 14),
 
-          // Day Info (Wrapped to prevent any right overflow)
+          // Day Info & Puzzle Title
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -416,19 +416,30 @@ class _DailyPuzzlePageState extends State<DailyPuzzlePage> with SingleTickerProv
                   style: const TextStyle(
                     color: Color(0xFF0E2A47),
                     fontWeight: FontWeight.w900,
-                    fontSize: 14.5,
+                    fontSize: 15,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 3),
+                Text(
+                  pic.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Color(0xFF78909C),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 12,
+                  ),
+                ),
+                const SizedBox(height: 6),
                 Wrap(
-                  spacing: 5,
+                  spacing: 6,
                   runSpacing: 4,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2.5),
                       decoration: BoxDecoration(
                         color: const Color(0xFFECEFF1),
-                        borderRadius: BorderRadius.circular(6),
+                        borderRadius: BorderRadius.circular(8),
                       ),
                       child: const Text(
                         '48 Pieces',
@@ -441,10 +452,10 @@ class _DailyPuzzlePageState extends State<DailyPuzzlePage> with SingleTickerProv
                     ),
                     if (isDone)
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2.5),
                         decoration: BoxDecoration(
                           color: const Color(0xFFE8F5E9),
-                          borderRadius: BorderRadius.circular(6),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         child: const Text(
                           'Solved ✓',
@@ -457,16 +468,16 @@ class _DailyPuzzlePageState extends State<DailyPuzzlePage> with SingleTickerProv
                       )
                     else
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2.5),
                         decoration: BoxDecoration(
                           color: const Color(0xFFFFF8E1),
-                          borderRadius: BorderRadius.circular(6),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         child: const Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text('🪙', style: TextStyle(fontSize: 10)),
-                            SizedBox(width: 2),
+                            Text('🪙', style: TextStyle(fontSize: 11)),
+                            SizedBox(width: 3),
                             Text(
                               '+30 Coins',
                               style: TextStyle(
@@ -483,7 +494,7 @@ class _DailyPuzzlePageState extends State<DailyPuzzlePage> with SingleTickerProv
               ],
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 10),
 
           // Action Button
           GestureDetector(
@@ -492,10 +503,10 @@ class _DailyPuzzlePageState extends State<DailyPuzzlePage> with SingleTickerProv
               _playDayPuzzle(date);
             },
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
                 color: isDone ? const Color(0xFFECEFF1) : const Color(0xFFFFB300),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(18),
                 boxShadow: isDone
                     ? null
                     : const [
@@ -512,7 +523,7 @@ class _DailyPuzzlePageState extends State<DailyPuzzlePage> with SingleTickerProv
                   Icon(
                     isDone ? Icons.replay_rounded : Icons.play_arrow_rounded,
                     color: isDone ? const Color(0xFF546E7A) : Colors.white,
-                    size: 16,
+                    size: 18,
                   ),
                   const SizedBox(width: 4),
                   Text(
@@ -520,7 +531,7 @@ class _DailyPuzzlePageState extends State<DailyPuzzlePage> with SingleTickerProv
                     style: TextStyle(
                       color: isDone ? const Color(0xFF546E7A) : Colors.white,
                       fontWeight: FontWeight.w900,
-                      fontSize: 12.5,
+                      fontSize: 13,
                     ),
                   ),
                 ],
@@ -676,14 +687,14 @@ class _DailyPuzzlePageState extends State<DailyPuzzlePage> with SingleTickerProv
                   const SizedBox(width: 6),
                   Flexible(
                     child: Text(
-                      isTodayDone ? 'REPLAY TODAY\'S PUZZLE' : 'PLAY TODAY\'S PUZZLE',
+                      isTodayDone ? 'REPLAY' : 'PLAY',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: Color(0xFF3E2723),
-                        fontSize: 15,
+                        fontSize: 20,
                         fontWeight: FontWeight.w900,
-                        letterSpacing: 0.8,
+                        letterSpacing: 1.2,
                       ),
                     ),
                   ),

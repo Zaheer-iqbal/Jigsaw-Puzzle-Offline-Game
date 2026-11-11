@@ -144,14 +144,12 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with TickerProviderSt
             child: LayoutBuilder(
               builder: (context, constraints) {
                 // Calculate responsive board dimensions
-                final isDailyMode = widget.controller.isDaily;
-                final hasTrayPieces = widget.controller.trayPieceKeys.isNotEmpty;
-                final showTray = !isDailyMode && hasTrayPieces;
+                final showTray = widget.controller.trayPieceKeys.isNotEmpty;
 
                 // Accurately reserve vertical space for Top HUD + Bottom Tray + margins
                 // to guarantee ZERO overflow even on phones with 3-button navigation bars!
-                final reservedV = showTray ? 190.0 : 90.0;
-                final maxW = (constraints.maxWidth - 20).clamp(100.0, double.infinity);
+                final reservedV = showTray ? 215.0 : 90.0;
+                final maxW = (constraints.maxWidth - 12).clamp(100.0, double.infinity);
                 final maxH = (constraints.maxHeight - reservedV).clamp(100.0, double.infinity);
                 final aspect = widget.controller.boardW / (widget.controller.boardH > 0 ? widget.controller.boardH : 1.0);
 
@@ -175,7 +173,7 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with TickerProviderSt
                     // 2. Center Assembly Board with smooth pinch-to-zoom (responsive for every mobile screen)
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                         child: Center(
                           child: InteractiveViewer(
                             minScale: 1.0,
@@ -292,26 +290,14 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with TickerProviderSt
                       final pieceH = (widget.controller.pieceH + 2 * prePiece.margin) * screenScale;
 
                       final isHint = key == widget.controller.hintPieceKey.value;
-                      final isSelected = widget.controller.isDaily && (key == widget.controller.selectedDailyPieceKey.value);
-                      final curC = (piece.pos.dx / widget.controller.pieceW).round();
-                      final curR = (piece.pos.dy / widget.controller.pieceH).round();
-                      final isWrongSlot = piece.row != curR || piece.col != curC;
 
                       Color? pieceBorderColor;
                       double pieceBorderWidth = 2.0;
                       bool pieceShowGlow = false;
 
-                      if (isSelected) {
-                        pieceBorderColor = const Color(0xFF00E5FF);
-                        pieceBorderWidth = 3.2;
-                        pieceShowGlow = true;
-                      } else if (isHint) {
+                      if (isHint) {
                         pieceBorderColor = const Color(0xFFFF9100);
                         pieceBorderWidth = 3.2;
-                        pieceShowGlow = true;
-                      } else if (isWrongSlot) {
-                        pieceBorderColor = const Color(0xFFFF5252);
-                        pieceBorderWidth = 2.2;
                         pieceShowGlow = true;
                       }
 
@@ -337,27 +323,9 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with TickerProviderSt
                               ),
                             ),
                           ),
-                          childWhenDragging: widget.controller.isDaily
-                              ? Opacity(
-                                  opacity: 0.35,
-                                  child: CustomPaint(
-                                    size: Size(pieceW, pieceH),
-                                    painter: _PieceCardPainter(
-                                      prePiece: prePiece,
-                                      borderColor: pieceBorderColor,
-                                      borderWidth: pieceBorderWidth,
-                                      showGlow: pieceShowGlow,
-                                    ),
-                                  ),
-                                )
-                              : const SizedBox.shrink(),
+                          childWhenDragging: const SizedBox.shrink(),
                           child: GestureDetector(
-                            onTap: widget.controller.isDaily
-                                ? () => widget.controller.onDailyPieceTapped(key)
-                                : null,
-                            onDoubleTap: widget.controller.isDaily
-                                ? null
-                                : () => widget.controller.returnPieceToTray(key),
+                            onDoubleTap: () => widget.controller.returnPieceToTray(key),
                             child: Stack(
                               clipBehavior: Clip.none,
                               children: [
@@ -565,25 +533,61 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with TickerProviderSt
           final trayKeys = widget.controller.trayPieceKeys;
           if (trayKeys.isEmpty) return const SizedBox.shrink();
 
-          return ClayContainer(
-            height: 86,
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            color: Colors.white,
-            depth: 4.5,
-            bevelColor: candidateData.isNotEmpty ? const Color(0xFFFF8F00) : const Color(0xFFCBD5E1),
-            borderRadius: BorderRadius.circular(22),
-            border: Border.all(
-              color: candidateData.isNotEmpty ? const Color(0xFFFFB300) : Colors.white.withValues(alpha: 0.90),
-              width: candidateData.isNotEmpty ? 2.5 : 1.2,
-            ),
-            child: ListView.separated(
-              controller: _trayScrollController,
-              scrollDirection: Axis.horizontal,
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
-              separatorBuilder: (_, __) => const SizedBox(width: 8),
-              itemCount: trayKeys.length,
-              itemBuilder: (context, index) {
+          return Row(
+            children: [
+              // 1. Dedicated Tactile 3D Shuffle Button
+              ClayButton(
+                onTap: () {
+                  widget.controller.shuffleTrayPieces();
+                },
+                width: 48,
+                height: 108,
+                depth: 4.5,
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+                bevelColor: const Color(0xFFCBD5E1),
+                child: const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.shuffle_rounded, color: Color(0xFFFF8F00), size: 24),
+                      SizedBox(height: 2),
+                      Text(
+                        'MIX',
+                        style: TextStyle(
+                          color: Color(0xFF0E2A47),
+                          fontSize: 10,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+
+              // 2. The Pieces Box Tray
+              Expanded(
+                child: ClayContainer(
+                  height: 108,
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  color: Colors.white,
+                  depth: 4.5,
+                  bevelColor: candidateData.isNotEmpty ? const Color(0xFFFF8F00) : const Color(0xFFCBD5E1),
+                  borderRadius: BorderRadius.circular(22),
+                  border: Border.all(
+                    color: candidateData.isNotEmpty ? const Color(0xFFFFB300) : Colors.white.withValues(alpha: 0.90),
+                    width: candidateData.isNotEmpty ? 2.5 : 1.2,
+                  ),
+                  child: ListView.separated(
+                    controller: _trayScrollController,
+                    scrollDirection: Axis.horizontal,
+                    physics: const BouncingScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                    separatorBuilder: (_, __) => const SizedBox(width: 8),
+                    itemCount: trayKeys.length,
+                    itemBuilder: (context, index) {
                 final key = trayKeys[index];
                 final prePiece = widget.controller.preRenderedPieces[key];
                 if (prePiece == null) return const SizedBox.shrink();
@@ -593,10 +597,10 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with TickerProviderSt
                 final feedbackW = (widget.controller.pieceW + 2 * prePiece.margin) * screenScale;
                 final feedbackH = (widget.controller.pieceH + 2 * prePiece.margin) * screenScale;
 
-                const trayH = 64.0;
+                const trayH = 84.0;
                 final pieceAspect = (widget.controller.pieceW + 2 * prePiece.margin) /
                     (widget.controller.pieceH + 2 * prePiece.margin);
-                final trayW = (trayH * pieceAspect).clamp(46.0, 84.0);
+                final trayW = (trayH * pieceAspect).clamp(58.0, 110.0);
 
                 return Draggable<String>(
                   data: key,
@@ -680,8 +684,11 @@ class _PuzzleBoardViewState extends State<PuzzleBoardView> with TickerProviderSt
                   ),
                 );
               },
-            )
-          );
+            ),
+          ),
+        ),
+      ],
+    );
         });
       },
     );

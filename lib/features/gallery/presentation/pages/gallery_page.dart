@@ -284,7 +284,7 @@ class _GalleryPageState extends State<GalleryPage> {
           crossAxisCount: cols,
           crossAxisSpacing: 14,
           mainAxisSpacing: 14,
-          childAspectRatio: 1.03,
+          childAspectRatio: 0.88,
         ),
         itemBuilder: (context, index) {
           final pic = filteredPics[index];
@@ -346,9 +346,8 @@ class _GalleryPageState extends State<GalleryPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // 3:2 Landscape Photo Thumbnail with Rounded Top & Badges
-              AspectRatio(
-                aspectRatio: 3 / 2,
+              // Photo Thumbnail with Rounded Top & Badges (Flexibly sized)
+              Expanded(
                 child: Stack(
                   fit: StackFit.expand,
                   children: [

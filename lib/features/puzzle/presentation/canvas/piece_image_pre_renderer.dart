@@ -44,8 +44,19 @@ class PieceImagePreRenderer {
     final totalPieces = rows * cols;
     final scale = totalPieces >= 400 ? 1.0 : (totalPieces >= 200 ? 1.25 : 1.5);
 
-    // Source image scaling to board dimensions
-    final srcRect = Rect.fromLTWH(0, 0, sourceImage.width.toDouble(), sourceImage.height.toDouble());
+    // Center-crop (BoxFit.cover) source image to board dimensions without distortion
+    final srcAspect = sourceImage.width / sourceImage.height;
+    final boardAspect = boardW / boardH;
+    Rect srcRect;
+    if (srcAspect > boardAspect) {
+      final cropW = sourceImage.height * boardAspect;
+      final cropX = (sourceImage.width - cropW) / 2;
+      srcRect = Rect.fromLTWH(cropX, 0, cropW, sourceImage.height.toDouble());
+    } else {
+      final cropH = sourceImage.width / boardAspect;
+      final cropY = (sourceImage.height - cropH) / 2;
+      srcRect = Rect.fromLTWH(0, cropY, sourceImage.width.toDouble(), cropH);
+    }
     final dstRect = Rect.fromLTWH(0, 0, boardW, boardH);
 
     final result = <String, PreRenderedPiece>{};

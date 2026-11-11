@@ -176,8 +176,6 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
       cols = dims.cols;
       actualPieceCount = dims.actualCount;
 
-      // Base board width is 750.0. Clamped to ~1.00 so the puzzle board has comfortable, tall height
-      // that matches its width proportionally on mobile screens without being squished vertically!
       boardW = 750.0;
       final effectiveAspect = imgAspect.clamp(0.95, 1.06);
       boardH = boardW / effectiveAspect;
@@ -239,50 +237,19 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
       lockedPieceKeys.clear();
       selectedDailyPieceKey.value = null;
 
-      if (isDaily && !shouldRestore) {
-        // Daily puzzle starts with all pieces shuffled directly on the board grid slots!
-        final allCoords = <Point<int>>[];
-        for (var r = 0; r < rows; r++) {
-          for (var c = 0; c < cols; c++) {
-            allCoords.add(Point(r, c));
-          }
+      for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+          final key = '${r}_$c';
+          pieces[key] = PieceModel(
+            row: r,
+            col: c,
+            pos: Offset(c * pieceW, r * pieceH),
+            groupId: -1,
+          );
+          trayPieceKeys.add(key);
         }
-        final shuffledCoords = List<Point<int>>.from(allCoords)..shuffle(Random(seed));
-
-        var idx = 0;
-        for (var r = 0; r < rows; r++) {
-          for (var c = 0; c < cols; c++) {
-            final key = '${r}_$c';
-            final assignedSlot = shuffledCoords[idx++];
-            final isMatch = (assignedSlot.x == r && assignedSlot.y == c);
-            pieces[key] = PieceModel(
-              row: r,
-              col: c,
-              pos: Offset(assignedSlot.y * pieceW, assignedSlot.x * pieceH),
-              groupId: isMatch ? SnapMergeEngine.boardGroupId : 1,
-            );
-            if (isMatch) {
-              lockedPieceKeys.add(key);
-            } else {
-              boardPieceKeys.add(key);
-            }
-          }
-        }
-      } else {
-        for (var r = 0; r < rows; r++) {
-          for (var c = 0; c < cols; c++) {
-            final key = '${r}_$c';
-            pieces[key] = PieceModel(
-              row: r,
-              col: c,
-              pos: Offset(c * pieceW, r * pieceH),
-              groupId: -1,
-            );
-            trayPieceKeys.add(key);
-          }
-        }
-        trayPieceKeys.shuffle(Random(seed));
       }
+      trayPieceKeys.shuffle(Random(seed));
 
       if (shouldRestore && savedSession != null) {
         try {
@@ -334,49 +301,19 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
     trayPieceKeys.clear();
     selectedDailyPieceKey.value = null;
 
-    if (isDaily) {
-      final allCoords = <Point<int>>[];
-      for (var r = 0; r < rows; r++) {
-        for (var c = 0; c < cols; c++) {
-          allCoords.add(Point(r, c));
-        }
+    for (var r = 0; r < rows; r++) {
+      for (var c = 0; c < cols; c++) {
+        final key = '${r}_$c';
+        pieces[key] = PieceModel(
+          row: r,
+          col: c,
+          pos: Offset(c * pieceW, r * pieceH),
+          groupId: -1,
+        );
+        trayPieceKeys.add(key);
       }
-      final shuffledCoords = List<Point<int>>.from(allCoords)..shuffle(Random(seed));
-
-      var idx = 0;
-      for (var r = 0; r < rows; r++) {
-        for (var c = 0; c < cols; c++) {
-          final key = '${r}_$c';
-          final assignedSlot = shuffledCoords[idx++];
-          final isMatch = (assignedSlot.x == r && assignedSlot.y == c);
-          pieces[key] = PieceModel(
-            row: r,
-            col: c,
-            pos: Offset(assignedSlot.y * pieceW, assignedSlot.x * pieceH),
-            groupId: isMatch ? SnapMergeEngine.boardGroupId : 1,
-          );
-          if (isMatch) {
-            lockedPieceKeys.add(key);
-          } else {
-            boardPieceKeys.add(key);
-          }
-        }
-      }
-    } else {
-      for (var r = 0; r < rows; r++) {
-        for (var c = 0; c < cols; c++) {
-          final key = '${r}_$c';
-          pieces[key] = PieceModel(
-            row: r,
-            col: c,
-            pos: Offset(c * pieceW, r * pieceH),
-            groupId: 0,
-          );
-          trayPieceKeys.add(key);
-        }
-      }
-      trayPieceKeys.shuffle(Random(seed));
     }
+    trayPieceKeys.shuffle(Random(seed));
     _updateLockedCount();
     _startTimer();
   }
@@ -388,204 +325,45 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
   }
 
   /// Attempts to snap a piece dragged onto the board.
-  /// Snaps strictly inside a grid box/cell. If correct, locks permanently.
-  /// If wrong slot, snaps neatly into the grid box so pieces never drift randomly!
+  /// If it is near or matches its correct slot, snaps and locks permanently!
+  /// If dropped in a wrong slot, safely returns the piece to the bottom tray.
   bool trySnapPiece(String pieceKey, Offset boardLocalPos) {
     final piece = pieces[pieceKey];
     if (piece == null) return false;
-
-    if (isDaily) {
-      final targetC = (boardLocalPos.dx / pieceW).floor().clamp(0, cols - 1);
-      final targetR = (boardLocalPos.dy / pieceH).floor().clamp(0, rows - 1);
-      return swapOrMoveDailyPiece(pieceKey, targetR, targetC);
-    }
 
     // Calculate nearest grid box/cell
     final gridC = (boardLocalPos.dx / pieceW).floor().clamp(0, cols - 1);
     final gridR = (boardLocalPos.dy / pieceH).floor().clamp(0, rows - 1);
 
-    // 1. Check if this target slot is already locked with its correct piece
-    final targetSlotKey = '${gridR}_$gridC';
-    if (lockedPieceKeys.contains(targetSlotKey)) {
-      _haptics.light();
-      return false;
-    }
+    // 1. Correct slot calculation & snap tolerance (within box or close radius)
+    final correctCenter = Offset((piece.col + 0.5) * pieceW, (piece.row + 0.5) * pieceH);
+    final dist = (boardLocalPos - correctCenter).distance;
+    final snapThreshold = max(pieceW, pieceH) * 0.90;
 
-    // Check if another unlocked piece is currently resting in this grid box
-    String? otherPieceKey;
-    for (final k in boardPieceKeys) {
-      if (k == pieceKey) continue;
-      final p = pieces[k];
-      if (p != null) {
-        final c = (p.pos.dx / pieceW).round();
-        final r = (p.pos.dy / pieceH).round();
-        if (r == gridR && c == gridC) {
-          otherPieceKey = k;
-          break;
-        }
-      }
-    }
+    final isCorrectHit = (piece.row == gridR && piece.col == gridC) || (dist <= snapThreshold);
 
-    final oldPos = piece.pos;
-    final wasOnBoard = boardPieceKeys.contains(pieceKey);
-
-    // 2. Correct slot hit: Lock permanently into place and handle displacement/swap!
-    if (piece.row == gridR && piece.col == gridC) {
-      if (otherPieceKey != null) {
-        if (wasOnBoard) {
-          final otherPiece = pieces[otherPieceKey]!;
-          otherPiece.pos = oldPos;
-          final oldC = (oldPos.dx / pieceW).round();
-          final oldR = (oldPos.dy / pieceH).round();
-          if (otherPiece.row == oldR && otherPiece.col == oldC) {
-            autoSnapPiece(otherPieceKey);
-          }
-        } else {
-          returnPieceToTray(otherPieceKey);
-        }
-      }
+    if (isCorrectHit) {
       return autoSnapPiece(pieceKey);
-    }
-
-    // 3. Grid-snapped placement in an incorrect slot:
-    final targetPos = Offset(gridC * pieceW, gridR * pieceH);
-    piece.pos = targetPos;
-    trayPieceKeys.remove(pieceKey);
-    if (!boardPieceKeys.contains(pieceKey)) {
-      boardPieceKeys.add(pieceKey);
-    }
-
-    // If another piece was in this box, swap or return displaced piece to tray
-    if (otherPieceKey != null) {
-      if (wasOnBoard) {
-        final otherPiece = pieces[otherPieceKey]!;
-        otherPiece.pos = oldPos;
-        final oldC = (oldPos.dx / pieceW).round();
-        final oldR = (oldPos.dy / pieceH).round();
-        if (otherPiece.row == oldR && otherPiece.col == oldC) {
-          autoSnapPiece(otherPieceKey);
-        }
-      } else {
-        returnPieceToTray(otherPieceKey);
-      }
-    }
-
-    boardPieceKeys.refresh();
-    moves.value++;
-    _haptics.light();
-    _audio.playClick();
-    _saveCurrentSessionDebounced();
-    return false;
-  }
-
-  /// Swaps or snaps pieces on the board in Daily Puzzle grid mode
-  bool swapOrMoveDailyPiece(String pieceKey, int targetR, int targetC) {
-    final piece = pieces[pieceKey];
-    if (piece == null || lockedPieceKeys.contains(pieceKey)) return false;
-
-    final targetHomeKey = '${targetR}_$targetC';
-    if (lockedPieceKeys.contains(targetHomeKey)) {
-      // Cannot swap with already locked slot
+    } else {
+      // Wrong slot or off-target: return safely to the bottom tray
+      returnPieceToTray(pieceKey);
       _haptics.light();
       return false;
     }
-
-    // Find any unlocked piece currently sitting in the target grid slot
-    String? otherPieceKey;
-    for (final k in boardPieceKeys) {
-      if (k == pieceKey) continue;
-      final p = pieces[k];
-      if (p != null) {
-        final c = (p.pos.dx / pieceW).round();
-        final r = (p.pos.dy / pieceH).round();
-        if (r == targetR && c == targetC) {
-          otherPieceKey = k;
-          break;
-        }
-      }
-    }
-
-    final oldPos = piece.pos;
-    piece.pos = Offset(targetC * pieceW, targetR * pieceH);
-
-    if (otherPieceKey != null) {
-      final otherPiece = pieces[otherPieceKey]!;
-      otherPiece.pos = oldPos;
-    }
-
-    moves.value++;
-    bool snappedAny = false;
-
-    // Check if moving piece is in its correct slot
-    if (piece.row == targetR && piece.col == targetC) {
-      piece.groupId = SnapMergeEngine.boardGroupId;
-      boardPieceKeys.remove(pieceKey);
-      lockedPieceKeys.add(pieceKey);
-      snappedAny = true;
-    }
-
-    // Check if other swapped piece is in its correct slot
-    if (otherPieceKey != null) {
-      final otherPiece = pieces[otherPieceKey]!;
-      final otherCurC = (otherPiece.pos.dx / pieceW).round();
-      final otherCurR = (otherPiece.pos.dy / pieceH).round();
-      if (otherPiece.row == otherCurR && otherPiece.col == otherCurC) {
-        otherPiece.groupId = SnapMergeEngine.boardGroupId;
-        boardPieceKeys.remove(otherPieceKey);
-        lockedPieceKeys.add(otherPieceKey);
-        snappedAny = true;
-      }
-    }
-
-    _updateLockedCount();
-    if (snappedAny) {
-      _audio.playSnap();
-      _haptics.snap();
-    } else {
-      _audio.playClick();
-      _haptics.click();
-    }
-
-    _saveCurrentSessionDebounced();
-
-    if (lockedPieceKeys.length >= actualPieceCount) {
-      _handlePuzzleVictory();
-    }
-    return true;
   }
 
-  /// Handles tap-to-select and tap-to-swap on Daily Puzzle board
-  void onDailyPieceTapped(String pieceKey) {
-    if (!isDaily || lockedPieceKeys.contains(pieceKey)) return;
+  /// Handles tap-to-select on puzzle board
+  void onDailyPieceTapped(String pieceKey) {}
 
-    if (selectedDailyPieceKey.value == null) {
-      selectedDailyPieceKey.value = pieceKey;
-      _haptics.light();
-    } else if (selectedDailyPieceKey.value == pieceKey) {
-      selectedDailyPieceKey.value = null;
-      _haptics.light();
-    } else {
-      final firstKey = selectedDailyPieceKey.value!;
-      selectedDailyPieceKey.value = null;
-      final targetPiece = pieces[pieceKey];
-      if (targetPiece == null) return;
-      final targetC = (targetPiece.pos.dx / pieceW).round();
-      final targetR = (targetPiece.pos.dy / pieceH).round();
-      swapOrMoveDailyPiece(firstKey, targetR, targetC);
-    }
-  }
-
-  /// Returns a piece currently on the board back to the bottom tray
+  /// Returns a piece back to the bottom tray
   void returnPieceToTray(String pieceKey) {
-    if (boardPieceKeys.contains(pieceKey)) {
-      boardPieceKeys.remove(pieceKey);
-      if (!trayPieceKeys.contains(pieceKey)) {
-        trayPieceKeys.insert(0, pieceKey);
-      }
-      moves.value++;
-      _haptics.click();
-      _saveCurrentSessionDebounced();
+    boardPieceKeys.remove(pieceKey);
+    if (!trayPieceKeys.contains(pieceKey) && !lockedPieceKeys.contains(pieceKey)) {
+      trayPieceKeys.insert(0, pieceKey);
     }
+    moves.value++;
+    _haptics.click();
+    _saveCurrentSessionDebounced();
   }
 
   /// Locks a piece directly to its correct slot on the board (e.g., via tap-to-place or auto-snap)
@@ -652,13 +430,12 @@ class PuzzleController extends GetxController with WidgetsBindingObserver {
           lockedPieceKeys.add(key);
           trayPieceKeys.remove(key);
           boardPieceKeys.remove(key);
-        } else if (item.groupId == 1) {
-          final p = pieces[key];
-          if (p != null) {
-            p.pos = Offset(item.normX * boardW, item.normY * boardH);
+        } else {
+          // Send all unplaced pieces cleanly into the tray (the box)!
+          if (!trayPieceKeys.contains(key)) {
+            trayPieceKeys.add(key);
           }
-          trayPieceKeys.remove(key);
-          boardPieceKeys.add(key);
+          boardPieceKeys.remove(key);
         }
       }
     } catch (e) {
